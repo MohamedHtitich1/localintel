@@ -146,7 +146,7 @@ The package works with Eurostat datasets including:
 This package was developed as part of research on subnational health system analysis in Europe. Related projects:
 
 - [w2m](https://github.com/MohamedHtitich1/w2m) - Measuring What Matters Most
-- [Subnational Analytics Plateforme](https://mhtitich.com/subnational.html) - ransforming fragmented regional statistics into policy-ready insights. This pipeline connects to official databases, harmonizes cross-border definitions, and delivers actionable intelligence at the subnational level. 
+- [Subnational Analytics Plateform](https://mhtitich.com/subnational.html) - ransforming fragmented regional statistics into policy-ready insights. This pipeline connects to official databases, harmonizes cross-border definitions, and delivers actionable intelligence at the subnational level. 
 
 
 ## Contributing
