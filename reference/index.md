@@ -8,7 +8,8 @@
 
 ## Data Fetching
 
-Functions for retrieving data from the Eurostat API.
+Robust wrappers for the Eurostat API — fetch single or batch datasets at
+any NUTS level with automatic retry and caching.
 
 - [`get_nuts2()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
   [`get_nuts_level()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
@@ -23,7 +24,8 @@ Functions for retrieving data from the Eurostat API.
 
 ## Reference Data
 
-NUTS reference tables, boundary geometries, and lookup data.
+NUTS boundary geometries, hierarchical lookup tables, and population
+data for spatial joins and cascading.
 
 - [`get_nuts2_ref()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2_ref.md)
   [`get_nuts_geo()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2_ref.md)
@@ -39,7 +41,8 @@ NUTS reference tables, boundary geometries, and lookup data.
 
 ## Data Processing
 
-Process raw Eurostat datasets and compute composite indicators.
+Transform raw Eurostat downloads into analysis-ready tables — one
+function per dataset, plus merging and composite scoring.
 
 - [`process_beds()`](https://mohamedhtitich1.github.io/localintel/reference/process_beds.md)
   [`process_physicians()`](https://mohamedhtitich1.github.io/localintel/reference/process_beds.md)
@@ -56,7 +59,8 @@ Process raw Eurostat datasets and compute composite indicators.
 
 ## Data Cascading
 
-Cascade data from higher to lower NUTS levels.
+Fill missing regional data by propagating from parent NUTS levels (NUTS0
+→ NUTS1 → NUTS2) with source-level tracking.
 
 - [`cascade_to_nuts2_and_compute()`](https://mohamedhtitich1.github.io/localintel/reference/cascade_to_nuts2_and_compute.md)
   [`cascade_to_nuts2_light()`](https://mohamedhtitich1.github.io/localintel/reference/cascade_to_nuts2_and_compute.md)
@@ -65,7 +69,8 @@ Cascade data from higher to lower NUTS levels.
 
 ## Visualization
 
-Build spatial objects and create publication-ready maps.
+Build spatial objects and render publication-ready tmap facets —
+automatic best-level selection per country-year.
 
 - [`build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
   [`lc_build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
@@ -77,7 +82,8 @@ Build spatial objects and create publication-ready maps.
 
 ## Export
 
-Export data to GeoJSON, Excel, RDS, and PDF formats.
+Export enriched GeoJSON for Tableau, multi-sheet Excel workbooks, RDS
+snapshots, and multi-page PDF map books.
 
 - [`export_to_geojson()`](https://mohamedhtitich1.github.io/localintel/reference/export_to_geojson.md)
   [`export_to_excel()`](https://mohamedhtitich1.github.io/localintel/reference/export_to_geojson.md)
@@ -91,7 +97,8 @@ Export data to GeoJSON, Excel, RDS, and PDF formats.
 
 ## Utilities
 
-Helper functions for data transformation and filtering.
+Helper functions for safe transformations, min-max scaling,
+interpolation, EU27 filtering, and country-name enrichment.
 
 - [`keep_eu27()`](https://mohamedhtitich1.github.io/localintel/reference/keep_eu27.md)
   [`eu27_codes()`](https://mohamedhtitich1.github.io/localintel/reference/keep_eu27.md)

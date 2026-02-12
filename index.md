@@ -7,14 +7,26 @@ processing, and visualizing subnational (NUTS 0/1/2) data from Eurostat.
 It provides a comprehensive pipeline for health system analysis across
 European regions, including:
 
-- 📊 **Data Fetching**: Robust API wrappers for Eurostat datasets
-- 🔄 **Data Cascading**: Intelligent propagation from country to
-  regional levels
-- 📈 **Indicator Computation**: Composite scores for health outcomes,
-  enabling environment, and perceptions
-- 🗺️ **Visualization**: Publication-ready maps with automatic level
-  selection
-- 📤 **Export**: Tableau-ready GeoJSON exports with enrichment
+|                                                                                  |                                                                                                         |
+|:--------------------------------------------------------------------------------:|---------------------------------------------------------------------------------------------------------|
+|     ![fetch](https://api.iconify.design/lucide/database.svg?color=%237c9885)     | **Data Fetching** — Robust API wrappers for Eurostat datasets with retry logic and batch downloads      |
+|   ![cascade](https://api.iconify.design/lucide/git-merge.svg?color=%237c9885)    | **Data Cascading** — Intelligent propagation from country (NUTS0) to regional (NUTS2) levels            |
+| ![indicators](https://api.iconify.design/lucide/bar-chart-3.svg?color=%237c9885) | **Indicator Computation** — Composite scores for health outcomes, enabling environment, and perceptions |
+|       ![viz](https://api.iconify.design/lucide/globe.svg?color=%237c9885)        | **Visualization** — Publication-ready maps with automatic best-level selection per country              |
+|     ![export](https://api.iconify.design/lucide/upload.svg?color=%237c9885)      | **Export** — Tableau-ready GeoJSON exports with enrichment, performance tags, and population weighting  |
+
+## Live Demo
+
+> **See localintel in action** —
+> [mhtitich.com/subnational](https://mhtitich.com/subnational) is an
+> interactive dashboard built entirely with data processed through this
+> package. It maps health disparities across **235 European NUTS-2
+> regions** from 2010–2024, with live indicator switching, animated
+> timeline playback, and AI-generated regional insights.
+>
+> The pipeline is fully parametrizable and can be adapted to any world
+> subregion or indicator domain. **Interested in a custom deployment?
+> [Get in touch.](mailto:m.ahtitich@outlook.com)**
 
 ## Installation
 
@@ -55,8 +67,8 @@ cascaded <- cascade_to_nuts2_and_compute(
 
 # 6. Create maps
 plot_best_by_country_level(
-  cascaded, 
-  geopolys, 
+  cascaded,
+  geopolys,
   var = "beds",
   years = 2020:2024,
   title = "Hospital Beds per 100,000"
@@ -142,6 +154,9 @@ Infant mortality
 This package was developed as part of research on subnational health
 system analysis in Europe. Related projects:
 
+- [Subnational Health Disparities
+  Map](https://mhtitich.com/subnational) - Interactive dashboard powered
+  by localintel
 - [w2m](https://github.com/MohamedHtitich1/w2m) - Composite indicator
   construction
 - [Social Progress Index](https://www.socialprogress.org/) - Framework

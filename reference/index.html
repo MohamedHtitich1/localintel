@@ -31,6 +31,7 @@
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://mhtitich.com/subnational" aria-label="Live Demo"><span class="fa fa-play-circle"></span>  Demo</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/MohamedHtitich1/localintel" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://mhtitich.com" aria-label="Author Website"><span class="fa fa-globe"></span></a></li>
       </ul></div>
@@ -62,7 +63,7 @@
       </dl></div><div class="section level2">
       <h2 id="data-fetching">Data Fetching<a class="anchor" aria-label="anchor" href="#data-fetching"></a></h2>
 
-      <div class="section-desc"><p>Functions for retrieving data from the Eurostat API.</p></div>
+      <div class="section-desc"><p>Robust wrappers for the Eurostat API — fetch single or batch datasets at any NUTS level with automatic retry and caching.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -85,7 +86,7 @@
       </dl></div><div class="section level2">
       <h2 id="reference-data">Reference Data<a class="anchor" aria-label="anchor" href="#reference-data"></a></h2>
 
-      <div class="section-desc"><p>NUTS reference tables, boundary geometries, and lookup data.</p></div>
+      <div class="section-desc"><p>NUTS boundary geometries, hierarchical lookup tables, and population data for spatial joins and cascading.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -108,7 +109,7 @@
       </dl></div><div class="section level2">
       <h2 id="data-processing">Data Processing<a class="anchor" aria-label="anchor" href="#data-processing"></a></h2>
 
-      <div class="section-desc"><p>Process raw Eurostat datasets and compute composite indicators.</p></div>
+      <div class="section-desc"><p>Transform raw Eurostat downloads into analysis-ready tables — one function per dataset, plus merging and composite scoring.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -124,7 +125,7 @@
       </dl></div><div class="section level2">
       <h2 id="data-cascading">Data Cascading<a class="anchor" aria-label="anchor" href="#data-cascading"></a></h2>
 
-      <div class="section-desc"><p>Cascade data from higher to lower NUTS levels.</p></div>
+      <div class="section-desc"><p>Fill missing regional data by propagating from parent NUTS levels (NUTS0 → NUTS1 → NUTS2) with source-level tracking.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -140,7 +141,7 @@
       </dl></div><div class="section level2">
       <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a></h2>
 
-      <div class="section-desc"><p>Build spatial objects and create publication-ready maps.</p></div>
+      <div class="section-desc"><p>Build spatial objects and render publication-ready tmap facets — automatic best-level selection per country-year.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -156,7 +157,7 @@
       </dl></div><div class="section level2">
       <h2 id="export">Export<a class="anchor" aria-label="anchor" href="#export"></a></h2>
 
-      <div class="section-desc"><p>Export data to GeoJSON, Excel, RDS, and PDF formats.</p></div>
+      <div class="section-desc"><p>Export enriched GeoJSON for Tableau, multi-sheet Excel workbooks, RDS snapshots, and multi-page PDF map books.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -172,7 +173,7 @@
       </dl></div><div class="section level2">
       <h2 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a></h2>
 
-      <div class="section-desc"><p>Helper functions for data transformation and filtering.</p></div>
+      <div class="section-desc"><p>Helper functions for safe transformations, min-max scaling, interpolation, EU27 filtering, and country-name enrichment.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -205,7 +206,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by <a href="https://mhtitich.com" class="external-link">Mohamed Htitich</a> · <a href="https://github.com/MohamedHtitich1" class="external-link">GitHub</a> · <a href="https://orcid.org/YOUR-ORCID-ID" class="external-link">ORCID</a></p>
+  <p>Developed by <a href="https://mhtitich.com" class="external-link">Mohamed Htitich</a> · <a href="https://github.com/MohamedHtitich1" class="external-link">GitHub</a> · <a href="https://orcid.org/YOUR-ORCID-ID" class="external-link">ORCID</a> · <a href="https://mhtitich.com/subnational" class="external-link">Live Demo</a></p>
 </div>
 
 <div class="pkgdown-footer-right">

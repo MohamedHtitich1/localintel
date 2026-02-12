@@ -108,15 +108,77 @@ pre code {
   font-size: 0.88em;
 }
 
-/* --- Reference page function list --- */
+/* --- SVG Reference icons --- */
+.ref-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(124, 152, 133, 0.1);
+  border-radius: 8px;
+  margin-right: 10px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.ref-icon svg {
+  display: block;
+}
+
+/* --- Reference page section headers with icons --- */
 .section h2 {
   border-bottom: 2px solid #7c9885;
-  padding-bottom: 0.4rem;
-  margin-top: 2rem;
+  padding-bottom: 0.5rem;
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .section h3 {
   color: #3a3f42;
+}
+
+/* Reference section descriptions */
+.section h2 + p {
+  color: #5a6066;
+  font-size: 0.92em;
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+/* --- Home page links (Live Demo, etc.) --- */
+.pkgdown-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.4em 0.8em;
+  background: rgba(124, 152, 133, 0.1);
+  border: 1px solid rgba(124, 152, 133, 0.2);
+  border-radius: 0.5rem;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pkgdown-links a:hover {
+  background: rgba(124, 152, 133, 0.2);
+  border-color: #7c9885;
+  text-decoration: none;
+}
+
+/* --- Demo button in navbar --- */
+.navbar .nav-item .nav-link[href*="subnational"] {
+  background: rgba(124, 152, 133, 0.15);
+  border-radius: 0.35rem;
+  padding: 0.35rem 0.75rem !important;
+  margin: 0 0.25rem;
+  font-weight: 500;
+}
+
+.navbar .nav-item .nav-link[href*="subnational"]:hover {
+  background: rgba(124, 152, 133, 0.3);
 }
 
 /* --- Footer --- */
@@ -176,6 +238,12 @@ footer a:hover {
 /* --- Badge refinements --- */
 .badge {
   font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+}
+
+/* --- Function list items --- */
+.contents .name {
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 500;
 }
 
