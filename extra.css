@@ -1,0 +1,187 @@
+/* =========================================================
+   localintel pkgdown — custom styles matching mhtitich.com
+   ========================================================= */
+
+/* --- Global typography --- */
+body {
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1a1d1c;
+  background-color: #f4f7f5;
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-weight: 600;
+  color: #1a1d1c;
+}
+
+code, pre, .sourceCode {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.88em;
+}
+
+/* --- Dark navbar matching mhtitich.com --- */
+.navbar {
+  background-color: #050507 !important;
+  border-bottom: 1px solid rgba(124, 152, 133, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: #f5f5f7 !important;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: #9ab8a3 !important;
+}
+
+.navbar .nav-link.active {
+  color: #7c9885 !important;
+  font-weight: 500;
+}
+
+/* --- Sage green accents --- */
+a {
+  color: #6a8a73;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #9ab8a3;
+  text-decoration: underline;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  background-color: #7c9885;
+  border-color: #7c9885;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #6a8a73;
+  border-color: #6a8a73;
+}
+
+/* --- Cards & reference sections --- */
+.card {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(124, 152, 133, 0.15);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(124, 152, 133, 0.35);
+  box-shadow: 0 4px 12px rgba(124, 152, 133, 0.1);
+}
+
+/* --- Code blocks --- */
+pre {
+  background-color: #0d0f11;
+  color: #e8e8ed;
+  border: 1px solid rgba(124, 152, 133, 0.15);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+}
+
+pre code {
+  color: #e8e8ed;
+}
+
+/* Inline code */
+:not(pre) > code {
+  background-color: rgba(124, 152, 133, 0.1);
+  color: #5a7a63;
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.88em;
+}
+
+/* --- Reference page function list --- */
+.section h2 {
+  border-bottom: 2px solid #7c9885;
+  padding-bottom: 0.4rem;
+  margin-top: 2rem;
+}
+
+.section h3 {
+  color: #3a3f42;
+}
+
+/* --- Footer --- */
+footer {
+  background-color: #050507;
+  color: #a8a8ad;
+  border-top: 1px solid rgba(124, 152, 133, 0.2);
+}
+
+footer a {
+  color: #9ab8a3;
+}
+
+footer a:hover {
+  color: #7cb08a;
+}
+
+/* --- Home page hero refinements --- */
+.page-header {
+  background: linear-gradient(135deg, #f4f7f5 0%, #e8f0eb 50%, #f4f7f5 100%);
+  border-bottom: 1px solid rgba(124, 152, 133, 0.15);
+}
+
+/* --- Sidebar / TOC --- */
+.sidebar .nav-link.active {
+  color: #7c9885;
+  border-left: 3px solid #7c9885;
+  font-weight: 500;
+}
+
+/* --- Tables --- */
+.table {
+  border-color: rgba(124, 152, 133, 0.15);
+}
+
+.table thead th {
+  background-color: rgba(124, 152, 133, 0.08);
+  border-bottom-color: #7c9885;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* --- Search --- */
+.search-input {
+  border-color: rgba(124, 152, 133, 0.3);
+  border-radius: 0.5rem;
+}
+
+.search-input:focus {
+  border-color: #7c9885;
+  box-shadow: 0 0 0 0.2rem rgba(124, 152, 133, 0.25);
+}
+
+/* --- Badge refinements --- */
+.badge {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+}
+
+/* --- Smooth transitions --- */
+* {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}

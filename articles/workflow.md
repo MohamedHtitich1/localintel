@@ -1,0 +1,339 @@
+# End-to-End Health System Analysis
+
+This tutorial walks through a complete health system analysis workflow —
+from raw Eurostat data to publication-ready maps and Tableau-ready
+exports. We’ll analyze hospital bed capacity, physician density, and
+discharge patterns across European NUTS2 regions.
+
+## Setup
+
+``` r
+library(localintel)
+library(dplyr)
+```
+
+## Phase 1: Data Acquisition
+
+### Understanding the Data Model
+
+Eurostat organizes subnational statistics using the NUTS classification:
+
+- **NUTS 0** — Country level (e.g., `DE` for Germany)
+- **NUTS 1** — Major socio-economic regions (e.g., `DE1` for
+  Baden-Württemberg)
+- **NUTS 2** — Basic regions (e.g., `DE11` for Stuttgart)
+
+Not all countries report at NUTS2 — some only publish at NUTS0 or NUTS1.
+localintel handles this through *data cascading* (Phase 3).
+
+### Fetching Multiple Datasets
+
+The
+[`health_system_codes()`](https://mohamedhtitich1.github.io/localintel/reference/health_system_codes.md)
+function returns a curated list of Eurostat dataset identifiers for
+health system analysis:
+
+``` r
+codes <- health_system_codes()
+print(codes)
+# beds         physicians   disch_inp    disch_day    los
+# "hlth_rs_bd…" "hlth_rs_ph…" "hlth_co_di…" "hlth_co_di…" "hlth_co_in…"
+```
+
+Fetch them all at once. The
+[`fetch_eurostat_batch()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
+function calls the Eurostat API in sequence with built-in retry logic:
+
+``` r
+data_list <- fetch_eurostat_batch(codes, level = 2, years = 2010:2024)
+
+# Remove any datasets that returned empty (API hiccups)
+data_list <- drop_empty(data_list)
+
+# Check what we got
+sapply(data_list, nrow)
+```
+
+### Fetching Individual Datasets
+
+For more control, use
+[`get_nuts_level_robust()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
+directly. This function retries with different cache strategies if the
+first attempt fails:
+
+``` r
+# Fetch causes of death at NUTS2
+cod_raw <- get_nuts_level_robust("hlth_cd_asdr2", level = 2, years = 2010:2024)
+```
+
+## Phase 2: Data Processing
+
+Each Eurostat dataset has its own structure (different filter variables,
+units, etc.). The `process_*` functions handle the specifics:
+
+``` r
+beds       <- process_beds(data_list$beds)
+physicians <- process_physicians(data_list$physicians)
+los        <- process_los(data_list$los)
+disch_inp  <- process_disch_inp(data_list$disch_inp)
+disch_day  <- process_disch_day(data_list$disch_day)
+```
+
+Each function returns a clean tibble with standardized columns:
+
+| Column       | Description                                    |
+|--------------|------------------------------------------------|
+| `geo`        | NUTS code                                      |
+| `year`       | Integer year                                   |
+| `<variable>` | The numeric value (e.g., `beds`, `physicians`) |
+
+### Merging
+
+Combine all processed datasets into a single analysis-ready table:
+
+``` r
+all_data <- merge_datasets(beds, physicians, los, disch_inp, disch_day)
+glimpse(all_data)
+```
+
+The merge is a full outer join on `geo` and `year`, so no observations
+are lost even if some datasets have different coverage.
+
+## Phase 3: Data Cascading
+
+This is the core innovation of localintel. Missing NUTS2 values are
+filled by cascading from parent levels:
+
+    NUTS0 (Country) → NUTS1 (Major Region) → NUTS2 (Region)
+
+For example, if Romania reports beds only at NUTS0, all Romanian NUTS2
+regions will receive the national value, and the `src_level` column will
+record that this was cascaded from level 0.
+
+### Getting Reference Data
+
+``` r
+# Maps NUTS2 codes → parent NUTS1 → parent NUTS0
+nuts2_ref <- get_nuts2_ref()
+
+# NUTS boundary geometries for mapping
+geopolys <- get_nuts_geopolys()
+```
+
+### Running the Cascade
+
+The full cascade also computes derived indicators:
+
+- **DA (Discharge Activity)**: `log2(discharges) / log2(beds)` — a
+  measure of hospital utilization
+- **rLOS (Relative Length of Stay)**: `regional_LOS / national_LOS` —
+  how a region compares to its national average
+
+``` r
+cascaded <- cascade_to_nuts2_and_compute(
+  all_data,
+  vars = c("beds", "physicians", "los", "disch_inp"),
+  nuts2_ref = nuts2_ref,
+  years = 2010:2024
+)
+
+# Check the source levels
+cascaded %>%
+  count(src_beds) %>%
+  print()
+# src_beds     n
+# 0          xxx   <- cascaded from country level
+# 1          xxx   <- cascaded from NUTS1
+# 2          xxx   <- original NUTS2 data
+```
+
+### Light Cascading
+
+For pre-computed scores where you don’t need DA/rLOS, use the lighter
+version:
+
+``` r
+# If you already have composite scores
+cascaded_scores <- cascade_to_nuts2_light(
+  scored_data,
+  vars = c("score_health_outcome", "score_enabling_env"),
+  nuts2_ref = nuts2_ref,
+  years = 2010:2024
+)
+```
+
+## Phase 4: Scoring and Composite Indicators
+
+Transform raw values into 0–100 scores and compute composite indices:
+
+``` r
+# Define transformations
+# "neg" = higher is worse, "log" = apply log transform, "none" = higher is better
+transforms <- c(
+  beds = "none",
+  physicians = "none",
+  los = "neg",       # longer stay = worse
+  disch_inp = "log"  # log-transform skewed distributions
+)
+
+scored <- transform_and_score(cascaded, transforms)
+
+# Compute a composite score (simple average)
+scored <- scored %>%
+  compute_composite(
+    score_cols = c("beds_score", "physicians_score", "los_score"),
+    name = "health_system_score"
+  )
+```
+
+## Phase 5: Visualization
+
+### Building Map-Ready Data
+
+[`build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
+joins your data with geometries and selects the best available NUTS
+level per country-year:
+
+``` r
+sf_beds <- build_display_sf(
+  cascaded,
+  geopolys,
+  var = "beds",
+  years = 2020:2024
+)
+```
+
+### Creating Maps
+
+``` r
+# Consistent color scale across all years
+plot_best_by_country_level(
+  cascaded, geopolys,
+  var = "beds",
+  years = 2020:2024,
+  title = "Hospital Beds per 100,000 Inhabitants",
+  scale = "global"
+)
+```
+
+``` r
+# Per-year color scale (emphasizes within-year variation)
+plot_best_by_country_level(
+  cascaded, geopolys,
+  var = "physicians",
+  years = 2020:2024,
+  title = "Physicians per 100,000 Inhabitants",
+  scale = "per_year"
+)
+```
+
+### Saving Maps to PDF
+
+``` r
+save_maps_to_pdf(
+  cascaded, geopolys,
+  var = "beds",
+  years = 2015:2024,
+  file = "maps/beds_2015_2024.pdf",
+  title = "Hospital Beds"
+)
+```
+
+## Phase 6: Tableau Export
+
+### Single Variable
+
+``` r
+sf_data <- build_display_sf(cascaded, geopolys, var = "beds", years = 2010:2024)
+export_to_geojson(sf_data, "output/beds_nuts2.geojson")
+```
+
+### Multi-Variable with Enrichment
+
+For a comprehensive Tableau dashboard, combine multiple variables and
+add contextual metadata:
+
+``` r
+# Combine multiple variables
+sf_all <- build_multi_var_sf(
+  cascaded, geopolys,
+  vars = c("beds", "physicians", "DA", "rLOS"),
+  years = 2010:2024,
+  var_labels = health_var_labels(),
+  pillar_mapping = health_pillar_mapping()
+)
+
+# Add population, country names, and performance tags
+pop_data    <- get_population_nuts2()
+nuts2_names <- get_nuts2_names()
+
+sf_enriched <- enrich_for_tableau(sf_all, pop_data, nuts2_names)
+
+# The enriched data includes:
+# - country_name: full country name
+# - region_name: NUTS2 region name
+# - pop: population
+# - performance_tag: "Best in Country" / "Worst in Country" / NA
+
+export_to_geojson(sf_enriched, "output/health_system_complete.geojson")
+```
+
+### Excel Export
+
+For non-spatial outputs:
+
+``` r
+export_to_excel(cascaded, "output/cascaded_data.xlsx")
+```
+
+## Putting It All Together
+
+Here’s the complete pipeline in one script:
+
+``` r
+library(localintel)
+
+# 1. Fetch
+codes     <- health_system_codes()
+data_list <- fetch_eurostat_batch(codes, level = 2, years = 2010:2024) %>%
+  drop_empty()
+
+# 2. Process
+beds       <- process_beds(data_list$beds)
+physicians <- process_physicians(data_list$physicians)
+los        <- process_los(data_list$los)
+disch_inp  <- process_disch_inp(data_list$disch_inp)
+all_data   <- merge_datasets(beds, physicians, los, disch_inp)
+
+# 3. Reference
+nuts2_ref <- get_nuts2_ref()
+geopolys  <- get_nuts_geopolys()
+
+# 4. Cascade
+cascaded <- cascade_to_nuts2_and_compute(
+  all_data,
+  vars = c("beds", "physicians", "los", "disch_inp"),
+  nuts2_ref = nuts2_ref,
+  years = 2010:2024
+)
+
+# 5. Visualize
+plot_best_by_country_level(
+  cascaded, geopolys,
+  var = "beds", years = 2020:2024,
+  title = "Hospital Beds per 100,000"
+)
+
+# 6. Export
+sf_all <- build_multi_var_sf(
+  cascaded, geopolys,
+  vars = c("beds", "physicians", "DA", "rLOS"),
+  years = 2010:2024,
+  var_labels = health_var_labels(),
+  pillar_mapping = health_pillar_mapping()
+)
+sf_enriched <- enrich_for_tableau(
+  sf_all, get_population_nuts2(), get_nuts2_names()
+)
+export_to_geojson(sf_enriched, "health_system_dashboard.geojson")
+```
