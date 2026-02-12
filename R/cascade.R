@@ -256,3 +256,108 @@ balance_panel <- function(data, vars, years, fill_direction = "downup") {
     tidyr::fill(dplyr::all_of(vars), .direction = fill_direction) %>%
     dplyr::ungroup()
 }
+
+#' Cascade Data to NUTS2 (Generic / Domain-Agnostic)
+#'
+#' Cascades data from NUTS0/NUTS1 to NUTS2 level for any set of variables
+#' from any thematic domain. Unlike \code{cascade_to_nuts2_and_compute()},
+#' this function performs pure cascading without computing domain-specific
+#' derived indicators, making it suitable for economy, education, labour,
+#' environment, or any other Eurostat domain.
+#'
+#' @param data Dataframe with 'geo', 'year', and variable columns. May contain
+#'   data at mixed NUTS levels (identified by geo code length: 2=NUTS0, 3=NUTS1, 4=NUTS2).
+#' @param vars Character vector of variable names to cascade
+#' @param years Integer vector of years to include. If NULL, uses all available years.
+#' @param nuts2_ref Reference table from \code{get_nuts2_ref()}. If NULL, fetched automatically.
+#' @param nuts_year Integer year for NUTS classification (default: 2024)
+#' @return Dataframe with cascaded values at NUTS2 level. For each variable \code{v},
+#'   a corresponding \code{src_v_level} column tracks the source NUTS level
+#'   (2 = original NUTS2, 1 = cascaded from NUTS1, 0 = cascaded from NUTS0).
+#' @export
+#' @examples
+#' \dontrun{
+#' # Cascade GDP and unemployment data to NUTS2
+#' result <- cascade_to_nuts2(
+#'   all_data,
+#'   vars = c("gdp", "unemployment_rate", "life_expectancy"),
+#'   years = 2010:2024
+#' )
+#'
+#' # Check source levels
+#' table(result$src_gdp_level)
+#' }
+cascade_to_nuts2 <- function(data,
+                             vars,
+                             years = NULL,
+                             nuts2_ref = NULL,
+                             nuts_year = 2024) {
+  # Get NUTS2 reference if not provided
+  if (is.null(nuts2_ref)) {
+    g2 <- eurostat::get_eurostat_geospatial(
+      nuts_level = 2,
+      year = nuts_year,
+      resolution = "60",
+      cache = TRUE,
+      update_cache = TRUE,
+      output_class = "sf",
+      crs = 4326
+    )
+    nuts2_ref <- g2 %>%
+      sf::st_drop_geometry() %>%
+      dplyr::transmute(
+        geo = .data$NUTS_ID,
+        nuts1 = substr(.data$NUTS_ID, 1, 3),
+        nuts0 = substr(.data$NUTS_ID, 1, 2)
+      )
+  }
+
+  # Ensure year column exists
+  if (!"year" %in% names(data)) {
+    if ("time" %in% names(data)) {
+      data <- dplyr::mutate(data, year = as.integer(substr(as.character(.data$time), 1, 4)))
+    } else {
+      stop("Provide a 'year' or 'time' column.")
+    }
+  }
+
+  stopifnot(all(c("geo", "year") %in% names(data)), all(vars %in% names(data)))
+  stopifnot(all(c("geo", "nuts1", "nuts0") %in% names(nuts2_ref)))
+
+  # Set years and create skeleton
+  if (is.null(years)) {
+    years <- sort(unique(data$year))
+  }
+  skeleton <- tidyr::expand_grid(nuts2_ref, tibble::tibble(year = years))
+
+  # Cascade each variable
+  cascade_one <- function(var) {
+    d <- data %>% dplyr::select("geo", "year", !!rlang::sym(var))
+    v2 <- d %>% dplyr::filter(nchar(.data$geo) == 4) %>% dplyr::rename(val2 = !!rlang::sym(var))
+    v1 <- d %>% dplyr::filter(nchar(.data$geo) == 3) %>% dplyr::transmute(nuts1 = .data$geo, year = .data$year, val1 = !!rlang::sym(var))
+    v0 <- d %>% dplyr::filter(nchar(.data$geo) == 2) %>% dplyr::transmute(nuts0 = .data$geo, year = .data$year, val0 = !!rlang::sym(var))
+
+    skeleton %>%
+      dplyr::left_join(v2, by = c("geo", "year")) %>%
+      dplyr::left_join(v1, by = c("nuts1", "year")) %>%
+      dplyr::left_join(v0, by = c("nuts0", "year")) %>%
+      dplyr::mutate(
+        !!var := dplyr::coalesce(.data$val2, .data$val1, .data$val0),
+        !!paste0("src_", var, "_level") := dplyr::case_when(
+          !is.na(.data$val2) ~ 2L,
+          is.na(.data$val2) & !is.na(.data$val1) ~ 1L,
+          is.na(.data$val2) & is.na(.data$val1) & !is.na(.data$val0) ~ 0L,
+          TRUE ~ NA_integer_
+        )
+      ) %>%
+      dplyr::select("geo", "year", !!rlang::sym(var), !!rlang::sym(paste0("src_", var, "_level")))
+  }
+
+  cascaded <- Reduce(
+    function(a, b) dplyr::left_join(a, b, by = c("geo", "year")),
+    lapply(vars, cascade_one)
+  )
+
+  cascaded %>%
+    dplyr::arrange(.data$geo, .data$year)
+}

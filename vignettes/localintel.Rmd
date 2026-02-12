@@ -17,14 +17,14 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-**localintel** (Local Intelligence) is an R package for fetching, processing,
-and visualizing subnational (NUTS 0/1/2) data from Eurostat. It provides a
-complete pipeline from raw Eurostat data to publication-ready maps and
-Tableau-ready exports.
+**localintel** (Local Intelligence) is an R package that provides a unified
+pipeline for **150+ subnational indicators across 14 thematic domains** from
+Eurostat. Any regional dataset — economy, health, education, labour,
+demographics, tourism, transport, environment, and more — can be fetched,
+harmonized, cascaded to NUTS 2, scored, mapped, and exported through a
+single consistent workflow.
 
 ## Installation
-
-Install localintel from GitHub:
 
 ```{r install}
 # install.packages("devtools")
@@ -35,165 +35,124 @@ devtools::install_github("MohamedHtitich1/localintel")
 library(localintel)
 ```
 
-## Step 1: Fetch Data from Eurostat
+## Step 1: Browse the Indicator Registry
 
-The package provides pre-defined code lists for common health system datasets.
+localintel ships with curated code lists for 14 Eurostat domains:
+
+```{r registry}
+# How many indicators are available?
+n <- indicator_count()
+cat(n$indicators, "indicators across", n$domains, "domains\n")
+print(n$by_domain)
+
+# View codes for a specific domain
+economy_codes()
+labour_codes()
+education_codes()
+```
+
+## Step 2: Fetch Data from Eurostat
+
 Use `fetch_eurostat_batch()` to download multiple datasets at once:
 
 ```{r fetch}
-# View available dataset codes
-codes <- health_system_codes()
-print(codes)
+# Fetch economy indicators at NUTS2 level
+econ_data <- fetch_eurostat_batch(economy_codes(), level = 2, years = 2015:2024)
+econ_data <- drop_empty(econ_data)
 
-# Fetch all datasets at NUTS2 level
-data_list <- fetch_eurostat_batch(codes, level = 2, years = 2010:2024)
+# Fetch health indicators
+hlth_data <- fetch_eurostat_batch(health_system_codes(), level = 2, years = 2015:2024)
+hlth_data <- drop_empty(hlth_data)
 
-# Remove any datasets that returned empty
-data_list <- drop_empty(data_list)
+# Fetch labour indicators
+lab_data <- fetch_eurostat_batch(labour_codes(), level = 2, years = 2015:2024)
+lab_data <- drop_empty(lab_data)
 ```
 
-You can also fetch individual datasets with more control:
+For individual datasets with more control:
 
 ```{r fetch-single}
-# Fetch a single dataset
-beds_raw <- get_nuts_level_robust("hlth_rs_bdsrg2", level = 2, years = 2010:2024)
+gdp_raw <- get_nuts_level_robust("nama_10r_2gdp", level = 2, years = 2015:2024)
 ```
 
-## Step 2: Process Datasets
+## Step 3: Process Datasets
 
-Each Eurostat dataset has a dedicated processing function that filters for the
-correct indicators and reshapes the data:
+Use domain-specific processors or the universal `process_eurostat()`:
 
 ```{r process}
-beds       <- process_beds(data_list$beds)
-physicians <- process_physicians(data_list$physicians)
-los        <- process_los(data_list$los)
-disch_inp  <- process_disch_inp(data_list$disch_inp)
+# Domain-specific processors
+gdp       <- process_gdp(econ_data$gdp_nuts2)
+beds      <- process_beds(hlth_data$beds)
+unemp     <- process_unemployment_rate(lab_data$unemployment_rate)
+
+# Or the generic processor for any dataset
+life_exp <- process_eurostat(
+  get_nuts_level_robust("demo_r_mlifexp", level = 2, years = 2015:2024),
+  filters = list(sex = "T", age = "Y_LT1"),
+  out_col = "life_expectancy"
+)
 ```
 
-Combine processed datasets into a single table:
+Combine processed datasets:
 
 ```{r merge}
-all_data <- merge_datasets(beds, physicians, los, disch_inp)
+all_data <- merge_datasets(gdp, beds, unemp, life_exp)
 ```
 
-## Step 3: Get Reference Data
+## Step 4: Cascade Data to NUTS 2
 
-Reference geometries and lookup tables are needed for cascading and mapping:
-```{r reference}
-# NUTS2 reference table (maps NUTS2 codes to parent NUTS1/NUTS0)
-nuts2_ref <- get_nuts2_ref()
-
-# Combined NUTS 0/1/2 boundary geometries
-geopolys <- get_nuts_geopolys()
-```
-
-## Step 4: Cascade Data to NUTS2
-
-Not every region reports data at the NUTS2 level. The cascade functions
-intelligently fill gaps by propagating values from parent NUTS levels:
-
-```
-NUTS0 (Country) → NUTS1 (Major Regions) → NUTS2 (Regions)
-```
-
-The full cascade also computes derived indicators like Discharge Activity (DA)
-and Relative Length of Stay (rLOS):
+Not every region reports at NUTS 2. The cascade fills gaps from parent levels:
 
 ```{r cascade}
-cascaded <- cascade_to_nuts2_and_compute(
+nuts2_ref <- get_nuts2_ref()
+
+cascaded <- cascade_to_nuts2(
   all_data,
-  vars = c("beds", "physicians", "los"),
+  vars = c("gdp", "beds", "unemployment_rate", "life_expectancy"),
   nuts2_ref = nuts2_ref,
-  years = 2010:2024
+  years = 2015:2024
 )
-```
 
-For pre-computed scores where you just need cascading without indicator
-computation:
-
-```{r cascade-light}
-cascaded_light <- cascade_to_nuts2_light(
-  scored_data,
-  vars = c("score_health_outcome"),
-  nuts2_ref = nuts2_ref,
-  years = 2010:2024
-)
+# Check source levels — how much data was cascaded?
+table(cascaded$src_gdp_level)
 ```
 
 ## Step 5: Visualize
 
-Create publication-ready maps that automatically select the best available
-NUTS level for each country:
-
 ```{r visualize}
-# Maps with consistent color scale across years
-plot_best_by_country_level(
-  cascaded, geopolys,
-  var = "beds",
-  years = 2020:2024,
-  title = "Hospital Beds per 100,000",
-  scale = "global"
-)
+geopolys <- get_nuts_geopolys()
 
-# Maps with per-year color scale
 plot_best_by_country_level(
   cascaded, geopolys,
-  var = "beds",
-  years = 2020:2024,
-  title = "Hospital Beds per 100,000",
-  scale = "per_year"
+  var = "unemployment_rate",
+  years = 2022:2024,
+  title = "Unemployment Rate (%)",
+  scale = "global"
 )
 ```
 
-## Step 6: Export for Tableau
-
-Build enriched spatial datasets ready for Tableau:
+## Step 6: Export
 
 ```{r export}
 # Single variable
-sf_data <- build_display_sf(cascaded, geopolys, var = "beds", years = 2010:2024)
-export_to_geojson(sf_data, "output/beds_nuts2.geojson")
+sf_data <- build_display_sf(cascaded, geopolys, var = "gdp", years = 2015:2024)
+export_to_geojson(sf_data, "output/gdp_nuts2.geojson")
 
-# Multiple variables combined
+# Multi-variable with labels and domain grouping
 sf_all <- build_multi_var_sf(
   cascaded, geopolys,
-  vars = c("beds", "physicians", "score_health_outcome"),
-  years = 2010:2024,
-  var_labels = health_var_labels(),
-  pillar_mapping = health_pillar_mapping()
+  vars = c("gdp", "beds", "unemployment_rate", "life_expectancy"),
+  years = 2015:2024,
+  var_labels = regional_var_labels(),
+  pillar_mapping = regional_domain_mapping()
 )
 
-# Enrich with population and performance tags
-pop_data    <- get_population_nuts2()
-nuts2_names <- get_nuts2_names()
-sf_enriched <- enrich_for_tableau(sf_all, pop_data, nuts2_names)
-
-export_to_geojson(sf_enriched, "tableau_export.geojson")
-```
-
-## Utility Functions
-
-The package includes several handy utilities:
-
-```{r utils}
-# Filter to EU27 countries only
-eu_data <- keep_eu27(all_data)
-
-# Safe log transforms (handles NA and non-positive values)
-safe_log10(c(100, 0, NA, -5))
-# [1] 2 NA NA NA
-
-# Min-max normalization to 0-100
-scale_0_100(c(10, 20, 30, 40, 50))
-# [1]   0  25  50  75 100
-
-# Linear interpolation with flags
-interp_const_ends_flag(c(1, NA, NA, 4, NA, 6))
+sf_enriched <- enrich_for_tableau(sf_all, get_population_nuts2(), get_nuts2_names())
+export_to_geojson(sf_enriched, "output/multi_domain_dashboard.geojson")
 ```
 
 ## Data Sources
 
-localintel works with standard Eurostat datasets. See `health_system_codes()`
-and `causes_of_death_codes()` for the full list of pre-configured dataset
-identifiers.
+localintel works with the full Eurostat regional statistics catalogue.
+Use `all_regional_codes()` for the complete list, or domain-specific
+functions like `economy_codes()`, `education_codes()`, `tourism_codes()`, etc.
