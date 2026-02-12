@@ -41,5 +41,5 @@ Suggests:
     rmarkdown,
     pkgdown
 VignetteBuilder: knitr
-URL: https://github.com/MohamedHtitich1/localintel
+URL: https://mohamedhtitich1.github.io/localintel/, https://github.com/MohamedHtitich1/localintel
 BugReports: https://github.com/MohamedHtitich1/localintel/issues

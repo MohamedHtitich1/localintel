@@ -57,6 +57,10 @@ navbar:
       aria-label: "Author Website"
 
 reference:
+  - title: "Package Overview"
+    contents:
+      - localintel-package
+
   - title: "Data Fetching"
     desc: "Functions for retrieving data from the Eurostat API."
     contents:
