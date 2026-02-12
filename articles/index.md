@@ -7,7 +7,7 @@
 
 ### Tutorials
 
-- [End-to-End Health System
+- [Multi-Domain Regional
   Analysis](https://mohamedhtitich1.github.io/localintel/articles/workflow.md):
 
 ### Help

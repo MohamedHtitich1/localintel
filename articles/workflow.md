@@ -1,9 +1,9 @@
-# End-to-End Health System Analysis
+# Multi-Domain Regional Analysis
 
-This tutorial walks through a complete health system analysis workflow —
-from raw Eurostat data to publication-ready maps and Tableau-ready
-exports. We’ll analyze hospital bed capacity, physician density, and
-discharge patterns across European NUTS2 regions.
+This tutorial walks through a complete multi-domain regional analysis —
+from raw Eurostat data to publication-ready maps and Tableau exports. We
+combine economy, labour, health, and education indicators into a unified
+subnational dashboard covering 235+ European NUTS 2 regions.
 
 ## Setup
 
@@ -23,317 +23,178 @@ Eurostat organizes subnational statistics using the NUTS classification:
   Baden-Württemberg)
 - **NUTS 2** — Basic regions (e.g., `DE11` for Stuttgart)
 
-Not all countries report at NUTS2 — some only publish at NUTS0 or NUTS1.
-localintel handles this through *data cascading* (Phase 3).
+Not all countries report at NUTS 2. localintel handles this through
+*data cascading* (Phase 3).
 
-### Fetching Multiple Datasets
-
-The
-[`health_system_codes()`](https://mohamedhtitich1.github.io/localintel/reference/health_system_codes.md)
-function returns a curated list of Eurostat dataset identifiers for
-health system analysis:
+### Browsing the Indicator Registry
 
 ``` r
-codes <- health_system_codes()
-print(codes)
-# beds         physicians   disch_inp    disch_day    los
-# "hlth_rs_bd…" "hlth_rs_ph…" "hlth_co_di…" "hlth_co_di…" "hlth_co_in…"
+n <- indicator_count()
+cat(n$indicators, "indicators across", n$domains, "domains\n")
+print(n$by_domain)
 ```
 
-Fetch them all at once. The
-[`fetch_eurostat_batch()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
-function calls the Eurostat API in sequence with built-in retry logic:
+### Fetching Multiple Domains
 
 ``` r
-data_list <- fetch_eurostat_batch(codes, level = 2, years = 2010:2024)
+# Economy
+econ_data <- fetch_eurostat_batch(economy_codes(), level = 2, years = 2010:2024)
 
-# Remove any datasets that returned empty (API hiccups)
-data_list <- drop_empty(data_list)
+# Labour market
+lab_data <- fetch_eurostat_batch(labour_codes(), level = 2, years = 2010:2024)
 
-# Check what we got
-sapply(data_list, nrow)
-```
+# Health
+hlth_data <- fetch_eurostat_batch(health_system_codes(), level = 2, years = 2010:2024)
 
-### Fetching Individual Datasets
+# Education
+educ_data <- fetch_eurostat_batch(education_codes(), level = 2, years = 2010:2024)
 
-For more control, use
-[`get_nuts_level_robust()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
-directly. This function retries with different cache strategies if the
-first attempt fails:
-
-``` r
-# Fetch causes of death at NUTS2
-cod_raw <- get_nuts_level_robust("hlth_cd_asdr2", level = 2, years = 2010:2024)
+# Drop any empty results
+econ_data <- drop_empty(econ_data)
+lab_data  <- drop_empty(lab_data)
+hlth_data <- drop_empty(hlth_data)
+educ_data <- drop_empty(educ_data)
 ```
 
 ## Phase 2: Data Processing
 
-Each Eurostat dataset has its own structure (different filter variables,
-units, etc.). The `process_*` functions handle the specifics:
+### Domain-Specific Processors
+
+Each domain has convenience processors that filter the right dimensions:
 
 ``` r
-beds       <- process_beds(data_list$beds)
-physicians <- process_physicians(data_list$physicians)
-los        <- process_los(data_list$los)
-disch_inp  <- process_disch_inp(data_list$disch_inp)
-disch_day  <- process_disch_day(data_list$disch_day)
+# Economy
+gdp           <- process_gdp(econ_data$gdp_nuts2)
+
+# Labour
+unemp         <- process_unemployment_rate(lab_data$unemployment_rate)
+empl_rate     <- process_eurostat(lab_data$employment_rate,
+                   filters = list(sex = "T", age = "Y20-64"),
+                   out_col = "employment_rate")
+
+# Health
+beds          <- process_beds(hlth_data$beds)
+physicians    <- process_physicians(hlth_data$physicians)
+
+# Education
+tertiary      <- process_education_attainment(educ_data$attain_tertiary)
 ```
 
-Each function returns a clean tibble with standardized columns:
+### The Generic Processor
 
-| Column       | Description                                    |
-|--------------|------------------------------------------------|
-| `geo`        | NUTS code                                      |
-| `year`       | Integer year                                   |
-| `<variable>` | The numeric value (e.g., `beds`, `physicians`) |
+For datasets without a dedicated processor, use
+[`process_eurostat()`](https://mohamedhtitich1.github.io/localintel/reference/process_eurostat.md):
+
+``` r
+# Tourism: nights spent
+nights_raw <- get_nuts_level_robust("tour_occ_nin2", level = 2, years = 2010:2024)
+nights     <- process_eurostat(nights_raw,
+  filters = list(unit = "NR", nace_r2 = "I551-I553", c_resid = "TOTAL"),
+  out_col = "nights_spent")
+
+# R&D expenditure
+rd_raw <- get_nuts_level_robust("rd_e_gerdreg", level = 2, years = 2010:2024)
+rd     <- process_eurostat(rd_raw,
+  filters = list(unit = "PC_GDP", sectperf = "TOTAL"),
+  out_col = "rd_expenditure")
+```
 
 ### Merging
 
-Combine all processed datasets into a single analysis-ready table:
+Combine all indicators into one table:
 
 ``` r
-all_data <- merge_datasets(beds, physicians, los, disch_inp, disch_day)
+all_data <- merge_datasets(gdp, unemp, empl_rate, beds, physicians, tertiary)
 glimpse(all_data)
 ```
 
-The merge is a full outer join on `geo` and `year`, so no observations
-are lost even if some datasets have different coverage.
-
 ## Phase 3: Data Cascading
-
-This is the core innovation of localintel. Missing NUTS2 values are
-filled by cascading from parent levels:
-
-    NUTS0 (Country) → NUTS1 (Major Region) → NUTS2 (Region)
-
-For example, if Romania reports beds only at NUTS0, all Romanian NUTS2
-regions will receive the national value, and the `src_level` column will
-record that this was cascaded from level 0.
 
 ### Getting Reference Data
 
 ``` r
-# Maps NUTS2 codes → parent NUTS1 → parent NUTS0
 nuts2_ref <- get_nuts2_ref()
-
-# NUTS boundary geometries for mapping
-geopolys <- get_nuts_geopolys()
+geopolys  <- get_nuts_geopolys()
 ```
 
-### Running the Cascade
-
-The full cascade also computes derived indicators:
-
-- **DA (Discharge Activity)**: `log2(discharges) / log2(beds)` — a
-  measure of hospital utilization
-- **rLOS (Relative Length of Stay)**: `regional_LOS / national_LOS` —
-  how a region compares to its national average
+### Generic Cascade (Any Domain)
 
 ``` r
-cascaded <- cascade_to_nuts2_and_compute(
+cascaded <- cascade_to_nuts2(
   all_data,
-  vars = c("beds", "physicians", "los", "disch_inp"),
+  vars = c("gdp", "unemployment_rate", "employment_rate",
+           "beds", "physicians", "education_attainment"),
   nuts2_ref = nuts2_ref,
   years = 2010:2024
 )
 
-# Check the source levels
+# Check coverage
 cascaded %>%
-  count(src_beds) %>%
-  print()
-# src_beds     n
-# 0          xxx   <- cascaded from country level
-# 1          xxx   <- cascaded from NUTS1
-# 2          xxx   <- original NUTS2 data
+  summarise(across(starts_with("src_"), ~sum(!is.na(.)))) %>%
+  glimpse()
 ```
 
-### Light Cascading
+### Health-Specific Cascade (with DA/rLOS)
 
-For pre-computed scores where you don’t need DA/rLOS, use the lighter
-version:
+For health indicators, the specialized cascade also computes derived
+indicators:
 
 ``` r
-# If you already have composite scores
-cascaded_scores <- cascade_to_nuts2_light(
-  scored_data,
-  vars = c("score_health_outcome", "score_enabling_env"),
+cascaded_health <- cascade_to_nuts2_and_compute(
+  all_data,
+  vars = c("disch_inp", "disch_day", "beds", "physicians", "los"),
   nuts2_ref = nuts2_ref,
   years = 2010:2024
 )
 ```
 
-## Phase 4: Scoring and Composite Indicators
-
-Transform raw values into 0–100 scores and compute composite indices:
+## Phase 4: Scoring
 
 ``` r
-# Define transformations
-# "neg" = higher is worse, "log" = apply log transform, "none" = higher is better
-transforms <- c(
-  beds = "none",
-  physicians = "none",
-  los = "neg",       # longer stay = worse
-  disch_inp = "log"  # log-transform skewed distributions
-)
-
-scored <- transform_and_score(cascaded, transforms)
-
-# Compute a composite score (simple average)
-scored <- scored %>%
-  compute_composite(
-    score_cols = c("beds_score", "physicians_score", "los_score"),
-    name = "health_system_score"
-  )
+scored <- cascaded %>%
+  keep_eu27() %>%
+  transform_and_score(list(
+    unemp_tr = "-unemployment_rate",
+    gdp_tr   = "safe_log10(gdp)",
+    beds_tr  = "beds",
+    educ_tr  = "education_attainment"
+  ))
 ```
 
 ## Phase 5: Visualization
 
-### Building Map-Ready Data
-
-[`build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
-joins your data with geometries and selects the best available NUTS
-level per country-year:
-
 ``` r
-sf_beds <- build_display_sf(
-  cascaded,
-  geopolys,
-  var = "beds",
-  years = 2020:2024
-)
-```
-
-### Creating Maps
-
-``` r
-# Consistent color scale across all years
 plot_best_by_country_level(
   cascaded, geopolys,
-  var = "beds",
-  years = 2020:2024,
-  title = "Hospital Beds per 100,000 Inhabitants",
+  var = "unemployment_rate",
+  years = 2022:2024,
+  title = "Unemployment Rate (%)",
   scale = "global"
 )
-```
 
-``` r
-# Per-year color scale (emphasizes within-year variation)
 plot_best_by_country_level(
   cascaded, geopolys,
-  var = "physicians",
-  years = 2020:2024,
-  title = "Physicians per 100,000 Inhabitants",
-  scale = "per_year"
+  var = "gdp",
+  years = 2022:2024,
+  title = "GDP (million EUR)"
 )
 ```
 
-### Saving Maps to PDF
+## Phase 6: Multi-Domain Tableau Export
 
 ``` r
-save_maps_to_pdf(
-  cascaded, geopolys,
-  var = "beds",
-  years = 2015:2024,
-  file = "maps/beds_2015_2024.pdf",
-  title = "Hospital Beds"
-)
-```
-
-## Phase 6: Tableau Export
-
-### Single Variable
-
-``` r
-sf_data <- build_display_sf(cascaded, geopolys, var = "beds", years = 2010:2024)
-export_to_geojson(sf_data, "output/beds_nuts2.geojson")
-```
-
-### Multi-Variable with Enrichment
-
-For a comprehensive Tableau dashboard, combine multiple variables and
-add contextual metadata:
-
-``` r
-# Combine multiple variables
 sf_all <- build_multi_var_sf(
   cascaded, geopolys,
-  vars = c("beds", "physicians", "DA", "rLOS"),
+  vars = c("gdp", "unemployment_rate", "beds", "education_attainment"),
   years = 2010:2024,
-  var_labels = health_var_labels(),
-  pillar_mapping = health_pillar_mapping()
+  var_labels = regional_var_labels(),
+  pillar_mapping = regional_domain_mapping()
 )
 
-# Add population, country names, and performance tags
 pop_data    <- get_population_nuts2()
 nuts2_names <- get_nuts2_names()
-
 sf_enriched <- enrich_for_tableau(sf_all, pop_data, nuts2_names)
 
-# The enriched data includes:
-# - country_name: full country name
-# - region_name: NUTS2 region name
-# - pop: population
-# - performance_tag: "Best in Country" / "Worst in Country" / NA
-
-export_to_geojson(sf_enriched, "output/health_system_complete.geojson")
-```
-
-### Excel Export
-
-For non-spatial outputs:
-
-``` r
-export_to_excel(cascaded, "output/cascaded_data.xlsx")
-```
-
-## Putting It All Together
-
-Here’s the complete pipeline in one script:
-
-``` r
-library(localintel)
-
-# 1. Fetch
-codes     <- health_system_codes()
-data_list <- fetch_eurostat_batch(codes, level = 2, years = 2010:2024) %>%
-  drop_empty()
-
-# 2. Process
-beds       <- process_beds(data_list$beds)
-physicians <- process_physicians(data_list$physicians)
-los        <- process_los(data_list$los)
-disch_inp  <- process_disch_inp(data_list$disch_inp)
-all_data   <- merge_datasets(beds, physicians, los, disch_inp)
-
-# 3. Reference
-nuts2_ref <- get_nuts2_ref()
-geopolys  <- get_nuts_geopolys()
-
-# 4. Cascade
-cascaded <- cascade_to_nuts2_and_compute(
-  all_data,
-  vars = c("beds", "physicians", "los", "disch_inp"),
-  nuts2_ref = nuts2_ref,
-  years = 2010:2024
-)
-
-# 5. Visualize
-plot_best_by_country_level(
-  cascaded, geopolys,
-  var = "beds", years = 2020:2024,
-  title = "Hospital Beds per 100,000"
-)
-
-# 6. Export
-sf_all <- build_multi_var_sf(
-  cascaded, geopolys,
-  vars = c("beds", "physicians", "DA", "rLOS"),
-  years = 2010:2024,
-  var_labels = health_var_labels(),
-  pillar_mapping = health_pillar_mapping()
-)
-sf_enriched <- enrich_for_tableau(
-  sf_all, get_population_nuts2(), get_nuts2_names()
-)
-export_to_geojson(sf_enriched, "health_system_dashboard.geojson")
+export_to_geojson(sf_enriched, "output/multi_domain_dashboard.geojson")
+export_to_excel(cascaded, "output/cascaded_multi_domain.xlsx")
 ```

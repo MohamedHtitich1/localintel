@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>localintel – Subnational Data Pipeline for Eurostat NUTS Regions • localintel</title>
+<title>localintel – 150+ Subnational Indicators from Eurostat • localintel</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/IBM_Plex_Sans-0.4.10/font.css" rel="stylesheet">
@@ -14,10 +14,10 @@
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="localintel – Subnational Data Pipeline for Eurostat NUTS Regions">
-<meta name="description" content="An R package for fetching, processing, and visualizing subnational (NUTS 0/1/2) data from Eurostat. Designed for health system analysis across European regions.
+<meta property="og:title" content="localintel – 150+ Subnational Indicators from Eurostat">
+<meta name="description" content="An R package for fetching, harmonizing, cascading, and visualizing 150+ subnational indicators from Eurostat across 14 thematic domains. Covers economy, health, education, labour, demographics, tourism, transport, environment, and more for 235+ European NUTS-2 regions.
 ">
-<meta property="og:description" content="An R package for fetching, processing, and visualizing subnational (NUTS 0/1/2) data from Eurostat. Designed for health system analysis across European regions.
+<meta property="og:description" content="An R package for fetching, harmonizing, cascading, and visualizing 150+ subnational indicators from Eurostat across 14 thematic domains. Covers economy, health, education, labour, demographics, tourism, transport, environment, and more for 235+ European NUTS-2 regions.
 ">
 <meta property="og:image" content="https://mohamedhtitich1.github.io/localintel/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +50,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
-    <li><a class="dropdown-item" href="articles/workflow.html">End-to-End Health System Analysis</a></li>
+    <li><a class="dropdown-item" href="articles/workflow.html">Multi-Domain Regional Analysis</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>FAQ</h6></li>
     <li><a class="dropdown-item" href="articles/faq.html">FAQ &amp; Troubleshooting</a></li>
@@ -83,14 +83,22 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><strong>localintel</strong> (Local Intelligence) is an R package for fetching, processing, and visualizing subnational (NUTS 0/1/2) data from Eurostat. It provides a comprehensive pipeline for health system analysis across European regions, including:</p>
+<p><strong>localintel</strong> (Local Intelligence) is an R package that provides a unified pipeline for <strong>150+ subnational indicators across 14 thematic domains</strong> from Eurostat. Any Eurostat regional dataset — economy, health, education, labour, demographics, tourism, transport, environment, and more — can be fetched, harmonized, cascaded to NUTS 2, scored, mapped, and exported through a single consistent workflow.</p>
 <table class="table">
 <tr>
 <td width="60" align="center">
 <img src="https://api.iconify.design/lucide/database.svg?color=%237c9885" width="28" alt="fetch">
 </td>
 <td>
-<strong>Data Fetching</strong> — Robust API wrappers for Eurostat datasets with retry logic and batch downloads
+<strong>150+ Indicators</strong> — Curated registries for 14 Eurostat domains with batch download and retry logic
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="https://api.iconify.design/lucide/layers.svg?color=%237c9885" width="28" alt="process">
+</td>
+<td>
+<strong>Universal Processing</strong> — Generic <code><a href="reference/process_eurostat.html">process_eurostat()</a></code> plus domain-specific processors for instant harmonization
 </td>
 </tr>
 <tr>
@@ -98,15 +106,7 @@
 <img src="https://api.iconify.design/lucide/git-merge.svg?color=%237c9885" width="28" alt="cascade">
 </td>
 <td>
-<strong>Data Cascading</strong> — Intelligent propagation from country (NUTS0) to regional (NUTS2) levels
-</td>
-</tr>
-<tr>
-<td align="center">
-<img src="https://api.iconify.design/lucide/bar-chart-3.svg?color=%237c9885" width="28" alt="indicators">
-</td>
-<td>
-<strong>Indicator Computation</strong> — Composite scores for health outcomes, enabling environment, and perceptions
+<strong>Data Cascading</strong> — Intelligent propagation from country (NUTS 0) to regional (NUTS 2) with source-level tracking
 </td>
 </tr>
 <tr>
@@ -122,7 +122,7 @@
 <img src="https://api.iconify.design/lucide/upload.svg?color=%237c9885" width="28" alt="export">
 </td>
 <td>
-<strong>Export</strong> — Tableau-ready GeoJSON exports with enrichment, performance tags, and population weighting
+<strong>Export</strong> — Tableau-ready GeoJSON, Excel, PDF maps, and RDS with enrichment and performance tags
 </td>
 </tr>
 </table>
@@ -131,8 +131,8 @@
 <h2 id="live-demo">Live Demo<a class="anchor" aria-label="anchor" href="#live-demo"></a>
 </h2>
 <blockquote>
-<p><strong>See localintel in action</strong> — <a href="https://mhtitich.com/subnational" class="external-link">mhtitich.com/subnational</a> is an interactive dashboard built entirely with data processed through this package. It maps health disparities across <strong>235 European NUTS-2 regions</strong> from 2010–2024, with live indicator switching, animated timeline playback, and AI-generated regional insights.</p>
-<p>The pipeline is fully parametrizable and can be adapted to any world subregion or indicator domain. <strong>Interested in a custom deployment? <a href="mailto:m.ahtitich@outlook.com">Get in touch.</a></strong></p>
+<p><strong>See localintel in action</strong> — <a href="https://mhtitich.com/subnational" class="external-link">mhtitich.com/subnational</a> is an interactive dashboard built entirely with data processed through this package. It maps regional disparities across <strong>235 European NUTS-2 regions</strong> from 2010–2024, with live indicator switching, animated timeline playback, and AI-generated regional insights.</p>
+<p>The pipeline is fully parametrizable and can be adapted to any indicator domain. <strong>Interested in a custom deployment? <a href="mailto:m.ahtitich@outlook.com">Get in touch.</a></strong></p>
 </blockquote>
 </div>
 <div class="section level2">
@@ -149,42 +149,135 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mohamedhtitich1.github.io/localintel/">localintel</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 1. Fetch health system data</span></span>
-<span><span class="va">codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/health_system_codes.html">health_system_codes</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="va">codes</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="co"># See the full indicator registry</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/indicator_count.html">indicator_count</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">n</span><span class="op">$</span><span class="va">indicators</span>, <span class="st">"indicators across"</span>, <span class="va">n</span><span class="op">$</span><span class="va">domains</span>, <span class="st">"domains\n"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 2. Process individual datasets</span></span>
-<span><span class="va">beds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_beds.html">process_beds</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">$</span><span class="va">beds</span><span class="op">)</span></span>
-<span><span class="va">physicians</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_beds.html">process_physicians</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">$</span><span class="va">physicians</span><span class="op">)</span></span>
-<span><span class="va">los</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_beds.html">process_los</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">$</span><span class="va">los</span><span class="op">)</span></span>
+<span><span class="co"># 1. Fetch data from multiple domains</span></span>
+<span><span class="va">econ</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="fu"><a href="reference/economy_codes.html">economy_codes</a></span><span class="op">(</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="va">hlth</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="fu"><a href="reference/health_system_codes.html">health_system_codes</a></span><span class="op">(</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="va">lab</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="fu"><a href="reference/labour_codes.html">labour_codes</a></span><span class="op">(</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 3. Merge into single dataset</span></span>
-<span><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_beds.html">merge_datasets</a></span><span class="op">(</span><span class="va">beds</span>, <span class="va">physicians</span>, <span class="va">los</span><span class="op">)</span></span>
+<span><span class="co"># 2. Process with domain-specific or generic processors</span></span>
+<span><span class="va">gdp</span>       <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_gdp.html">process_gdp</a></span><span class="op">(</span><span class="va">econ</span><span class="op">$</span><span class="va">gdp_nuts2</span><span class="op">)</span></span>
+<span><span class="va">beds</span>      <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_beds.html">process_beds</a></span><span class="op">(</span><span class="va">hlth</span><span class="op">$</span><span class="va">beds</span><span class="op">)</span></span>
+<span><span class="va">unemp</span>     <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_unemployment_rate.html">process_unemployment_rate</a></span><span class="op">(</span><span class="va">lab</span><span class="op">$</span><span class="va">unemployment_rate</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 4. Get reference geometries</span></span>
-<span><span class="va">nuts2_ref</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2_ref.html">get_nuts2_ref</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">geopolys</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2_ref.html">get_nuts_geopolys</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 5. Cascade data to NUTS2 level with computed indicators</span></span>
-<span><span class="va">cascaded</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cascade_to_nuts2_and_compute.html">cascade_to_nuts2_and_compute</a></span><span class="op">(</span></span>
+<span><span class="co"># 3. Merge and cascade to NUTS2</span></span>
+<span><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_beds.html">merge_datasets</a></span><span class="op">(</span><span class="va">gdp</span>, <span class="va">beds</span>, <span class="va">unemp</span><span class="op">)</span></span>
+<span><span class="va">cascaded</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cascade_to_nuts2.html">cascade_to_nuts2</a></span><span class="op">(</span></span>
 <span>  <span class="va">all_data</span>,</span>
-<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"beds"</span>, <span class="st">"physicians"</span>, <span class="st">"los"</span><span class="op">)</span>,</span>
-<span>  nuts2_ref <span class="op">=</span> <span class="va">nuts2_ref</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span></span>
+<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"beds"</span>, <span class="st">"unemployment_rate"</span><span class="op">)</span>,</span>
+<span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 6. Create maps</span></span>
-<span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span></span>
-<span>  <span class="va">cascaded</span>,</span>
-<span>  <span class="va">geopolys</span>,</span>
-<span>  var <span class="op">=</span> <span class="st">"beds"</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2020</span><span class="op">:</span><span class="fl">2024</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"Hospital Beds per 100,000"</span></span>
-<span><span class="op">)</span></span>
+<span><span class="co"># 4. Visualize</span></span>
+<span><span class="va">geopolys</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2_ref.html">get_nuts_geopolys</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"gdp"</span>, years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># 7. Export for Tableau</span></span>
-<span><span class="va">sf_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/build_display_sf.html">build_display_sf</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"beds"</span>, years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_data</span>, <span class="st">"output/beds_nuts2.geojson"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># 5. Export for Tableau</span></span>
+<span><span class="va">sf_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/build_display_sf.html">build_multi_var_sf</a></span><span class="op">(</span></span>
+<span>  <span class="va">cascaded</span>, <span class="va">geopolys</span>,</span>
+<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"beds"</span>, <span class="st">"unemployment_rate"</span><span class="op">)</span>,</span>
+<span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span>,</span>
+<span>  var_labels <span class="op">=</span> <span class="fu"><a href="reference/regional_var_labels.html">regional_var_labels</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  pillar_mapping <span class="op">=</span> <span class="fu"><a href="reference/regional_domain_mapping.html">regional_domain_mapping</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="st">"output/multi_domain_nuts2.geojson"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="domain-coverage">Domain Coverage<a class="anchor" aria-label="anchor" href="#domain-coverage"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="24%">
+<col width="33%">
+<col width="42%">
+</colgroup>
+<thead><tr class="header">
+<th>Domain</th>
+<th>Indicators</th>
+<th>Key Datasets</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Economy</strong></td>
+<td>10</td>
+<td>GDP, GVA, gross fixed capital formation, household income</td>
+</tr>
+<tr class="even">
+<td><strong>Demography</strong></td>
+<td>13</td>
+<td>Population, life expectancy, fertility, mortality</td>
+</tr>
+<tr class="odd">
+<td><strong>Education</strong></td>
+<td>11</td>
+<td>Attainment, students, training, early leavers, NEET</td>
+</tr>
+<tr class="even">
+<td><strong>Labour Market</strong></td>
+<td>13</td>
+<td>Employment, unemployment, activity rates, long-term unemployment</td>
+</tr>
+<tr class="odd">
+<td><strong>Health System</strong></td>
+<td>6</td>
+<td>Hospital beds, physicians, discharges, length of stay</td>
+</tr>
+<tr class="even">
+<td><strong>Causes of Death</strong></td>
+<td>16</td>
+<td>Standardised death rates, PYLL, infant mortality</td>
+</tr>
+<tr class="odd">
+<td><strong>Tourism</strong></td>
+<td>8</td>
+<td>Arrivals, nights spent, accommodation capacity</td>
+</tr>
+<tr class="even">
+<td><strong>Transport</strong></td>
+<td>10</td>
+<td>Road, rail, air, maritime infrastructure and traffic</td>
+</tr>
+<tr class="odd">
+<td><strong>Environment</strong></td>
+<td>7</td>
+<td>Municipal waste, energy, contaminated sites</td>
+</tr>
+<tr class="even">
+<td><strong>Science &amp; Technology</strong></td>
+<td>11</td>
+<td>R&amp;D expenditure, patents, HRST, high-tech employment</td>
+</tr>
+<tr class="odd">
+<td><strong>Poverty &amp; Exclusion</strong></td>
+<td>4</td>
+<td>At-risk-of-poverty, material deprivation, low work intensity</td>
+</tr>
+<tr class="even">
+<td><strong>Agriculture</strong></td>
+<td>5</td>
+<td>Crops, livestock, land use, milk production</td>
+</tr>
+<tr class="odd">
+<td><strong>Business</strong></td>
+<td>6</td>
+<td>SBS, business demography, local units</td>
+</tr>
+<tr class="even">
+<td><strong>Information Society</strong></td>
+<td>6</td>
+<td>Internet access, broadband, e-commerce, e-government</td>
+</tr>
+<tr class="odd">
+<td><strong>Crime</strong></td>
+<td>1</td>
+<td>Crimes recorded by police</td>
+</tr>
+</tbody>
+</table>
+<p>Use <code><a href="reference/indicator_count.html">indicator_count()</a></code> to get the exact total and per-domain breakdown.</p>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
@@ -193,86 +286,46 @@
 <h3 id="data-cascading">Data Cascading<a class="anchor" aria-label="anchor" href="#data-cascading"></a>
 </h3>
 <p>The package automatically fills missing regional data by cascading from parent NUTS levels:</p>
-<pre><code>NUTS0 (Country) → NUTS1 (Major Regions) → NUTS2 (Regions)</code></pre>
-<p>This ensures complete coverage while tracking the original data source level.</p>
+<pre><code>NUTS 0 (Country) → NUTS 1 (Major Regions) → NUTS 2 (Regions)</code></pre>
+<p>Every cascaded value is tracked via <code>src_&lt;variable&gt;_level</code> columns (2 = original NUTS 2, 1 = from NUTS 1, 0 = from NUTS 0), enabling full transparency and sensitivity analysis.</p>
 </div>
 <div class="section level3">
-<h3 id="computed-indicators">Computed Indicators<a class="anchor" aria-label="anchor" href="#computed-indicators"></a>
+<h3 id="generic-processing">Generic Processing<a class="anchor" aria-label="anchor" href="#generic-processing"></a>
 </h3>
-<p>Built-in computation for key health system indicators:</p>
-<table class="table">
-<colgroup>
-<col width="33%">
-<col width="39%">
-<col width="27%">
-</colgroup>
-<thead><tr class="header">
-<th>Indicator</th>
-<th>Description</th>
-<th>Formula</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>
-<strong>DA</strong> (Discharge Activity)</td>
-<td>Hospital utilization metric</td>
-<td>log2(discharges) / log2(beds)</td>
-</tr>
-<tr class="even">
-<td>
-<strong>rLOS</strong> (Relative Length of Stay)</td>
-<td>Regional vs. national comparison</td>
-<td>regional LOS / national LOS</td>
-</tr>
-</tbody>
-</table>
+<p>The <code><a href="reference/process_eurostat.html">process_eurostat()</a></code> function handles <strong>any</strong> Eurostat dataset with flexible dimension filtering:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Custom indicator with arbitrary filters</span></span>
+<span><span class="va">custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_eurostat.html">process_eurostat</a></span><span class="op">(</span><span class="va">raw_data</span>,</span>
+<span>  filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>unit <span class="op">=</span> <span class="st">"PC"</span>, sex <span class="op">=</span> <span class="st">"T"</span>, age <span class="op">=</span> <span class="st">"Y25-64"</span><span class="op">)</span>,</span>
+<span>  out_col <span class="op">=</span> <span class="st">"my_indicator"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h3>
-<p>Automatic “best level” selection for maps - displays NUTS2 where available, falls back to NUTS1/NUTS0:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Global color scale (consistent across years)</span></span>
-<span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"beds"</span>, scale <span class="op">=</span> <span class="st">"global"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Per-year color scale (highlights within-year variation)</span></span>
-<span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"beds"</span>, scale <span class="op">=</span> <span class="st">"per_year"</span><span class="op">)</span></span></code></pre></div>
+<p>Automatic “best level” selection for maps — displays NUTS 2 where available, falls back to NUTS 1 / NUTS 0:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"unemployment_rate"</span>,</span>
+<span>  years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2024</span>, title <span class="op">=</span> <span class="st">"Unemployment Rate (%)"</span>, scale <span class="op">=</span> <span class="st">"global"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="tableau-integration">Tableau Integration<a class="anchor" aria-label="anchor" href="#tableau-integration"></a>
 </h3>
-<p>Full support for Tableau exports with: - Country names and region labels - Population-weighted aggregations - Performance tags (Best/Worst by country) - Multi-variable GeoJSON exports</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sf_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/build_display_sf.html">build_multi_var_sf</a></span><span class="op">(</span></span>
-<span>  <span class="va">cascaded</span>, <span class="va">geopolys</span>,</span>
-<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"beds"</span>, <span class="st">"physicians"</span>, <span class="st">"score_health_outcome"</span><span class="op">)</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span>,</span>
-<span>  var_labels <span class="op">=</span> <span class="fu"><a href="reference/export_to_geojson.html">health_var_labels</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  pillar_mapping <span class="op">=</span> <span class="fu"><a href="reference/export_to_geojson.html">health_pillar_mapping</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sf_enriched</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/export_to_geojson.html">enrich_for_tableau</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="va">pop_data</span>, <span class="va">nuts2_names</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_enriched</span>, <span class="st">"tableau_export.geojson"</span><span class="op">)</span></span></code></pre></div>
+<p>Full support for Tableau exports with country names, region labels, population-weighted aggregations, and performance tags (Best/Worst by country):</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sf_enriched</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/export_to_geojson.html">enrich_for_tableau</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="va">pop_data</span>, <span class="va">nuts2_names</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_enriched</span>, <span class="st">"dashboard_export.geojson"</span><span class="op">)</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="data-sources">Data Sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
-</h2>
-<p>The package works with Eurostat datasets including:</p>
-<p><strong>Health System Resources:</strong> - <code>hlth_rs_bdsrg2</code> - Hospital beds - <code>hlth_rs_physreg</code> - Physicians</p>
-<p><strong>Hospital Activity:</strong> - <code>hlth_co_disch2t</code> - In-patient discharges - <code>hlth_co_disch4t</code> - Day-case discharges - <code>hlth_co_inpstt</code> - Length of stay</p>
-<p><strong>Health Outcomes:</strong> - <code>hlth_cd_asdr2</code> - Standardised death rates - <code>hlth_cd_ypyll</code> - Potential years of life lost - <code>hlth_cd_yinfr</code> - Infant mortality</p>
-<p><strong>Health Perceptions:</strong> - <code>hlth_silc_08_r</code> - Unmet medical needs</p>
 </div>
 <div class="section level2">
 <h2 id="related-work">Related Work<a class="anchor" aria-label="anchor" href="#related-work"></a>
 </h2>
-<p>This package was developed as part of research on subnational health system analysis in Europe. Related projects:</p>
+<p>This package was developed as part of research on subnational regional analysis in Europe. Related projects:</p>
 <ul>
 <li>
-<a href="https://mhtitich.com/subnational" class="external-link">Subnational Health Disparities Map</a> - Interactive dashboard powered by localintel</li>
+<a href="https://mhtitich.com/subnational" class="external-link">Subnational Health Disparities Map</a> — Interactive dashboard powered by localintel</li>
 <li>
-<a href="https://github.com/MohamedHtitich1/w2m" class="external-link">w2m</a> - Composite indicator construction</li>
+<a href="https://github.com/MohamedHtitich1/w2m" class="external-link">w2m</a> — Composite indicator construction</li>
 </ul>
 </div>
 <div class="section level2">
@@ -288,12 +341,12 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">@software{localintel,</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">  author = {Htitich, Mohamed},</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">  title = {localintel: Local Intelligence for Subnational Data Analysis},</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">  year = {2025},</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">  url = {https://github.com/MohamedHtitich1/localintel}</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">@software{localintel,</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">  author = {Htitich, Mohamed},</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">  title = {localintel: Local Intelligence for Subnational Data Analysis},</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">  year = {2025},</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">  url = {https://github.com/MohamedHtitich1/localintel}</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">}</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -301,7 +354,7 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/MohamedHtitich1/localintel/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/MohamedHtitich1/localintel/issues" class="external-link">Report a bug</a></li>
-<li><a href="https://mhtitich.com/subnational" class="external-link">Live Demo — Subnational Health Disparities Map</a></li>
+<li><a href="https://mhtitich.com/subnational" class="external-link">Live Demo — Subnational Regional Analysis Map</a></li>
 <li><a href="mailto:m.ahtitich@outlook.com">Request a custom deployment</a></li>
 </ul>
 </div>

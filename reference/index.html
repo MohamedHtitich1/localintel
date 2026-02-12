@@ -23,7 +23,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
-    <li><a class="dropdown-item" href="../articles/workflow.html">End-to-End Health System Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/workflow.html">Multi-Domain Regional Analysis</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>FAQ</h6></li>
     <li><a class="dropdown-item" href="../articles/faq.html">FAQ &amp; Troubleshooting</a></li>
@@ -61,6 +61,127 @@
         </dt>
         <dd>Local Intelligence for Subnational Data Analysis</dd>
       </dl></div><div class="section level2">
+      <h2 id="indicator-registry">Indicator Registry<a class="anchor" aria-label="anchor" href="#indicator-registry"></a></h2>
+
+      <div class="section-desc"><p>Curated registries of Eurostat dataset codes across 14 thematic domains — 150+ indicators ready for seamless fetching and processing.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="all_regional_codes.html">all_regional_codes()</a></code>
+
+        </dt>
+        <dd>All Regional Indicator Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="indicator_count.html">indicator_count()</a></code>
+
+        </dt>
+        <dd>Count Available Regional Indicators</dd>
+
+        <dt>
+
+          <code><a href="economy_codes.html">economy_codes()</a></code>
+
+        </dt>
+        <dd>Economy and Regional Accounts Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="demography_codes.html">demography_codes()</a></code>
+
+        </dt>
+        <dd>Demography Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="education_codes.html">education_codes()</a></code>
+
+        </dt>
+        <dd>Education Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="labour_codes.html">labour_codes()</a></code>
+
+        </dt>
+        <dd>Labour Market Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="health_system_codes.html">health_system_codes()</a></code> <code><a href="health_system_codes.html">causes_of_death_codes()</a></code>
+
+        </dt>
+        <dd>Eurostat Dataset Code Lists</dd>
+
+        <dt>
+
+          <code><a href="tourism_codes.html">tourism_codes()</a></code>
+
+        </dt>
+        <dd>Tourism Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="transport_codes.html">transport_codes()</a></code>
+
+        </dt>
+        <dd>Transport Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="environment_codes.html">environment_codes()</a></code>
+
+        </dt>
+        <dd>Environment and Energy Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="science_codes.html">science_codes()</a></code>
+
+        </dt>
+        <dd>Science and Technology Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="poverty_codes.html">poverty_codes()</a></code>
+
+        </dt>
+        <dd>Poverty and Social Exclusion Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="agriculture_codes.html">agriculture_codes()</a></code>
+
+        </dt>
+        <dd>Agriculture Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="business_codes.html">business_codes()</a></code>
+
+        </dt>
+        <dd>Business Statistics Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="information_society_codes.html">information_society_codes()</a></code>
+
+        </dt>
+        <dd>Information Society Dataset Codes</dd>
+
+        <dt>
+
+          <code><a href="crime_codes.html">crime_codes()</a></code>
+
+        </dt>
+        <dd>Crime Dataset Codes</dd>
+      </dl></div><div class="section level2">
       <h2 id="data-fetching">Data Fetching<a class="anchor" aria-label="anchor" href="#data-fetching"></a></h2>
 
       <div class="section-desc"><p>Robust wrappers for the Eurostat API — fetch single or batch datasets at any NUTS level with automatic retry and caching.</p></div>
@@ -76,13 +197,6 @@
 
         </dt>
         <dd>Eurostat Data Fetching Functions</dd>
-
-        <dt>
-
-          <code><a href="health_system_codes.html">health_system_codes()</a></code> <code><a href="health_system_codes.html">causes_of_death_codes()</a></code>
-
-        </dt>
-        <dd>Eurostat Dataset Code Lists</dd>
       </dl></div><div class="section level2">
       <h2 id="reference-data">Reference Data<a class="anchor" aria-label="anchor" href="#reference-data"></a></h2>
 
@@ -109,7 +223,7 @@
       </dl></div><div class="section level2">
       <h2 id="data-processing">Data Processing<a class="anchor" aria-label="anchor" href="#data-processing"></a></h2>
 
-      <div class="section-desc"><p>Transform raw Eurostat downloads into analysis-ready tables — one function per dataset, plus merging and composite scoring.</p></div>
+      <div class="section-desc"><p>Transform raw Eurostat downloads into analysis-ready tables. Use the generic processor for any dataset, or domain-specific convenience functions for common indicators.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -117,6 +231,83 @@
 
 
       <dl><dt>
+
+          <code><a href="process_eurostat.html">process_eurostat()</a></code>
+
+        </dt>
+        <dd>Process Any Eurostat Dataset</dd>
+
+        <dt>
+
+          <code><a href="process_gdp.html">process_gdp()</a></code>
+
+        </dt>
+        <dd>Process GDP Data</dd>
+
+        <dt>
+
+          <code><a href="process_employment.html">process_employment()</a></code>
+
+        </dt>
+        <dd>Process Employment Data</dd>
+
+        <dt>
+
+          <code><a href="process_unemployment_rate.html">process_unemployment_rate()</a></code>
+
+        </dt>
+        <dd>Process Unemployment Rate Data</dd>
+
+        <dt>
+
+          <code><a href="process_population.html">process_population()</a></code>
+
+        </dt>
+        <dd>Process Population Data</dd>
+
+        <dt>
+
+          <code><a href="process_life_expectancy.html">process_life_expectancy()</a></code>
+
+        </dt>
+        <dd>Process Life Expectancy Data</dd>
+
+        <dt>
+
+          <code><a href="process_tourism_nights.html">process_tourism_nights()</a></code>
+
+        </dt>
+        <dd>Process Tourism Nights Spent Data</dd>
+
+        <dt>
+
+          <code><a href="process_rd_expenditure.html">process_rd_expenditure()</a></code>
+
+        </dt>
+        <dd>Process R&amp;D Expenditure Data</dd>
+
+        <dt>
+
+          <code><a href="process_education_attainment.html">process_education_attainment()</a></code>
+
+        </dt>
+        <dd>Process Education Attainment Data</dd>
+
+        <dt>
+
+          <code><a href="process_poverty_rate.html">process_poverty_rate()</a></code>
+
+        </dt>
+        <dd>Process Poverty Rate Data</dd>
+
+        <dt>
+
+          <code><a href="process_waste.html">process_waste()</a></code>
+
+        </dt>
+        <dd>Process Municipal Waste Data</dd>
+
+        <dt>
 
           <code><a href="process_beds.html">process_beds()</a></code> <code><a href="process_beds.html">process_physicians()</a></code> <code><a href="process_beds.html">process_los()</a></code> <code><a href="process_beds.html">process_hos_days()</a></code> <code><a href="process_beds.html">process_disch_inp()</a></code> <code><a href="process_beds.html">process_disch_day()</a></code> <code><a href="process_beds.html">process_cod()</a></code> <code><a href="process_beds.html">process_health_perceptions()</a></code> <code><a href="process_beds.html">merge_datasets()</a></code> <code><a href="process_beds.html">compute_composite()</a></code> <code><a href="process_beds.html">transform_and_score()</a></code>
 
@@ -125,7 +316,7 @@
       </dl></div><div class="section level2">
       <h2 id="data-cascading">Data Cascading<a class="anchor" aria-label="anchor" href="#data-cascading"></a></h2>
 
-      <div class="section-desc"><p>Fill missing regional data by propagating from parent NUTS levels (NUTS0 → NUTS1 → NUTS2) with source-level tracking.</p></div>
+      <div class="section-desc"><p>Fill missing regional data by propagating from parent NUTS levels (NUTS 0 → NUTS 1 → NUTS 2) with source-level tracking.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -133,6 +324,13 @@
 
 
       <dl><dt>
+
+          <code><a href="cascade_to_nuts2.html">cascade_to_nuts2()</a></code>
+
+        </dt>
+        <dd>Cascade Data to NUTS2 (Generic / Domain-Agnostic)</dd>
+
+        <dt>
 
           <code><a href="cascade_to_nuts2_and_compute.html">cascade_to_nuts2_and_compute()</a></code> <code><a href="cascade_to_nuts2_and_compute.html">cascade_to_nuts2_light()</a></code> <code><a href="cascade_to_nuts2_and_compute.html">balance_panel()</a></code>
 
@@ -155,9 +353,9 @@
         </dt>
         <dd>Visualization Functions</dd>
       </dl></div><div class="section level2">
-      <h2 id="export">Export<a class="anchor" aria-label="anchor" href="#export"></a></h2>
+      <h2 id="export-labels">Export &amp; Labels<a class="anchor" aria-label="anchor" href="#export-labels"></a></h2>
 
-      <div class="section-desc"><p>Export enriched GeoJSON for Tableau, multi-sheet Excel workbooks, RDS snapshots, and multi-page PDF map books.</p></div>
+      <div class="section-desc"><p>Export enriched GeoJSON for Tableau, multi-sheet Excel workbooks, RDS snapshots, and multi-page PDF map books. Includes label registries for all 14 domains.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -170,6 +368,20 @@
 
         </dt>
         <dd>Export Functions</dd>
+
+        <dt>
+
+          <code><a href="regional_var_labels.html">regional_var_labels()</a></code>
+
+        </dt>
+        <dd>Regional Variable Labels (All Domains)</dd>
+
+        <dt>
+
+          <code><a href="regional_domain_mapping.html">regional_domain_mapping()</a></code>
+
+        </dt>
+        <dd>Regional Domain Mapping (All Domains)</dd>
       </dl></div><div class="section level2">
       <h2 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a></h2>
 

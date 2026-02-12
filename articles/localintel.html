@@ -45,7 +45,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
-    <li><a class="dropdown-item" href="../articles/workflow.html">End-to-End Health System Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/workflow.html">Multi-Domain Regional Analysis</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>FAQ</h6></li>
     <li><a class="dropdown-item" href="../articles/faq.html">FAQ &amp; Troubleshooting</a></li>
@@ -84,15 +84,16 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><strong>localintel</strong> (Local Intelligence) is an R package for
-fetching, processing, and visualizing subnational (NUTS 0/1/2) data from
-Eurostat. It provides a complete pipeline from raw Eurostat data to
-publication-ready maps and Tableau-ready exports.</p>
+<p><strong>localintel</strong> (Local Intelligence) is an R package that
+provides a unified pipeline for <strong>150+ subnational indicators
+across 14 thematic domains</strong> from Eurostat. Any regional dataset
+— economy, health, education, labour, demographics, tourism, transport,
+environment, and more — can be fetched, harmonized, cascaded to NUTS 2,
+scored, mapped, and exported through a single consistent workflow.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install localintel from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"MohamedHtitich1/localintel"</span><span class="op">)</span></span></code></pre></div>
@@ -100,153 +101,121 @@ publication-ready maps and Tableau-ready exports.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mohamedhtitich1.github.io/localintel/">localintel</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="step-1-fetch-data-from-eurostat">Step 1: Fetch Data from Eurostat<a class="anchor" aria-label="anchor" href="#step-1-fetch-data-from-eurostat"></a>
+<h2 id="step-1-browse-the-indicator-registry">Step 1: Browse the Indicator Registry<a class="anchor" aria-label="anchor" href="#step-1-browse-the-indicator-registry"></a>
 </h2>
-<p>The package provides pre-defined code lists for common health system
-datasets. Use <code><a href="../reference/get_nuts2.html">fetch_eurostat_batch()</a></code> to download multiple
-datasets at once:</p>
+<p>localintel ships with curated code lists for 14 Eurostat domains:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># View available dataset codes</span></span>
-<span><span class="va">codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/health_system_codes.html">health_system_codes</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">codes</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># How many indicators are available?</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/indicator_count.html">indicator_count</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">n</span><span class="op">$</span><span class="va">indicators</span>, <span class="st">"indicators across"</span>, <span class="va">n</span><span class="op">$</span><span class="va">domains</span>, <span class="st">"domains\n"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">n</span><span class="op">$</span><span class="va">by_domain</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Fetch all datasets at NUTS2 level</span></span>
-<span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="va">codes</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Remove any datasets that returned empty</span></span>
-<span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">drop_empty</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">)</span></span></code></pre></div>
-<p>You can also fetch individual datasets with more control:</p>
+<span><span class="co"># View codes for a specific domain</span></span>
+<span><span class="fu"><a href="../reference/economy_codes.html">economy_codes</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/labour_codes.html">labour_codes</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/education_codes.html">education_codes</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="step-2-fetch-data-from-eurostat">Step 2: Fetch Data from Eurostat<a class="anchor" aria-label="anchor" href="#step-2-fetch-data-from-eurostat"></a>
+</h2>
+<p>Use <code><a href="../reference/get_nuts2.html">fetch_eurostat_batch()</a></code> to download multiple datasets
+at once:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Fetch a single dataset</span></span>
-<span><span class="va">beds_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">get_nuts_level_robust</a></span><span class="op">(</span><span class="st">"hlth_rs_bdsrg2"</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="step-2-process-datasets">Step 2: Process Datasets<a class="anchor" aria-label="anchor" href="#step-2-process-datasets"></a>
-</h2>
-<p>Each Eurostat dataset has a dedicated processing function that
-filters for the correct indicators and reshapes the data:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">beds</span>       <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_beds.html">process_beds</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">$</span><span class="va">beds</span><span class="op">)</span></span>
-<span><span class="va">physicians</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_beds.html">process_physicians</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">$</span><span class="va">physicians</span><span class="op">)</span></span>
-<span><span class="va">los</span>        <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_beds.html">process_los</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">$</span><span class="va">los</span><span class="op">)</span></span>
-<span><span class="va">disch_inp</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_beds.html">process_disch_inp</a></span><span class="op">(</span><span class="va">data_list</span><span class="op">$</span><span class="va">disch_inp</span><span class="op">)</span></span></code></pre></div>
-<p>Combine processed datasets into a single table:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_beds.html">merge_datasets</a></span><span class="op">(</span><span class="va">beds</span>, <span class="va">physicians</span>, <span class="va">los</span>, <span class="va">disch_inp</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="step-3-get-reference-data">Step 3: Get Reference Data<a class="anchor" aria-label="anchor" href="#step-3-get-reference-data"></a>
-</h2>
-<p>Reference geometries and lookup tables are needed for cascading and
-mapping:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># NUTS2 reference table (maps NUTS2 codes to parent NUTS1/NUTS0)</span></span>
-<span><span class="va">nuts2_ref</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2_ref.html">get_nuts2_ref</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Fetch economy indicators at NUTS2 level</span></span>
+<span><span class="va">econ_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="fu"><a href="../reference/economy_codes.html">economy_codes</a></span><span class="op">(</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="va">econ_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">drop_empty</a></span><span class="op">(</span><span class="va">econ_data</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Combined NUTS 0/1/2 boundary geometries</span></span>
-<span><span class="va">geopolys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2_ref.html">get_nuts_geopolys</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Fetch health indicators</span></span>
+<span><span class="va">hlth_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="fu"><a href="../reference/health_system_codes.html">health_system_codes</a></span><span class="op">(</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="va">hlth_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">drop_empty</a></span><span class="op">(</span><span class="va">hlth_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fetch labour indicators</span></span>
+<span><span class="va">lab_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="fu"><a href="../reference/labour_codes.html">labour_codes</a></span><span class="op">(</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="va">lab_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">drop_empty</a></span><span class="op">(</span><span class="va">lab_data</span><span class="op">)</span></span></code></pre></div>
+<p>For individual datasets with more control:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gdp_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2.html">get_nuts_level_robust</a></span><span class="op">(</span><span class="st">"nama_10r_2gdp"</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="step-4-cascade-data-to-nuts2">Step 4: Cascade Data to NUTS2<a class="anchor" aria-label="anchor" href="#step-4-cascade-data-to-nuts2"></a>
+<h2 id="step-3-process-datasets">Step 3: Process Datasets<a class="anchor" aria-label="anchor" href="#step-3-process-datasets"></a>
 </h2>
-<p>Not every region reports data at the NUTS2 level. The cascade
-functions intelligently fill gaps by propagating values from parent NUTS
-levels:</p>
-<pre><code>NUTS0 (Country) → NUTS1 (Major Regions) → NUTS2 (Regions)</code></pre>
-<p>The full cascade also computes derived indicators like Discharge
-Activity (DA) and Relative Length of Stay (rLOS):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cascaded</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cascade_to_nuts2_and_compute.html">cascade_to_nuts2_and_compute</a></span><span class="op">(</span></span>
+<p>Use domain-specific processors or the universal
+<code><a href="../reference/process_eurostat.html">process_eurostat()</a></code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Domain-specific processors</span></span>
+<span><span class="va">gdp</span>       <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_gdp.html">process_gdp</a></span><span class="op">(</span><span class="va">econ_data</span><span class="op">$</span><span class="va">gdp_nuts2</span><span class="op">)</span></span>
+<span><span class="va">beds</span>      <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_beds.html">process_beds</a></span><span class="op">(</span><span class="va">hlth_data</span><span class="op">$</span><span class="va">beds</span><span class="op">)</span></span>
+<span><span class="va">unemp</span>     <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_unemployment_rate.html">process_unemployment_rate</a></span><span class="op">(</span><span class="va">lab_data</span><span class="op">$</span><span class="va">unemployment_rate</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or the generic processor for any dataset</span></span>
+<span><span class="va">life_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_eurostat.html">process_eurostat</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/get_nuts2.html">get_nuts_level_robust</a></span><span class="op">(</span><span class="st">"demo_r_mlifexp"</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span>,</span>
+<span>  filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="st">"T"</span>, age <span class="op">=</span> <span class="st">"Y_LT1"</span><span class="op">)</span>,</span>
+<span>  out_col <span class="op">=</span> <span class="st">"life_expectancy"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Combine processed datasets:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/process_beds.html">merge_datasets</a></span><span class="op">(</span><span class="va">gdp</span>, <span class="va">beds</span>, <span class="va">unemp</span>, <span class="va">life_exp</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="step-4-cascade-data-to-nuts-2">Step 4: Cascade Data to NUTS 2<a class="anchor" aria-label="anchor" href="#step-4-cascade-data-to-nuts-2"></a>
+</h2>
+<p>Not every region reports at NUTS 2. The cascade fills gaps from
+parent levels:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">nuts2_ref</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2_ref.html">get_nuts2_ref</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cascaded</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cascade_to_nuts2.html">cascade_to_nuts2</a></span><span class="op">(</span></span>
 <span>  <span class="va">all_data</span>,</span>
-<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"beds"</span>, <span class="st">"physicians"</span>, <span class="st">"los"</span><span class="op">)</span>,</span>
+<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"beds"</span>, <span class="st">"unemployment_rate"</span>, <span class="st">"life_expectancy"</span><span class="op">)</span>,</span>
 <span>  nuts2_ref <span class="op">=</span> <span class="va">nuts2_ref</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>For pre-computed scores where you just need cascading without
-indicator computation:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cascaded_light</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cascade_to_nuts2_and_compute.html">cascade_to_nuts2_light</a></span><span class="op">(</span></span>
-<span>  <span class="va">scored_data</span>,</span>
-<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"score_health_outcome"</span><span class="op">)</span>,</span>
-<span>  nuts2_ref <span class="op">=</span> <span class="va">nuts2_ref</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check source levels — how much data was cascaded?</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cascaded</span><span class="op">$</span><span class="va">src_gdp_level</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="step-5-visualize">Step 5: Visualize<a class="anchor" aria-label="anchor" href="#step-5-visualize"></a>
 </h2>
-<p>Create publication-ready maps that automatically select the best
-available NUTS level for each country:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Maps with consistent color scale across years</span></span>
-<span><span class="fu"><a href="../reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span></span>
-<span>  <span class="va">cascaded</span>, <span class="va">geopolys</span>,</span>
-<span>  var <span class="op">=</span> <span class="st">"beds"</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2020</span><span class="op">:</span><span class="fl">2024</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"Hospital Beds per 100,000"</span>,</span>
-<span>  scale <span class="op">=</span> <span class="st">"global"</span></span>
-<span><span class="op">)</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">geopolys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2_ref.html">get_nuts_geopolys</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Maps with per-year color scale</span></span>
 <span><span class="fu"><a href="../reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span></span>
 <span>  <span class="va">cascaded</span>, <span class="va">geopolys</span>,</span>
-<span>  var <span class="op">=</span> <span class="st">"beds"</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2020</span><span class="op">:</span><span class="fl">2024</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"Hospital Beds per 100,000"</span>,</span>
-<span>  scale <span class="op">=</span> <span class="st">"per_year"</span></span>
+<span>  var <span class="op">=</span> <span class="st">"unemployment_rate"</span>,</span>
+<span>  years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2024</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Unemployment Rate (%)"</span>,</span>
+<span>  scale <span class="op">=</span> <span class="st">"global"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="step-6-export-for-tableau">Step 6: Export for Tableau<a class="anchor" aria-label="anchor" href="#step-6-export-for-tableau"></a>
+<h2 id="step-6-export">Step 6: Export<a class="anchor" aria-label="anchor" href="#step-6-export"></a>
 </h2>
-<p>Build enriched spatial datasets ready for Tableau:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Single variable</span></span>
-<span><span class="va">sf_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_display_sf.html">build_display_sf</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"beds"</span>, years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_data</span>, <span class="st">"output/beds_nuts2.geojson"</span><span class="op">)</span></span>
+<span><span class="va">sf_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_display_sf.html">build_display_sf</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"gdp"</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_data</span>, <span class="st">"output/gdp_nuts2.geojson"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Multiple variables combined</span></span>
+<span><span class="co"># Multi-variable with labels and domain grouping</span></span>
 <span><span class="va">sf_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_display_sf.html">build_multi_var_sf</a></span><span class="op">(</span></span>
 <span>  <span class="va">cascaded</span>, <span class="va">geopolys</span>,</span>
-<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"beds"</span>, <span class="st">"physicians"</span>, <span class="st">"score_health_outcome"</span><span class="op">)</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span>,</span>
-<span>  var_labels <span class="op">=</span> <span class="fu"><a href="../reference/export_to_geojson.html">health_var_labels</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  pillar_mapping <span class="op">=</span> <span class="fu"><a href="../reference/export_to_geojson.html">health_pillar_mapping</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"beds"</span>, <span class="st">"unemployment_rate"</span>, <span class="st">"life_expectancy"</span><span class="op">)</span>,</span>
+<span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span>,</span>
+<span>  var_labels <span class="op">=</span> <span class="fu"><a href="../reference/regional_var_labels.html">regional_var_labels</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  pillar_mapping <span class="op">=</span> <span class="fu"><a href="../reference/regional_domain_mapping.html">regional_domain_mapping</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Enrich with population and performance tags</span></span>
-<span><span class="va">pop_data</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2_ref.html">get_population_nuts2</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">nuts2_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nuts2_ref.html">get_nuts2_names</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">sf_enriched</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/export_to_geojson.html">enrich_for_tableau</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="va">pop_data</span>, <span class="va">nuts2_names</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_enriched</span>, <span class="st">"tableau_export.geojson"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="utility-functions">Utility Functions<a class="anchor" aria-label="anchor" href="#utility-functions"></a>
-</h2>
-<p>The package includes several handy utilities:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Filter to EU27 countries only</span></span>
-<span><span class="va">eu_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keep_eu27.html">keep_eu27</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Safe log transforms (handles NA and non-positive values)</span></span>
-<span><span class="fu"><a href="../reference/safe_log10.html">safe_log10</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="cn">NA</span>, <span class="op">-</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># [1] 2 NA NA NA</span></span>
-<span></span>
-<span><span class="co"># Min-max normalization to 0-100</span></span>
-<span><span class="fu"><a href="../reference/safe_log10.html">scale_0_100</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># [1]   0  25  50  75 100</span></span>
-<span></span>
-<span><span class="co"># Linear interpolation with flags</span></span>
-<span><span class="fu"><a href="../reference/interp_const_ends_flag.html">interp_const_ends_flag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">sf_enriched</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/export_to_geojson.html">enrich_for_tableau</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="fu"><a href="../reference/get_nuts2_ref.html">get_population_nuts2</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/get_nuts2_ref.html">get_nuts2_names</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_enriched</span>, <span class="st">"output/multi_domain_dashboard.geojson"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="data-sources">Data Sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
 </h2>
-<p>localintel works with standard Eurostat datasets. See
-<code><a href="../reference/health_system_codes.html">health_system_codes()</a></code> and
-<code><a href="../reference/health_system_codes.html">causes_of_death_codes()</a></code> for the full list of pre-configured
-dataset identifiers.</p>
+<p>localintel works with the full Eurostat regional statistics
+catalogue. Use <code><a href="../reference/all_regional_codes.html">all_regional_codes()</a></code> for the complete list,
+or domain-specific functions like <code><a href="../reference/economy_codes.html">economy_codes()</a></code>,
+<code><a href="../reference/education_codes.html">education_codes()</a></code>, <code><a href="../reference/tourism_codes.html">tourism_codes()</a></code>, etc.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

@@ -27,7 +27,7 @@ NUTS level for each country-year combination."><meta property="og:image" content
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
-    <li><a class="dropdown-item" href="../articles/workflow.html">End-to-End Health System Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/workflow.html">Multi-Domain Regional Analysis</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>FAQ</h6></li>
     <li><a class="dropdown-item" href="../articles/faq.html">FAQ &amp; Troubleshooting</a></li>
@@ -69,7 +69,7 @@ NUTS level for each country-year combination.</p>
 <span>  col_var <span class="op">=</span> <span class="cn">NULL</span>, n_breaks <span class="op">=</span> <span class="fl">7</span>, breaks <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="fu">build_multi_var_sf</span><span class="op">(</span><span class="va">out_nuts2</span>, <span class="va">geopolys</span>, <span class="va">vars</span>, years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span>, </span>
 <span>  var_labels <span class="op">=</span> <span class="cn">NULL</span>, pillar_mapping <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="fu">level_col_for</span><span class="op">(</span><span class="va">var</span><span class="op">)</span></span>
+<span><span class="fu">level_col_for</span><span class="op">(</span><span class="va">var</span>, special_cases <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="fu">level_cols_for</span><span class="op">(</span><span class="va">vars</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -127,6 +127,9 @@ NUTS level for each country-year combination.</p>
 
 <dt id="arg-pillar-mapping">pillar_mapping<a class="anchor" aria-label="anchor" href="#arg-pillar-mapping"></a></dt>
 <dd><p>Named character vector mapping vars to pillars</p></dd>
+
+<dt id="arg-special-cases">special_cases<a class="anchor" aria-label="anchor" href="#arg-special-cases"></a></dt>
+<dd><p>Optional named character vector of special variable-to-column mappings. If NULL, uses default health indicator mappings.</p></dd>
 
 </dl></div>
     <div class="section level2">

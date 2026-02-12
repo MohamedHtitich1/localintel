@@ -18,7 +18,7 @@ plot_best_by_country_level(out_nuts2, geopolys, var, years = NULL,
   col_var = NULL, n_breaks = 7, breaks = NULL)
 build_multi_var_sf(out_nuts2, geopolys, vars, years = 2010:2024, 
   var_labels = NULL, pillar_mapping = NULL)
-level_col_for(var)
+level_col_for(var, special_cases = NULL)
 level_cols_for(vars)
 ```
 
@@ -91,6 +91,11 @@ level_cols_for(vars)
 - pillar_mapping:
 
   Named character vector mapping vars to pillars
+
+- special_cases:
+
+  Optional named character vector of special variable-to-column
+  mappings. If NULL, uses default health indicator mappings.
 
 ## Value
 

@@ -6,6 +6,45 @@
   [`localintel`](https://mohamedhtitich1.github.io/localintel/reference/localintel-package.md)
   : Local Intelligence for Subnational Data Analysis
 
+## Indicator Registry
+
+Curated registries of Eurostat dataset codes across 14 thematic domains
+— 150+ indicators ready for seamless fetching and processing.
+
+- [`all_regional_codes()`](https://mohamedhtitich1.github.io/localintel/reference/all_regional_codes.md)
+  : All Regional Indicator Dataset Codes
+- [`indicator_count()`](https://mohamedhtitich1.github.io/localintel/reference/indicator_count.md)
+  : Count Available Regional Indicators
+- [`economy_codes()`](https://mohamedhtitich1.github.io/localintel/reference/economy_codes.md)
+  : Economy and Regional Accounts Dataset Codes
+- [`demography_codes()`](https://mohamedhtitich1.github.io/localintel/reference/demography_codes.md)
+  : Demography Dataset Codes
+- [`education_codes()`](https://mohamedhtitich1.github.io/localintel/reference/education_codes.md)
+  : Education Dataset Codes
+- [`labour_codes()`](https://mohamedhtitich1.github.io/localintel/reference/labour_codes.md)
+  : Labour Market Dataset Codes
+- [`health_system_codes()`](https://mohamedhtitich1.github.io/localintel/reference/health_system_codes.md)
+  [`causes_of_death_codes()`](https://mohamedhtitich1.github.io/localintel/reference/health_system_codes.md)
+  : Eurostat Dataset Code Lists
+- [`tourism_codes()`](https://mohamedhtitich1.github.io/localintel/reference/tourism_codes.md)
+  : Tourism Dataset Codes
+- [`transport_codes()`](https://mohamedhtitich1.github.io/localintel/reference/transport_codes.md)
+  : Transport Dataset Codes
+- [`environment_codes()`](https://mohamedhtitich1.github.io/localintel/reference/environment_codes.md)
+  : Environment and Energy Dataset Codes
+- [`science_codes()`](https://mohamedhtitich1.github.io/localintel/reference/science_codes.md)
+  : Science and Technology Dataset Codes
+- [`poverty_codes()`](https://mohamedhtitich1.github.io/localintel/reference/poverty_codes.md)
+  : Poverty and Social Exclusion Dataset Codes
+- [`agriculture_codes()`](https://mohamedhtitich1.github.io/localintel/reference/agriculture_codes.md)
+  : Agriculture Dataset Codes
+- [`business_codes()`](https://mohamedhtitich1.github.io/localintel/reference/business_codes.md)
+  : Business Statistics Dataset Codes
+- [`information_society_codes()`](https://mohamedhtitich1.github.io/localintel/reference/information_society_codes.md)
+  : Information Society Dataset Codes
+- [`crime_codes()`](https://mohamedhtitich1.github.io/localintel/reference/crime_codes.md)
+  : Crime Dataset Codes
+
 ## Data Fetching
 
 Robust wrappers for the Eurostat API — fetch single or batch datasets at
@@ -18,9 +57,6 @@ any NUTS level with automatic retry and caching.
   [`fetch_eurostat_batch()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
   [`drop_empty()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
   : Eurostat Data Fetching Functions
-- [`health_system_codes()`](https://mohamedhtitich1.github.io/localintel/reference/health_system_codes.md)
-  [`causes_of_death_codes()`](https://mohamedhtitich1.github.io/localintel/reference/health_system_codes.md)
-  : Eurostat Dataset Code Lists
 
 ## Reference Data
 
@@ -41,9 +77,32 @@ data for spatial joins and cascading.
 
 ## Data Processing
 
-Transform raw Eurostat downloads into analysis-ready tables — one
-function per dataset, plus merging and composite scoring.
+Transform raw Eurostat downloads into analysis-ready tables. Use the
+generic processor for any dataset, or domain-specific convenience
+functions for common indicators.
 
+- [`process_eurostat()`](https://mohamedhtitich1.github.io/localintel/reference/process_eurostat.md)
+  : Process Any Eurostat Dataset
+- [`process_gdp()`](https://mohamedhtitich1.github.io/localintel/reference/process_gdp.md)
+  : Process GDP Data
+- [`process_employment()`](https://mohamedhtitich1.github.io/localintel/reference/process_employment.md)
+  : Process Employment Data
+- [`process_unemployment_rate()`](https://mohamedhtitich1.github.io/localintel/reference/process_unemployment_rate.md)
+  : Process Unemployment Rate Data
+- [`process_population()`](https://mohamedhtitich1.github.io/localintel/reference/process_population.md)
+  : Process Population Data
+- [`process_life_expectancy()`](https://mohamedhtitich1.github.io/localintel/reference/process_life_expectancy.md)
+  : Process Life Expectancy Data
+- [`process_tourism_nights()`](https://mohamedhtitich1.github.io/localintel/reference/process_tourism_nights.md)
+  : Process Tourism Nights Spent Data
+- [`process_rd_expenditure()`](https://mohamedhtitich1.github.io/localintel/reference/process_rd_expenditure.md)
+  : Process R&D Expenditure Data
+- [`process_education_attainment()`](https://mohamedhtitich1.github.io/localintel/reference/process_education_attainment.md)
+  : Process Education Attainment Data
+- [`process_poverty_rate()`](https://mohamedhtitich1.github.io/localintel/reference/process_poverty_rate.md)
+  : Process Poverty Rate Data
+- [`process_waste()`](https://mohamedhtitich1.github.io/localintel/reference/process_waste.md)
+  : Process Municipal Waste Data
 - [`process_beds()`](https://mohamedhtitich1.github.io/localintel/reference/process_beds.md)
   [`process_physicians()`](https://mohamedhtitich1.github.io/localintel/reference/process_beds.md)
   [`process_los()`](https://mohamedhtitich1.github.io/localintel/reference/process_beds.md)
@@ -59,9 +118,11 @@ function per dataset, plus merging and composite scoring.
 
 ## Data Cascading
 
-Fill missing regional data by propagating from parent NUTS levels (NUTS0
-→ NUTS1 → NUTS2) with source-level tracking.
+Fill missing regional data by propagating from parent NUTS levels (NUTS
+0 → NUTS 1 → NUTS 2) with source-level tracking.
 
+- [`cascade_to_nuts2()`](https://mohamedhtitich1.github.io/localintel/reference/cascade_to_nuts2.md)
+  : Cascade Data to NUTS2 (Generic / Domain-Agnostic)
 - [`cascade_to_nuts2_and_compute()`](https://mohamedhtitich1.github.io/localintel/reference/cascade_to_nuts2_and_compute.md)
   [`cascade_to_nuts2_light()`](https://mohamedhtitich1.github.io/localintel/reference/cascade_to_nuts2_and_compute.md)
   [`balance_panel()`](https://mohamedhtitich1.github.io/localintel/reference/cascade_to_nuts2_and_compute.md)
@@ -80,10 +141,11 @@ automatic best-level selection per country-year.
   [`level_cols_for()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
   : Visualization Functions
 
-## Export
+## Export & Labels
 
 Export enriched GeoJSON for Tableau, multi-sheet Excel workbooks, RDS
-snapshots, and multi-page PDF map books.
+snapshots, and multi-page PDF map books. Includes label registries for
+all 14 domains.
 
 - [`export_to_geojson()`](https://mohamedhtitich1.github.io/localintel/reference/export_to_geojson.md)
   [`export_to_excel()`](https://mohamedhtitich1.github.io/localintel/reference/export_to_geojson.md)
@@ -94,6 +156,10 @@ snapshots, and multi-page PDF map books.
   [`health_pillar_mapping()`](https://mohamedhtitich1.github.io/localintel/reference/export_to_geojson.md)
   [`cod_labels()`](https://mohamedhtitich1.github.io/localintel/reference/export_to_geojson.md)
   : Export Functions
+- [`regional_var_labels()`](https://mohamedhtitich1.github.io/localintel/reference/regional_var_labels.md)
+  : Regional Variable Labels (All Domains)
+- [`regional_domain_mapping()`](https://mohamedhtitich1.github.io/localintel/reference/regional_domain_mapping.md)
+  : Regional Domain Mapping (All Domains)
 
 ## Utilities
 
