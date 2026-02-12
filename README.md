@@ -181,7 +181,6 @@ This package was developed as part of research on subnational health system anal
 
 - [Subnational Health Disparities Map](https://mhtitich.com/subnational) - Interactive dashboard powered by localintel
 - [w2m](https://github.com/MohamedHtitich1/w2m) - Composite indicator construction
-- [Social Progress Index](https://www.socialprogress.org/) - Framework inspiration
 
 ## Contributing
 
