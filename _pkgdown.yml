@@ -23,8 +23,17 @@ template:
       google: "EB Garamond"
     code_font:
       google: "JetBrains Mono"
+  opengraph:
+    image:
+      src: man/figures/og-image.png
+      alt: "localintel – Subnational Data Pipeline for 235 European NUTS-2 Regions"
+    twitter:
+      creator: "@MohamedHtitich"
+      card: summary_large_image
   includes:
     in_header: |
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
