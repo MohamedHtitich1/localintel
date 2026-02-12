@@ -28,36 +28,16 @@ template:
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    in_body: |
-      <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        var icons = {
-          "Package Overview":  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>',
-          "Data Fetching":     '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>',
-          "Reference Data":    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
-          "Data Processing":   '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
-          "Data Cascading":    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>',
-          "Visualization":     '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>',
-          "Export":            '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>',
-          "Utilities":         '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c9885" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>'
-        };
-        document.querySelectorAll(".section h2").forEach(function(h2) {
-          var title = h2.textContent.trim();
-          if (icons[title]) {
-            h2.innerHTML = '<span class="ref-icon">' + icons[title] + '</span> ' + h2.innerHTML;
-          }
-        });
-      });
-      </script>
 
 home:
-  title: "localintel – Subnational Data Pipeline for Eurostat NUTS Regions"
+  title: "localintel – 150+ Subnational Indicators from Eurostat"
   description: >
-    An R package for fetching, processing, and visualizing subnational
-    (NUTS 0/1/2) data from Eurostat. Designed for health system analysis
-    across European regions.
+    An R package for fetching, harmonizing, cascading, and visualizing
+    150+ subnational indicators from Eurostat across 14 thematic domains.
+    Covers economy, health, education, labour, demographics, tourism,
+    transport, environment, and more for 235+ European NUTS-2 regions.
   links:
-    - text: Live Demo — Subnational Health Disparities Map
+    - text: Live Demo — Subnational Regional Analysis Map
       href: https://mhtitich.com/subnational
     - text: Request a custom deployment
       href: mailto:m.ahtitich@outlook.com
@@ -92,6 +72,29 @@ reference:
     contents:
       - localintel-package
 
+  - title: "Indicator Registry"
+    desc: >
+      Curated registries of Eurostat dataset codes across 14 thematic
+      domains — 150+ indicators ready for seamless fetching and processing.
+    contents:
+      - all_regional_codes
+      - indicator_count
+      - economy_codes
+      - demography_codes
+      - education_codes
+      - labour_codes
+      - health_system_codes
+      - causes_of_death_codes
+      - tourism_codes
+      - transport_codes
+      - environment_codes
+      - science_codes
+      - poverty_codes
+      - agriculture_codes
+      - business_codes
+      - information_society_codes
+      - crime_codes
+
   - title: "Data Fetching"
     desc: >
       Robust wrappers for the Eurostat API — fetch single or batch
@@ -103,8 +106,6 @@ reference:
       - get_nuts_level_safe
       - fetch_eurostat_batch
       - drop_empty
-      - health_system_codes
-      - causes_of_death_codes
 
   - title: "Reference Data"
     desc: >
@@ -120,9 +121,21 @@ reference:
 
   - title: "Data Processing"
     desc: >
-      Transform raw Eurostat downloads into analysis-ready tables —
-      one function per dataset, plus merging and composite scoring.
+      Transform raw Eurostat downloads into analysis-ready tables.
+      Use the generic processor for any dataset, or domain-specific
+      convenience functions for common indicators.
     contents:
+      - process_eurostat
+      - process_gdp
+      - process_employment
+      - process_unemployment_rate
+      - process_population
+      - process_life_expectancy
+      - process_tourism_nights
+      - process_rd_expenditure
+      - process_education_attainment
+      - process_poverty_rate
+      - process_waste
       - process_beds
       - process_physicians
       - process_disch_inp
@@ -138,8 +151,9 @@ reference:
   - title: "Data Cascading"
     desc: >
       Fill missing regional data by propagating from parent NUTS
-      levels (NUTS0 → NUTS1 → NUTS2) with source-level tracking.
+      levels (NUTS 0 → NUTS 1 → NUTS 2) with source-level tracking.
     contents:
+      - cascade_to_nuts2
       - cascade_to_nuts2_and_compute
       - cascade_to_nuts2_light
       - balance_panel
@@ -156,16 +170,19 @@ reference:
       - level_col_for
       - level_cols_for
 
-  - title: "Export"
+  - title: "Export & Labels"
     desc: >
       Export enriched GeoJSON for Tableau, multi-sheet Excel workbooks,
-      RDS snapshots, and multi-page PDF map books.
+      RDS snapshots, and multi-page PDF map books. Includes label
+      registries for all 14 domains.
     contents:
       - export_to_geojson
       - enrich_for_tableau
       - export_to_excel
       - export_to_rds
       - save_maps_to_pdf
+      - regional_var_labels
+      - regional_domain_mapping
       - health_var_labels
       - health_pillar_mapping
       - cod_labels

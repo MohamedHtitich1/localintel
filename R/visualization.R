@@ -12,21 +12,23 @@ NULL
 #' @export
 #' @examples
 #' level_col_for("beds")  # returns "src_beds_level"
-level_col_for <- function(var) {
+level_col_for <- function(var, special_cases = NULL) {
   # Build the standard pattern
   std_col <- paste0("src_", var, "_level")
-  
-  # Special cases mapping
-  special_cases <- c(
-    da = "elig_da_level",
-    rlos = "elig_rlos_level",
-    physicians_log2 = "src_physicians_level"
-  )
-  
+
+  # Default special cases for backward compatibility with health indicators
+  if (is.null(special_cases)) {
+    special_cases <- c(
+      da = "elig_da_level",
+      rlos = "elig_rlos_level",
+      physicians_log2 = "src_physicians_level"
+    )
+  }
+
   if (var %in% names(special_cases)) {
     return(special_cases[[var]])
   }
-  
+
   std_col
 }
 

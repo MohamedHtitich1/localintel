@@ -223,3 +223,128 @@ save_maps_to_pdf <- function(plot_fn, filepath, width = 12, height = 8, ...) {
   message("Saved to: ", filepath)
   invisible(filepath)
 }
+
+# ============================================================================
+# MULTI-DOMAIN LABELS AND MAPPINGS
+# ============================================================================
+
+#' Regional Variable Labels (All Domains)
+#'
+#' Returns a comprehensive named vector of display labels for variables
+#' across all thematic domains. Extends health-specific labels with
+#' economy, education, labour, demography, tourism, and other domains.
+#'
+#' @return Named character vector mapping variable names to display labels
+#' @export
+#' @examples
+#' labels <- regional_var_labels()
+#' labels["gdp"]
+regional_var_labels <- function() {
+  c(
+    # Health
+    beds                 = "Hospital beds per 100,000 inhabitants",
+    physicians           = "Physicians per 100,000 inhabitants",
+    disch_inp            = "In-patient discharges per 100,000",
+    disch_day            = "Day-case discharges per 100,000",
+    los                  = "Average length of stay (days)",
+    hos_days             = "Hospital days",
+    da                   = "Discharge Activity (DA)",
+    rlos                 = "Relative Length of Stay (rLOS)",
+    cod_rate             = "Causes of death (standardised rate)",
+    # Economy
+    gdp                  = "GDP at current market prices (million EUR)",
+    gdp_per_capita       = "GDP per capita (EUR)",
+    gdp_growth           = "Real GDP growth rate (%)",
+    gfcf                 = "Gross fixed capital formation (million EUR)",
+    compensation         = "Compensation of employees (million EUR)",
+    hh_disp_income       = "Household disposable income",
+    # Demography
+    population           = "Population on 1 January",
+    pop_density          = "Population density (per km2)",
+    life_expectancy      = "Life expectancy at birth (years)",
+    fertility_rate       = "Total fertility rate",
+    infant_mortality     = "Infant mortality rate",
+    # Education
+    education_attainment = "Tertiary education attainment (% of 25-64)",
+    early_leavers        = "Early leavers from education (%)",
+    neet_rate            = "NEET rate (% of 15-24)",
+    training_rate        = "Participation in education and training (%)",
+    # Labour
+    employment           = "Employment (thousands)",
+    employment_rate      = "Employment rate (%)",
+    unemployment_rate    = "Unemployment rate (%)",
+    long_term_unemp      = "Long-term unemployment (%)",
+    activity_rate        = "Economic activity rate (%)",
+    # Tourism
+    nights_spent         = "Nights spent in tourist accommodation",
+    arrivals             = "Arrivals at tourist accommodation",
+    # Transport
+    road_accidents       = "Road accident victims",
+    vehicles             = "Stock of vehicles",
+    # Environment
+    municipal_waste      = "Municipal waste (kg per inhabitant)",
+    energy_consumption   = "Energy consumption",
+    # Science & Technology
+    rd_expenditure       = "R&D expenditure (% of GDP)",
+    patents_total        = "Patent applications to EPO",
+    hightech_employment  = "High-tech employment",
+    # Poverty
+    poverty_rate         = "At-risk-of-poverty rate (%)",
+    material_deprivation = "Severe material deprivation rate (%)",
+    # Information Society
+    internet_access      = "Households with internet access (%)",
+    broadband            = "Households with broadband access (%)",
+    ecommerce            = "Individuals using e-commerce (%)"
+  )
+}
+
+#' Regional Domain Mapping (All Domains)
+#'
+#' Returns a named vector mapping variable names to their thematic domain.
+#' Useful for grouping variables in dashboards and Tableau exports.
+#'
+#' @return Named character vector mapping variable names to domain names
+#' @export
+#' @examples
+#' mapping <- regional_domain_mapping()
+#' mapping["gdp"]            # "Economy"
+#' mapping["unemployment_rate"]  # "Labour Market"
+regional_domain_mapping <- function() {
+  c(
+    # Health
+    beds = "Health", physicians = "Health", disch_inp = "Health",
+    disch_day = "Health", los = "Health", hos_days = "Health",
+    da = "Health", rlos = "Health", cod_rate = "Health",
+    # Economy
+    gdp = "Economy", gdp_per_capita = "Economy", gdp_growth = "Economy",
+    gfcf = "Economy", compensation = "Economy", hh_disp_income = "Economy",
+    # Demography
+    population = "Demography", pop_density = "Demography",
+    life_expectancy = "Demography", fertility_rate = "Demography",
+    infant_mortality = "Demography",
+    # Education
+    education_attainment = "Education", early_leavers = "Education",
+    neet_rate = "Education", training_rate = "Education",
+    # Labour Market
+    employment = "Labour Market", employment_rate = "Labour Market",
+    unemployment_rate = "Labour Market", long_term_unemp = "Labour Market",
+    activity_rate = "Labour Market",
+    # Tourism
+    nights_spent = "Tourism", arrivals = "Tourism",
+    # Transport
+    road_accidents = "Transport", vehicles = "Transport",
+    # Environment
+    municipal_waste = "Environment", energy_consumption = "Environment",
+    # Science & Technology
+    rd_expenditure = "Science & Technology",
+    patents_total = "Science & Technology",
+    hightech_employment = "Science & Technology",
+    # Poverty & Social Exclusion
+    poverty_rate = "Poverty & Exclusion",
+    material_deprivation = "Poverty & Exclusion",
+    # Information Society
+    internet_access = "Information Society",
+    broadband = "Information Society",
+    ecommerce = "Information Society"
+  )
+}
