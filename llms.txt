@@ -159,8 +159,6 @@ system analysis in Europe. Related projects:
   by localintel
 - [w2m](https://github.com/MohamedHtitich1/w2m) - Composite indicator
   construction
-- [Social Progress Index](https://www.socialprogress.org/) - Framework
-  inspiration
 
 ## Contributing
 
