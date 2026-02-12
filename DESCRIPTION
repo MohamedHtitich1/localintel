@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: person("Mohamed", "Htitich", 
                   email = "m.ahtitich@outlook.com", 
                   role = c("aut", "cre"),
-                  comment = c(ORCID = "YOUR-ORCID-ID"))
+                  comment = c(ORCID = "0000-0002-8732-6286"))
 Description: A comprehensive pipeline for fetching, processing, and visualizing 
     subnational (NUTS 0/1/2) data from Eurostat. Includes functions for cascading 
     data from higher to lower NUTS levels, computing composite health indicators, 
