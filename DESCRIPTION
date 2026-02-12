@@ -38,11 +38,8 @@ Suggests:
     haven,
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
-Suggests:
-    haven,
-    testthat (>= 3.0.0),
-    knitr,
-    rmarkdown
+    rmarkdown,
+    pkgdown
+VignetteBuilder: knitr
 URL: https://github.com/MohamedHtitich1/localintel
 BugReports: https://github.com/MohamedHtitich1/localintel/issues

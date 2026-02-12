@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232" width="200" height="232">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6a8a73;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7c9885;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5a7a63;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="50%" style="stop-color:#e8f0eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.95" />
+    </linearGradient>
+    <linearGradient id="mirrorFade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.08" />
+    </linearGradient>
+    <linearGradient id="horizonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0" />
+      <stop offset="20%" style="stop-color:#9ab8a3;stop-opacity:0.6" />
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0.8" />
+      <stop offset="80%" style="stop-color:#9ab8a3;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </linearGradient>
+    <linearGradient id="globeShine" x1="30%" y1="20%" x2="80%" y2="90%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.18" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#2a3a2e" flood-opacity="0.3"/>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="hexClip">
+      <polygon points="100,8 188,60 188,172 100,224 12,172 12,60"/>
+    </clipPath>
+    <clipPath id="globeClip">
+      <circle cx="100" cy="72" r="42"/>
+    </clipPath>
+  </defs>
+
+  <!-- Hex shape -->
+  <polygon
+    points="100,4 192,58 192,174 100,228 8,174 8,58"
+    fill="url(#bgGrad)"
+    stroke="#3d5c45"
+    stroke-width="2"
+    filter="url(#shadow)"
+  />
+
+  <!-- Inner hex border -->
+  <polygon
+    points="100,12 185,62 185,170 100,220 15,170 15,62"
+    fill="none"
+    stroke="rgba(255,255,255,0.12)"
+    stroke-width="0.8"
+  />
+
+  <!-- ====================== -->
+  <!-- GLOBE ILLUSTRATION     -->
+  <!-- ====================== -->
+  <g clip-path="url(#hexClip)">
+
+    <!-- Globe outline circle -->
+    <circle cx="100" cy="72" r="42"
+      fill="none"
+      stroke="rgba(255,255,255,0.2)"
+      stroke-width="1"/>
+
+    <!-- Globe fill — very subtle -->
+    <circle cx="100" cy="72" r="42"
+      fill="rgba(255,255,255,0.04)"/>
+
+    <!-- Globe grid: latitude lines -->
+    <g stroke="rgba(255,255,255,0.08)" stroke-width="0.5" fill="none" clip-path="url(#globeClip)">
+      <ellipse cx="100" cy="72" rx="42" ry="8"/>
+      <ellipse cx="100" cy="72" rx="42" ry="22"/>
+      <ellipse cx="100" cy="72" rx="42" ry="35"/>
+    </g>
+
+    <!-- Globe grid: longitude lines (ellipses viewed from side) -->
+    <g stroke="rgba(255,255,255,0.08)" stroke-width="0.5" fill="none" clip-path="url(#globeClip)">
+      <ellipse cx="100" cy="72" rx="8" ry="42"/>
+      <ellipse cx="100" cy="72" rx="22" ry="42"/>
+      <ellipse cx="100" cy="72" rx="35" ry="42"/>
+      <!-- Prime meridian -->
+      <line x1="100" y1="30" x2="100" y2="114"/>
+      <!-- Equator -->
+      <line x1="58" y1="72" x2="142" y2="72"/>
+    </g>
+
+    <!-- Stylized continents (simplified, illustrative) -->
+    <g clip-path="url(#globeClip)" fill="rgba(255,255,255,0.18)">
+
+      <!-- Europe + North Africa -->
+      <path d="M95,48 L98,44 L104,46 L108,50 L112,48 L116,52 L118,58
+               L116,64 L112,66 L108,62 L104,64 L100,68 L96,66
+               L92,62 L88,64 L84,60 L86,54 L90,50 Z"/>
+
+      <!-- Africa -->
+      <path d="M90,70 L96,68 L102,70 L108,68 L112,72 L114,80
+               L112,90 L108,96 L102,98 L96,96 L92,90
+               L88,82 L86,76 L88,72 Z"/>
+
+      <!-- Americas (left side of globe) -->
+      <path d="M62,42 L68,38 L74,42 L76,50 L74,58 L70,62
+               L66,58 L62,60 L58,56 L60,48 Z"/>
+      <path d="M66,64 L72,62 L76,68 L78,78 L76,88
+               L72,94 L68,96 L64,90 L62,82 L64,72 Z"/>
+
+      <!-- Asia (right side) -->
+      <path d="M118,42 L126,38 L134,42 L138,50 L136,58
+               L132,62 L126,60 L120,54 L118,48 Z"/>
+      <path d="M128,62 L136,60 L140,66 L138,74
+               L134,78 L128,76 L124,70 L126,64 Z"/>
+
+      <!-- Australia (lower right) -->
+      <path d="M128,84 L136,82 L140,88 L138,94
+               L132,96 L126,92 L128,86 Z"/>
+    </g>
+
+    <!-- Data nodes scattered across globe (subnational regions) -->
+    <g fill="rgba(255,255,255,0.4)">
+      <!-- Europe nodes -->
+      <circle cx="102" cy="54" r="1.8"/>
+      <circle cx="108" cy="58" r="1.5"/>
+      <circle cx="96"  cy="60" r="1.5"/>
+      <!-- Africa nodes -->
+      <circle cx="100" cy="78" r="1.5"/>
+      <circle cx="106" cy="86" r="1.3"/>
+      <!-- Americas nodes -->
+      <circle cx="70"  cy="48" r="1.5"/>
+      <circle cx="72"  cy="72" r="1.5"/>
+      <circle cx="68"  cy="84" r="1.3"/>
+      <!-- Asia nodes -->
+      <circle cx="130" cy="48" r="1.5"/>
+      <circle cx="134" cy="68" r="1.3"/>
+      <!-- Australia -->
+      <circle cx="134" cy="90" r="1.3"/>
+    </g>
+
+    <!-- Network lines between nearby nodes -->
+    <g stroke="rgba(255,255,255,0.12)" stroke-width="0.5" fill="none">
+      <line x1="102" y1="54" x2="108" y2="58"/>
+      <line x1="102" y1="54" x2="96"  y2="60"/>
+      <line x1="96"  y1="60" x2="100" y2="78"/>
+      <line x1="108" y1="58" x2="100" y2="78"/>
+      <line x1="100" y1="78" x2="106" y2="86"/>
+      <line x1="70"  y1="48" x2="72"  y2="72"/>
+      <line x1="72"  y1="72" x2="68"  y2="84"/>
+      <line x1="130" y1="48" x2="134" y2="68"/>
+      <line x1="134" y1="68" x2="134" y2="90"/>
+    </g>
+
+    <!-- Highlighted "active" node (center of Europe) -->
+    <circle cx="102" cy="54" r="3" fill="rgba(255,255,255,0.55)" filter="url(#softGlow)"/>
+
+    <!-- Globe specular highlight -->
+    <circle cx="100" cy="72" r="42" fill="url(#globeShine)"/>
+
+  </g>
+
+  <!-- ============================================= -->
+  <!-- MAIN TYPOGRAPHY: LOCAL / INTEL mirror concept -->
+  <!-- ============================================= -->
+
+  <!-- Horizon dividing line between LOCAL and INTEL -->
+  <line x1="42" y1="148" x2="158" y2="148"
+    stroke="url(#horizonGrad)" stroke-width="1"/>
+
+  <!-- "LOCAL" — top word, bold and prominent -->
+  <g font-family="'EB Garamond', Georgia, serif" font-weight="700" font-size="26" fill="url(#textGlow)">
+    <text x="58"  y="143" text-anchor="middle">L</text>
+    <text x="79"  y="143" text-anchor="middle">O</text>
+    <text x="100" y="143" text-anchor="middle">C</text>
+    <text x="121" y="143" text-anchor="middle">A</text>
+    <text x="142" y="143" text-anchor="middle">L</text>
+  </g>
+
+  <!-- "INTEL" — bottom word, reflected/paired -->
+  <g font-family="'EB Garamond', Georgia, serif" font-weight="700" font-size="26" fill="url(#mirrorFade)">
+    <text x="58"  y="170" text-anchor="middle">I</text>
+    <text x="79"  y="170" text-anchor="middle">N</text>
+    <text x="100" y="170" text-anchor="middle">T</text>
+    <text x="121" y="170" text-anchor="middle">E</text>
+    <text x="142" y="170" text-anchor="middle">L</text>
+  </g>
+
+  <!-- Shared "L" bracket connector -->
+  <path d="M148,135 C153,135 155,141 155,148 C155,155 153,161 148,161"
+    fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="0.8"/>
+
+  <!-- Thin vertical alignment whiskers between pairs -->
+  <g stroke="rgba(255,255,255,0.06)" stroke-width="0.5">
+    <line x1="58"  y1="146" x2="58"  y2="155"/>
+    <line x1="79"  y1="146" x2="79"  y2="155"/>
+    <line x1="100" y1="146" x2="100" y2="155"/>
+    <line x1="121" y1="146" x2="121" y2="155"/>
+  </g>
+
+  <!-- Tagline — sized to fit safely inside hex -->
+  <text
+    x="100" y="190"
+    text-anchor="middle"
+    font-family="'IBM Plex Sans', sans-serif"
+    font-size="6.5"
+    font-weight="400"
+    fill="rgba(255,255,255,0.5)"
+    letter-spacing="2"
+  >SUBNATIONAL DATA</text>
+
+  <!-- Bottom accent -->
+  <line x1="76" y1="196" x2="124" y2="196"
+    stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+</svg>

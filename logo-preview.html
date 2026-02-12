@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>localintel — Logo Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #050507;
+    color: #f5f5f7;
+    padding: 40px 20px;
+  }
+  h1 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: #9ab8a3;
+    letter-spacing: 0.05em;
+    margin-bottom: 48px;
+  }
+  .logo-row {
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .logo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-card span {
+    font-size: 0.75rem;
+    color: #6e6e73;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .dark-bg {
+    background: #050507;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .light-bg {
+    background: #f4f7f5;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid rgba(124,152,133,0.15);
+  }
+  .sizes {
+    display: flex;
+    gap: 32px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .sizes .logo-card { gap: 10px; }
+  .notes {
+    max-width: 520px;
+    text-align: center;
+    line-height: 1.8;
+    color: #a8a8ad;
+    font-size: 0.85rem;
+  }
+  .notes strong { color: #9ab8a3; font-weight: 500; }
+</style>
+</head>
+<body>
+  <h1>localintel — Hex Sticker Preview</h1>
+
+  <div class="logo-row">
+    <div class="logo-card">
+      <div class="dark-bg">
+        <img src="man/figures/logo.svg" width="220" height="255" alt="logo on dark">
+      </div>
+      <span>Dark background</span>
+    </div>
+    <div class="logo-card">
+      <div class="light-bg">
+        <img src="man/figures/logo.svg" width="220" height="255" alt="logo on light">
+      </div>
+      <span>Light background</span>
+    </div>
+  </div>
+
+  <div class="sizes">
+    <div class="logo-card">
+      <img src="man/figures/logo.svg" width="140" height="162" alt="medium">
+      <span>README size (140px)</span>
+    </div>
+    <div class="logo-card">
+      <img src="man/figures/logo.svg" width="80" height="93" alt="small">
+      <span>Favicon size (80px)</span>
+    </div>
+    <div class="logo-card">
+      <img src="man/figures/logo.svg" width="48" height="56" alt="tiny">
+      <span>Tiny (48px)</span>
+    </div>
+  </div>
+
+  <div class="notes">
+    <strong>Design:</strong> A globe with stylized continents and subnational data nodes
+    signals worldwide applicability. Below, <strong>LOCAL</strong> and <strong>INTEL</strong>
+    are stacked letter-by-letter — the shared final <strong>L</strong> is bracketed.
+    "SUBNATIONAL DATA" tagline is sized at 6.5px to stay well within hex bounds.
+  </div>
+</body>
+</html>

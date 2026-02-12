@@ -1,4 +1,4 @@
-# localintel
+# localintel <a href="https://mohamedhtitich1.github.io/localintel/"><img src="man/figures/logo.svg" align="right" height="139" alt="localintel website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/MohamedHtitich1/localintel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MohamedHtitich1/localintel/actions/workflows/R-CMD-check.yaml)

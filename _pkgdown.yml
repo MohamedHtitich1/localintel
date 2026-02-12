@@ -1,0 +1,164 @@
+url: https://mohamedhtitich1.github.io/localintel/
+
+development:
+  mode: auto
+
+template:
+  package: pkgdown
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#7c9885"
+    secondary: "#3a3f42"
+    success: "#9ab8a3"
+    info: "#7cb08a"
+    bg: "#f4f7f5"
+    fg: "#1a1d1c"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    font-size-base: 1rem
+    base_font:
+      google: "IBM Plex Sans"
+    heading_font:
+      google: "EB Garamond"
+    code_font:
+      google: "JetBrains Mono"
+  includes:
+    in_header: |
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+home:
+  title: "localintel – Subnational Data Pipeline for Eurostat NUTS Regions"
+  description: >
+    An R package for fetching, processing, and visualizing subnational
+    (NUTS 0/1/2) data from Eurostat. Designed for health system analysis
+    across European regions.
+
+authors:
+  Mohamed Htitich:
+    href: https://mhtitich.com
+
+navbar:
+  bg: "#050507"
+  type: dark
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github, website]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/MohamedHtitich1/localintel
+      aria-label: GitHub
+    website:
+      icon: fa-globe
+      href: https://mhtitich.com
+      aria-label: "Author Website"
+
+reference:
+  - title: "Data Fetching"
+    desc: "Functions for retrieving data from the Eurostat API."
+    contents:
+      - get_nuts2
+      - get_nuts_level
+      - get_nuts_level_robust
+      - get_nuts_level_safe
+      - fetch_eurostat_batch
+      - drop_empty
+      - health_system_codes
+      - causes_of_death_codes
+
+  - title: "Reference Data"
+    desc: "NUTS reference tables, boundary geometries, and lookup data."
+    contents:
+      - get_nuts_geo
+      - get_nuts_geopolys
+      - get_nuts2_ref
+      - get_nuts2_names
+      - get_population_nuts2
+      - eu27_codes
+
+  - title: "Data Processing"
+    desc: "Process raw Eurostat datasets and compute composite indicators."
+    contents:
+      - process_beds
+      - process_physicians
+      - process_disch_inp
+      - process_disch_day
+      - process_hos_days
+      - process_los
+      - process_cod
+      - process_health_perceptions
+      - merge_datasets
+      - transform_and_score
+      - compute_composite
+
+  - title: "Data Cascading"
+    desc: "Cascade data from higher to lower NUTS levels."
+    contents:
+      - cascade_to_nuts2_and_compute
+      - cascade_to_nuts2_light
+      - balance_panel
+
+  - title: "Visualization"
+    desc: "Build spatial objects and create publication-ready maps."
+    contents:
+      - build_display_sf
+      - lc_build_display_sf
+      - plot_best_by_country_level
+      - build_multi_var_sf
+      - level_col_for
+      - level_cols_for
+
+  - title: "Export"
+    desc: "Export data to GeoJSON, Excel, RDS, and PDF formats."
+    contents:
+      - export_to_geojson
+      - enrich_for_tableau
+      - export_to_excel
+      - export_to_rds
+      - save_maps_to_pdf
+      - health_var_labels
+      - health_pillar_mapping
+      - cod_labels
+
+  - title: "Utilities"
+    desc: "Helper functions for data transformation and filtering."
+    contents:
+      - keep_eu27
+      - safe_log10
+      - safe_log2
+      - scale_0_100
+      - rescale_minmax
+      - interp_const_ends_flag
+      - standardize_time
+      - nuts_country_names
+      - add_country_name
+
+articles:
+  - title: "Getting Started"
+    navbar: "Getting Started"
+    contents:
+      - localintel
+  - title: "Tutorials"
+    navbar: "Tutorials"
+    contents:
+      - workflow
+  - title: "Help"
+    navbar: "FAQ"
+    contents:
+      - faq
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with
+  components:
+    developed_by: >
+      Developed by [Mohamed Htitich](https://mhtitich.com)
+      · [GitHub](https://github.com/MohamedHtitich1)
+      · [ORCID](https://orcid.org/YOUR-ORCID-ID)
+
+news:
+  one_page: true
