@@ -1,3 +1,38 @@
+# localintel 0.2.0
+
+## Econometric Imputation
+
+### New Features
+
+* **Econometric Imputation Module** (`R/imputation.R`)
+  - `interp_pchip_flag()`: PCHIP (Piecewise Cubic Hermite Interpolating Polynomial)
+    interpolation for missing years within the observed range. Uses monotone Hermite
+    splines (Fritsch-Carlson method) which preserve monotonicity and handle non-linear
+    patterns without overshooting — a significant upgrade over the previous linear
+    interpolation approach.
+  - `forecast_autoregressive()`: Exponential smoothing state space model (ETS) for
+    forecasting beyond observed data. Autoregressive by design, it automatically
+    selects optimal smoothing parameters via AICc. Falls back to Holt's linear
+    trend when the `forecast` package is unavailable.
+  - `impute_series()`: Unified pipeline combining PCHIP interpolation (for internal
+    gaps) with autoregressive forecasting (for future periods). Returns a complete
+    series with flags distinguishing observed (0), interpolated (1), and
+    forecasted (2) values.
+
+### Design Decisions
+
+* **Interpolation vs Forecasting**: The package now uses two distinct methods — PCHIP
+  for within-range imputation (where the curve should respect existing data points)
+  and ETS for beyond-range forecasting (where autoregressive dynamics drive the
+  projection). This separation reflects the fundamentally different statistical
+  requirements of each task.
+
+* **Graceful Degradation**: The `forecast` package is placed in `Suggests` rather
+  than `Imports`. When unavailable, the system falls back to Holt's linear trend
+  extrapolation with manually estimated smoothing parameters (α=0.3, β=0.1).
+
+---
+
 # localintel 0.1.0
 
 ## Initial Release

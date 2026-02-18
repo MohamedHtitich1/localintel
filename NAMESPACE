@@ -22,6 +22,10 @@ importFrom(eurostat,get_eurostat_geospatial)
 importFrom(stats,approx)
 importFrom(stats,na.omit)
 importFrom(stats,weighted.mean)
+importFrom(stats,splinefun)
+importFrom(stats,sd)
+importFrom(stats,lm)
+importFrom(stats,coef)
 importFrom(grDevices,pdf)
 importFrom(grDevices,dev.off)
 
@@ -106,6 +110,11 @@ export(build_display_sf)
 export(lc_build_display_sf)
 export(plot_best_by_country_level)
 export(build_multi_var_sf)
+
+# Exports - Imputation
+export(interp_pchip_flag)
+export(forecast_autoregressive)
+export(impute_series)
 
 # Exports - Export
 export(export_to_geojson)

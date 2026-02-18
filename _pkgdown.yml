@@ -167,6 +167,16 @@ reference:
       - cascade_to_nuts2_light
       - balance_panel
 
+  - title: "Econometric Imputation"
+    desc: >
+      Advanced time series imputation combining PCHIP interpolation
+      for internal gaps with autoregressive ETS forecasting for
+      future periods — with flag-based provenance tracking.
+    contents:
+      - interp_pchip_flag
+      - forecast_autoregressive
+      - impute_series
+
   - title: "Visualization"
     desc: >
       Build spatial objects and render publication-ready tmap
