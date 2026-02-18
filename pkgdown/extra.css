@@ -1,12 +1,12 @@
 /* =========================================================
-   localintel pkgdown — custom styles matching mhtitich.com
+   localintel pkgdown — dark theme with sage green accents
    ========================================================= */
 
-/* --- Global typography --- */
+/* --- Global typography & dark base --- */
 body {
   font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #1a1d1c;
-  background-color: #f4f7f5;
+  color: #d4d8d5;
+  background-color: #141719;
   letter-spacing: 0.01em;
 }
 
@@ -14,7 +14,7 @@ h1, h2, h3, h4, h5, h6,
 .navbar-brand {
   font-family: 'EB Garamond', Georgia, serif;
   font-weight: 600;
-  color: #1a1d1c;
+  color: #e8ece9;
 }
 
 code, pre, .sourceCode {
@@ -22,17 +22,17 @@ code, pre, .sourceCode {
   font-size: 0.88em;
 }
 
-/* --- Dark navbar matching mhtitich.com --- */
+/* --- Dark navbar --- */
 .navbar {
-  background-color: #050507 !important;
-  border-bottom: 1px solid rgba(124, 152, 133, 0.2);
+  background-color: #0a0c0e !important;
+  border-bottom: 1px solid rgba(124, 152, 133, 0.25);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .navbar .navbar-brand,
 .navbar .nav-link {
-  color: #f5f5f7 !important;
+  color: #e0e4e1 !important;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 400;
   transition: color 0.2s ease;
@@ -50,13 +50,13 @@ code, pre, .sourceCode {
 
 /* --- Sage green accents --- */
 a {
-  color: #6a8a73;
+  color: #8aaa93;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #9ab8a3;
+  color: #a8ccb2;
   text-decoration: underline;
 }
 
@@ -74,35 +74,55 @@ a:hover {
 
 /* --- Cards & reference sections --- */
 .card {
-  background: rgba(255, 255, 255, 0.75);
+  background: #1b1f22;
   border: 1px solid rgba(124, 152, 133, 0.15);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card:hover {
-  border-color: rgba(124, 152, 133, 0.35);
-  box-shadow: 0 4px 12px rgba(124, 152, 133, 0.1);
+  border-color: rgba(124, 152, 133, 0.4);
+  box-shadow: 0 4px 16px rgba(124, 152, 133, 0.12);
 }
 
-/* --- Code blocks --- */
+.card .card-body,
+.card .card-header,
+.card .card-footer {
+  background: transparent;
+  color: #d4d8d5;
+}
+
+/* --- Code blocks — high contrast --- */
 pre {
-  background-color: #0d0f11;
-  color: #e8e8ed;
-  border: 1px solid rgba(124, 152, 133, 0.15);
+  background-color: #1c2128;
+  color: #e6edf3;
+  border: 1px solid rgba(124, 152, 133, 0.2);
   border-radius: 0.5rem;
   padding: 1rem 1.25rem;
 }
 
 pre code {
-  color: #e8e8ed;
+  color: #e6edf3;
+  background: transparent;
 }
+
+/* Syntax highlighting — brighter tokens for dark bg */
+pre .kw, pre .keyword          { color: #a8ccb2; font-weight: 500; }  /* keywords — light sage */
+pre .fu, pre .function-name    { color: #7cc8e4; }                     /* functions — soft blue */
+pre .st, pre .string           { color: #e0a87a; }                     /* strings — warm amber */
+pre .dv, pre .number, pre .fl  { color: #d4a0d0; }                     /* numbers — soft mauve */
+pre .co, pre .comment          { color: #6b7b72; font-style: italic; } /* comments — muted sage */
+pre .cn, pre .constant         { color: #e07a7a; }                     /* constants — soft red */
+pre .op, pre .operator         { color: #c5cdc8; }                     /* operators — light gray */
+pre .ot                        { color: #8aaa93; }                     /* other tokens — sage */
+pre .dt, pre .type             { color: #8ac4e0; }                     /* types — light teal */
+pre .at, pre .attribute        { color: #c4b28a; }                     /* attributes — warm gold */
 
 /* Inline code */
 :not(pre) > code {
-  background-color: rgba(124, 152, 133, 0.1);
-  color: #5a7a63;
+  background-color: rgba(124, 152, 133, 0.15);
+  color: #9ab8a3;
   padding: 0.15em 0.4em;
   border-radius: 0.25rem;
   font-size: 0.88em;
@@ -115,7 +135,7 @@ pre code {
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: rgba(124, 152, 133, 0.1);
+  background: rgba(124, 152, 133, 0.12);
   border-radius: 8px;
   margin-right: 10px;
   vertical-align: middle;
@@ -126,22 +146,23 @@ pre code {
   display: block;
 }
 
-/* --- Reference page section headers with icons --- */
+/* --- Reference page section headers --- */
 .section h2 {
   border-bottom: 2px solid #7c9885;
   padding-bottom: 0.5rem;
   margin-top: 2.5rem;
   display: flex;
   align-items: center;
+  color: #e8ece9;
 }
 
 .section h3 {
-  color: #3a3f42;
+  color: #b0b8b2;
 }
 
 /* Reference section descriptions */
 .section h2 + p {
-  color: #5a6066;
+  color: #8e968f;
   font-size: 0.92em;
   margin-top: 0.5rem;
   margin-bottom: 1.25rem;
@@ -154,8 +175,8 @@ pre code {
   align-items: center;
   gap: 0.4em;
   padding: 0.4em 0.8em;
-  background: rgba(124, 152, 133, 0.1);
-  border: 1px solid rgba(124, 152, 133, 0.2);
+  background: rgba(124, 152, 133, 0.12);
+  border: 1px solid rgba(124, 152, 133, 0.25);
   border-radius: 0.5rem;
   font-size: 0.9em;
   font-weight: 500;
@@ -163,7 +184,7 @@ pre code {
 }
 
 .pkgdown-links a:hover {
-  background: rgba(124, 152, 133, 0.2);
+  background: rgba(124, 152, 133, 0.25);
   border-color: #7c9885;
   text-decoration: none;
 }
@@ -183,8 +204,8 @@ pre code {
 
 /* --- Footer --- */
 footer {
-  background-color: #050507;
-  color: #a8a8ad;
+  background-color: #0a0c0e;
+  color: #8e968f;
   border-top: 1px solid rgba(124, 152, 133, 0.2);
 }
 
@@ -193,30 +214,40 @@ footer a {
 }
 
 footer a:hover {
-  color: #7cb08a;
+  color: #a8ccb2;
 }
 
-/* --- Home page hero refinements --- */
+/* --- Home page hero --- */
 .page-header {
-  background: linear-gradient(135deg, #f4f7f5 0%, #e8f0eb 50%, #f4f7f5 100%);
+  background: linear-gradient(135deg, #141719 0%, #1a2120 50%, #141719 100%);
   border-bottom: 1px solid rgba(124, 152, 133, 0.15);
 }
 
 /* --- Sidebar / TOC --- */
+.sidebar .nav-link {
+  color: #9ea6a0;
+}
+
+.sidebar .nav-link:hover {
+  color: #d4d8d5;
+}
+
 .sidebar .nav-link.active {
-  color: #7c9885;
+  color: #9ab8a3;
   border-left: 3px solid #7c9885;
   font-weight: 500;
 }
 
 /* --- Tables --- */
 .table {
+  color: #d4d8d5;
   border-color: rgba(124, 152, 133, 0.15);
 }
 
 .table thead th {
-  background-color: rgba(124, 152, 133, 0.08);
+  background-color: rgba(124, 152, 133, 0.1);
   border-bottom-color: #7c9885;
+  color: #c0ccc3;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 600;
   font-size: 0.9em;
@@ -224,15 +255,28 @@ footer a:hover {
   letter-spacing: 0.04em;
 }
 
+.table td, .table th {
+  border-color: rgba(124, 152, 133, 0.1);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: rgba(124, 152, 133, 0.04);
+  color: #d4d8d5;
+}
+
 /* --- Search --- */
 .search-input {
+  background-color: #1b1f22;
+  color: #d4d8d5;
   border-color: rgba(124, 152, 133, 0.3);
   border-radius: 0.5rem;
 }
 
 .search-input:focus {
   border-color: #7c9885;
-  box-shadow: 0 0 0 0.2rem rgba(124, 152, 133, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(124, 152, 133, 0.2);
+  background-color: #1b1f22;
+  color: #e6edf3;
 }
 
 /* --- Badge refinements --- */
@@ -245,6 +289,64 @@ footer a:hover {
 .contents .name {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 500;
+  color: #9ab8a3;
+}
+
+/* --- General content / descriptions on dark bg --- */
+.contents p,
+.contents li,
+main p,
+main li {
+  color: #c0c6c2;
+}
+
+/* --- Dropdown menus (search results, nav) --- */
+.dropdown-menu {
+  background-color: #1b1f22;
+  border: 1px solid rgba(124, 152, 133, 0.2);
+}
+
+.dropdown-item {
+  color: #d4d8d5;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: rgba(124, 152, 133, 0.12);
+  color: #e8ece9;
+}
+
+/* --- Breadcrumbs & small text --- */
+.breadcrumb {
+  background: transparent;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: #6b7b72;
+}
+
+.text-muted {
+  color: #7a847c !important;
+}
+
+/* --- Bootstrap overrides for dark context --- */
+.bg-light {
+  background-color: #1b1f22 !important;
+}
+
+.border {
+  border-color: rgba(124, 152, 133, 0.15) !important;
+}
+
+hr {
+  border-color: rgba(124, 152, 133, 0.15);
+  opacity: 1;
+}
+
+/* --- Selection highlight --- */
+::selection {
+  background: rgba(124, 152, 133, 0.35);
+  color: #e8ece9;
 }
 
 /* --- Smooth transitions --- */

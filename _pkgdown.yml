@@ -9,11 +9,11 @@ template:
   bootswatch: flatly
   bslib:
     primary: "#7c9885"
-    secondary: "#3a3f42"
+    secondary: "#9ab8a3"
     success: "#9ab8a3"
     info: "#7cb08a"
-    bg: "#f4f7f5"
-    fg: "#1a1d1c"
+    bg: "#141719"
+    fg: "#d4d8d5"
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
     font-size-base: 1rem
@@ -56,7 +56,7 @@ authors:
     href: https://mhtitich.com
 
 navbar:
-  bg: "#050507"
+  bg: "#0a0c0e"
   type: dark
   structure:
     left:  [intro, reference, articles, news]
