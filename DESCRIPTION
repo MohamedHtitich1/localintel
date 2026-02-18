@@ -1,7 +1,7 @@
 Package: localintel
 Type: Package
 Title: Local Intelligence - Subnational Data Pipeline for 150+ Eurostat Regional Indicators
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person("Mohamed", "Htitich", 
                   email = "m.ahtitich@outlook.com", 
                   role = c("aut", "cre"),
@@ -32,6 +32,7 @@ Imports:
     tibble (>= 3.2.0),
     writexl (>= 1.4.0)
 Suggests:
+    forecast (>= 8.21),
     ggplot2 (>= 3.4.0),
     viridis (>= 0.6.0),
     readr (>= 2.1.0),
