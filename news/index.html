@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">localintel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,29 @@
       <small>Source: <a href="https://github.com/MohamedHtitich1/localintel/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="localintel-020">localintel 0.2.0<a class="anchor" aria-label="anchor" href="#localintel-020"></a></h2>
+<div class="section level3">
+<h3 id="econometric-imputation-0-2-0">Econometric Imputation<a class="anchor" aria-label="anchor" href="#econometric-imputation-0-2-0"></a></h3>
+<div class="section level4">
+<h4 id="new-features-0-2-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h4>
+<ul><li>
+<strong>Econometric Imputation Module</strong> (<code>R/imputation.R</code>)
+<ul><li>
+<code><a href="../reference/interp_pchip_flag.html">interp_pchip_flag()</a></code>: PCHIP (Piecewise Cubic Hermite Interpolating Polynomial) interpolation for missing years within the observed range. Uses monotone Hermite splines (Fritsch-Carlson method) which preserve monotonicity and handle non-linear patterns without overshooting — a significant upgrade over the previous linear interpolation approach.</li>
+<li>
+<code><a href="../reference/forecast_autoregressive.html">forecast_autoregressive()</a></code>: Exponential smoothing state space model (ETS) for forecasting beyond observed data. Autoregressive by design, it automatically selects optimal smoothing parameters via AICc. Falls back to Holt’s linear trend when the <code>forecast</code> package is unavailable.</li>
+<li>
+<code><a href="../reference/impute_series.html">impute_series()</a></code>: Unified pipeline combining PCHIP interpolation (for internal gaps) with autoregressive forecasting (for future periods). Returns a complete series with flags distinguishing observed (0), interpolated (1), and forecasted (2) values.</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="design-decisions-0-2-0">Design Decisions<a class="anchor" aria-label="anchor" href="#design-decisions-0-2-0"></a></h4>
+<ul><li><p><strong>Interpolation vs Forecasting</strong>: The package now uses two distinct methods — PCHIP for within-range imputation (where the curve should respect existing data points) and ETS for beyond-range forecasting (where autoregressive dynamics drive the projection). This separation reflects the fundamentally different statistical requirements of each task.</p></li>
+<li><p><strong>Graceful Degradation</strong>: The <code>forecast</code> package is placed in <code>Suggests</code> rather than <code>Imports</code>. When unavailable, the system falls back to Holt’s linear trend extrapolation with manually estimated smoothing parameters (α=0.3, β=0.1).</p></li>
+</ul><hr></div>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="localintel-010">localintel 0.1.0<a class="anchor" aria-label="anchor" href="#localintel-010"></a></h2>
 <div class="section level3">

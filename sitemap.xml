@@ -20,13 +20,16 @@
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/education_codes.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/environment_codes.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/export_to_geojson.html</loc></url>
+<url><loc>https://mohamedhtitich1.github.io/localintel/reference/forecast_autoregressive.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/get_nuts2_ref.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/health_system_codes.html</loc></url>
+<url><loc>https://mohamedhtitich1.github.io/localintel/reference/impute_series.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/index.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/indicator_count.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/information_society_codes.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/interp_const_ends_flag.html</loc></url>
+<url><loc>https://mohamedhtitich1.github.io/localintel/reference/interp_pchip_flag.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/keep_eu27.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/labour_codes.html</loc></url>
 <url><loc>https://mohamedhtitich1.github.io/localintel/reference/localintel-package.html</loc></url>

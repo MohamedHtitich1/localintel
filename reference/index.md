@@ -128,6 +128,19 @@ Fill missing regional data by propagating from parent NUTS levels (NUTS
   [`balance_panel()`](https://mohamedhtitich1.github.io/localintel/reference/cascade_to_nuts2_and_compute.md)
   : Data Cascading Functions
 
+## Econometric Imputation
+
+Advanced time series imputation combining PCHIP interpolation for
+internal gaps with autoregressive ETS forecasting for future periods —
+with flag-based provenance tracking.
+
+- [`interp_pchip_flag()`](https://mohamedhtitich1.github.io/localintel/reference/interp_pchip_flag.md)
+  : PCHIP Interpolation with Constant Endpoints
+- [`forecast_autoregressive()`](https://mohamedhtitich1.github.io/localintel/reference/forecast_autoregressive.md)
+  : Autoregressive Forecast for Future Observations
+- [`impute_series()`](https://mohamedhtitich1.github.io/localintel/reference/impute_series.md)
+  : Full Imputation Pipeline
+
 ## Visualization
 
 Build spatial objects and render publication-ready tmap facets —
