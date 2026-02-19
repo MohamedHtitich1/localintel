@@ -57,13 +57,19 @@ gdp       <- process_gdp(econ$gdp_nuts2)
 beds      <- process_beds(hlth$beds)
 unemp     <- process_unemployment_rate(lab$unemployment_rate)
 
-# 3. Merge and cascade to NUTS2
+# 3. Merge, cascade to NUTS2, and impute temporal gaps
 all_data <- merge_datasets(gdp, beds, unemp)
 cascaded <- cascade_to_nuts2(
   all_data,
   vars = c("gdp", "beds", "unemployment_rate"),
-  years = 2015:2024
+  years = 2015:2024,
+  impute = TRUE,        # adaptive econometric imputation (PCHIP + ETS)
+  forecast_to = 2025    # extend series with AIC-selected forecasts
 )
+
+# Check traceability
+table(cascaded$src_gdp_level)  # 2=NUTS2, 1=NUTS1, 0=NUTS0
+table(cascaded$imp_gdp_flag)   # 0=observed, 1=interpolated, 2=forecasted
 
 # 4. Visualize
 geopolys <- get_nuts_geopolys()

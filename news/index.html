@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">localintel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,40 @@
       <small>Source: <a href="https://github.com/MohamedHtitich1/localintel/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="localintel-021">localintel 0.2.1<a class="anchor" aria-label="anchor" href="#localintel-021"></a></h2>
+<div class="section level3">
+<h3 id="imputation-integration-smart-caching-tests-0-2-1">Imputation Integration, Smart Caching, Tests<a class="anchor" aria-label="anchor" href="#imputation-integration-smart-caching-tests-0-2-1"></a></h3>
+<div class="section level4">
+<h4 id="new-features-0-2-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-2-1"></a></h4>
+<ul><li>
+<strong>Integrated Adaptive Imputation in Cascade</strong>
+<ul><li>
+<code><a href="../reference/cascade_to_nuts2.html">cascade_to_nuts2()</a></code> now accepts <code>impute = TRUE</code> (default) and <code>forecast_to</code> parameters. After cascading, each region’s time series is automatically filled using PCHIP interpolation (internal gaps) and optionally ETS forecasting (future periods, best model selected via AIC).</li>
+<li>New <code>imp_{variable}_flag</code> columns track imputation method per value: 0 = observed/cascaded, 1 = PCHIP interpolated, 2 = ETS forecasted.</li>
+<li>The existing <code>src_{variable}_level</code> columns are preserved for cascade source tracking.</li>
+<li>Set <code>impute = FALSE</code> for legacy behaviour (no gap-filling).</li>
+</ul></li>
+<li>
+<strong>Session-Level Smart Caching</strong> (<code>R/cache.R</code>)
+<ul><li>All geometry and reference functions (<code><a href="../reference/get_nuts2_ref.html">get_nuts_geo()</a></code>, <code><a href="../reference/get_nuts2_ref.html">get_nuts_geopolys()</a></code>, <code><a href="../reference/get_nuts2_ref.html">get_nuts2_ref()</a></code>, <code><a href="../reference/get_nuts2_ref.html">get_nuts2_names()</a></code>) now cache results in a package-level environment for instant repeated access within an R session.</li>
+<li>
+<code>clear_localintel_cache()</code>: Exported function to reset the cache and force fresh data fetches.</li>
+<li>Cascade functions now use the cached <code><a href="../reference/get_nuts2_ref.html">get_nuts2_ref()</a></code> instead of duplicating the geospatial fetch logic.</li>
+</ul></li>
+<li>
+<strong>Test Suite</strong> (<code>tests/testthat/</code>)
+<ul><li>Comprehensive unit tests for utils, imputation, cascade, data processing, and caching functions using mock data (no Eurostat API calls required).</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="bug-fixes-0-2-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-1"></a></h4>
+<ul><li>
+<code><a href="../reference/cascade_to_nuts2.html">cascade_to_nuts2()</a></code> and <code><a href="../reference/cascade_to_nuts2_and_compute.html">cascade_to_nuts2_and_compute()</a></code> now use the cached <code><a href="../reference/get_nuts2_ref.html">get_nuts2_ref()</a></code> function, avoiding redundant geospatial API calls.</li>
+<li>Added <code>giscoR</code> checks with informative error messages to all functions that depend on geospatial data.</li>
+</ul><hr></div>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="localintel-020">localintel 0.2.0<a class="anchor" aria-label="anchor" href="#localintel-020"></a></h2>
 <div class="section level3">

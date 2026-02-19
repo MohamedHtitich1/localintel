@@ -1,0 +1,6 @@
+# NA
+
+localintel v0.2.0 is live with adaptive econometric imputation (best
+model via AIC). The Subnational Analytics platform now maps inequality
+across 235 EU regions with full data traceability. Next stop: MENA and
+Sub-Saharan Africa. Feedback and collaboration welcome.
