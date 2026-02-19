@@ -15,6 +15,8 @@
 #'   \item Fetching data from the Eurostat API at any NUTS level (0/1/2/3)
 #'   \item Generic and domain-specific data processing for any indicator
 #'   \item Cascading data from higher to lower NUTS levels with source tracking
+#'   \item Adaptive econometric imputation (PCHIP + ETS with AIC model selection)
+#'   \item Session-level smart caching for instant repeated access
 #'   \item Composite scoring and min-max normalization
 #'   \item Creating publication-ready maps with automatic best-level selection
 #'   \item Exporting for Tableau, Excel, GeoJSON, and RDS
@@ -84,11 +86,17 @@
 #' beds  <- process_beds(hlth$beds)
 #' tert  <- process_education_attainment(educ$attain_tertiary)
 #'
-#' # 4. Merge and cascade to NUTS2
+#' # 4. Merge and cascade to NUTS2 (with adaptive imputation)
 #' all_data <- merge_datasets(gdp, beds, tert)
 #' cascaded <- cascade_to_nuts2(all_data,
 #'   vars = c("gdp", "beds", "education_attainment"),
-#'   years = 2015:2024)
+#'   years = 2015:2024,
+#'   impute = TRUE,
+#'   forecast_to = 2025)
+#'
+#' # Check traceability
+#' table(cascaded$imp_gdp_flag)
+#' # 0 = observed, 1 = PCHIP interpolated, 2 = ETS forecasted
 #'
 #' # 5. Visualize and export
 #' geopolys <- get_nuts_geopolys()
@@ -107,7 +115,7 @@
 #' @importFrom purrr map imap possibly
 #' @importFrom stringr str_length
 #' @importFrom eurostat get_eurostat get_eurostat_geospatial
-#' @importFrom stats approx na.omit weighted.mean
+#' @importFrom stats approx na.omit weighted.mean splinefun sd
 #' @importFrom grDevices pdf dev.off
 NULL
 

@@ -1,11 +1,15 @@
 #' @title Reference Data Functions
-#' @description Functions for fetching NUTS reference geometries and lookup tables
+#' @description Functions for fetching NUTS reference geometries and lookup tables.
+#'   All geometry and reference functions use session-level smart caching
+#'   via \code{\link{clear_localintel_cache}} for instant repeated access.
 #' @name reference_data
 NULL
 
 #' Get NUTS Geometry from Eurostat
 #'
-#' Fetches NUTS boundary geometries from Eurostat geospatial API
+#' Fetches NUTS boundary geometries from Eurostat geospatial API.
+#' Results are cached within the R session for instant repeated access.
+#' Use \code{\link{clear_localintel_cache}()} to force a fresh fetch.
 #'
 #' @param level Integer NUTS level (0, 1, 2, or 3)
 #' @param year Integer year for NUTS classification (default: 2024)
@@ -18,7 +22,17 @@ NULL
 #' nuts2_geo <- get_nuts_geo(level = 2, year = 2024)
 #' }
 get_nuts_geo <- function(level, year = 2024, resolution = "60", crs = 4326) {
-  eurostat::get_eurostat_geospatial(
+  key <- cache_key("get_nuts_geo", level, year, resolution, crs)
+  cached <- cache_get(key)
+  if (!is.null(cached)) return(cached)
+
+  if (!requireNamespace("giscoR", quietly = TRUE)) {
+    stop("'giscoR' package is required for geospatial functionalities.\n",
+         "Install it with: install.packages('giscoR')",
+         call. = FALSE)
+  }
+
+  result <- eurostat::get_eurostat_geospatial(
     nuts_level = level,
     year = year,
     resolution = resolution,
@@ -33,11 +47,15 @@ get_nuts_geo <- function(level, year = 2024, resolution = "60", crs = 4326) {
       level = level,
       geometry = .data$geometry
     )
+
+  cache_set(key, result)
+  result
 }
 
 #' Get All NUTS Level Geometries
 #'
-#' Fetches and combines NUTS 0, 1, and 2 level geometries into a single sf object
+#' Fetches and combines NUTS 0, 1, and 2 level geometries into a single sf object.
+#' Results are cached within the R session.
 #'
 #' @param year Integer year for NUTS classification (default: 2024)
 #' @param resolution Character resolution code (default: "60")
@@ -50,16 +68,23 @@ get_nuts_geo <- function(level, year = 2024, resolution = "60", crs = 4326) {
 #' geopolys <- get_nuts_geopolys()
 #' }
 get_nuts_geopolys <- function(year = 2024, resolution = "60", crs = 4326, levels = c(0, 1, 2)) {
+  key <- cache_key("get_nuts_geopolys", year, resolution, crs, paste(levels, collapse = "-"))
+  cached <- cache_get(key)
+  if (!is.null(cached)) return(cached)
+
   geo_list <- lapply(levels, function(lvl) {
     get_nuts_geo(level = lvl, year = year, resolution = resolution, crs = crs)
   })
-  
-  dplyr::bind_rows(geo_list)
+
+  result <- dplyr::bind_rows(geo_list)
+  cache_set(key, result)
+  result
 }
 
 #' Get NUTS2 Reference Table
 #'
-#' Creates a reference table mapping NUTS2 codes to their parent NUTS1 and NUTS0 codes
+#' Creates a reference table mapping NUTS2 codes to their parent NUTS1 and NUTS0 codes.
+#' Results are cached within the R session.
 #'
 #' @param year Integer year for NUTS classification (default: 2024)
 #' @param resolution Character resolution code (default: "60")
@@ -71,6 +96,16 @@ get_nuts_geopolys <- function(year = 2024, resolution = "60", crs = 4326, levels
 #' head(nuts2_ref)
 #' }
 get_nuts2_ref <- function(year = 2024, resolution = "60") {
+  key <- cache_key("get_nuts2_ref", year, resolution)
+  cached <- cache_get(key)
+  if (!is.null(cached)) return(cached)
+
+  if (!requireNamespace("giscoR", quietly = TRUE)) {
+    stop("'giscoR' package is required for geospatial functionalities.\n",
+         "Install it with: install.packages('giscoR')",
+         call. = FALSE)
+  }
+
   geodata <- eurostat::get_eurostat_geospatial(
     nuts_level = 2,
     year = year,
@@ -80,19 +115,23 @@ get_nuts2_ref <- function(year = 2024, resolution = "60") {
     output_class = "sf",
     crs = 4326
   )
-  
-  geodata %>%
+
+  result <- geodata %>%
     sf::st_drop_geometry() %>%
     dplyr::transmute(
       geo = .data$NUTS_ID,
       nuts1 = substr(.data$NUTS_ID, 1, 3),
       nuts0 = substr(.data$NUTS_ID, 1, 2)
     )
+
+  cache_set(key, result)
+  result
 }
 
 #' Get NUTS2 Name Lookup Table
 #'
-#' Creates a lookup table mapping NUTS2 codes to region names
+#' Creates a lookup table mapping NUTS2 codes to region names.
+#' Results are cached within the R session.
 #'
 #' @param year Integer year for NUTS classification (default: 2024)
 #' @param resolution Character resolution code (default: "60")
@@ -104,29 +143,43 @@ get_nuts2_ref <- function(year = 2024, resolution = "60") {
 #' lut <- get_nuts2_names()
 #' }
 get_nuts2_names <- function(year = 2024, resolution = "60", countries = NULL) {
-  geodata <- eurostat::get_eurostat_geospatial(
-    nuts_level = 2,
-    year = year,
-    resolution = resolution,
-    output_class = "sf",
-    crs = 4326,
-    cache = TRUE,
-    update_cache = TRUE
-  )
-  
-  result <- geodata %>%
-    sf::st_drop_geometry() %>%
-    dplyr::transmute(
-      geo = .data$NUTS_ID,
-      nuts2_name = dplyr::coalesce(.data$NAME_LATN, .data$NUTS_NAME)
-    ) %>%
-    dplyr::distinct()
-  
+  key <- cache_key("get_nuts2_names", year, resolution)
+  cached <- cache_get(key)
+
+  if (is.null(cached)) {
+    if (!requireNamespace("giscoR", quietly = TRUE)) {
+      stop("'giscoR' package is required for geospatial functionalities.\n",
+           "Install it with: install.packages('giscoR')",
+           call. = FALSE)
+    }
+
+    geodata <- eurostat::get_eurostat_geospatial(
+      nuts_level = 2,
+      year = year,
+      resolution = resolution,
+      output_class = "sf",
+      crs = 4326,
+      cache = TRUE,
+      update_cache = TRUE
+    )
+
+    cached <- geodata %>%
+      sf::st_drop_geometry() %>%
+      dplyr::transmute(
+        geo = .data$NUTS_ID,
+        nuts2_name = dplyr::coalesce(.data$NAME_LATN, .data$NUTS_NAME)
+      ) %>%
+      dplyr::distinct()
+
+    cache_set(key, cached)
+  }
+
+  result <- cached
   if (!is.null(countries)) {
     result <- result %>%
       dplyr::filter(substr(.data$geo, 1, 2) %in% countries)
   }
-  
+
   result
 }
 
@@ -151,7 +204,7 @@ get_population_nuts2 <- function(years = 2000:2024, countries = NULL, fill_gaps 
       .data$year %in% years
     ) %>%
     dplyr::transmute(geo = .data$geo, year = .data$year, pop = .data$values)
-  
+
   if (fill_gaps) {
     pop_data <- pop_data %>%
       dplyr::group_by(.data$geo) %>%
@@ -160,12 +213,12 @@ get_population_nuts2 <- function(years = 2000:2024, countries = NULL, fill_gaps 
       tidyr::fill("pop", .direction = "downup") %>%
       dplyr::ungroup()
   }
-  
+
   if (!is.null(countries)) {
     pop_data <- pop_data %>%
       dplyr::filter(substr(.data$geo, 1, 2) %in% countries)
   }
-  
+
   pop_data
 }
 

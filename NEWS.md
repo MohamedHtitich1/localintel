@@ -1,3 +1,42 @@
+# localintel 0.2.1
+
+## Imputation Integration, Smart Caching, Tests
+
+### New Features
+
+* **Integrated Adaptive Imputation in Cascade**
+  - `cascade_to_nuts2()` now accepts `impute = TRUE` (default) and `forecast_to`
+    parameters. After cascading, each region's time series is automatically filled
+    using PCHIP interpolation (internal gaps) and optionally ETS forecasting
+    (future periods, best model selected via AIC).
+  - New `imp_{variable}_flag` columns track imputation method per value:
+    0 = observed/cascaded, 1 = PCHIP interpolated, 2 = ETS forecasted.
+  - The existing `src_{variable}_level` columns are preserved for cascade
+    source tracking.
+  - Set `impute = FALSE` for legacy behaviour (no gap-filling).
+
+* **Session-Level Smart Caching** (`R/cache.R`)
+  - All geometry and reference functions (`get_nuts_geo()`, `get_nuts_geopolys()`,
+    `get_nuts2_ref()`, `get_nuts2_names()`) now cache results in a package-level
+    environment for instant repeated access within an R session.
+  - `clear_localintel_cache()`: Exported function to reset the cache and force
+    fresh data fetches.
+  - Cascade functions now use the cached `get_nuts2_ref()` instead of duplicating
+    the geospatial fetch logic.
+
+* **Test Suite** (`tests/testthat/`)
+  - Comprehensive unit tests for utils, imputation, cascade, data processing,
+    and caching functions using mock data (no Eurostat API calls required).
+
+### Bug Fixes
+
+* `cascade_to_nuts2()` and `cascade_to_nuts2_and_compute()` now use the cached
+  `get_nuts2_ref()` function, avoiding redundant geospatial API calls.
+* Added `giscoR` checks with informative error messages to all functions
+  that depend on geospatial data.
+
+---
+
 # localintel 0.2.0
 
 ## Econometric Imputation
