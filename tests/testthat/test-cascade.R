@@ -128,7 +128,7 @@ test_that("cascade_to_nuts2 errors on bad input", {
 
   expect_error(
     cascade_to_nuts2(data, vars = "nonexistent", years = 2020L, nuts2_ref = ref),
-    "are not TRUE"
+    "is not TRUE"
   )
 })
 
