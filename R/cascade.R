@@ -370,10 +370,13 @@ cascade_to_nuts2 <- function(data,
 
   # --- Adaptive Econometric Imputation ---
   if (impute) {
+    # Save original max year BEFORE any extension so impute_series can
+    # correctly distinguish interpolation (flag 1) from forecasting (flag 2)
+    orig_max_year <- max(cascaded$year)
+
     # Determine extended years if forecasting
-    all_years <- sort(unique(cascaded$year))
-    if (!is.null(forecast_to) && forecast_to > max(all_years)) {
-      extra_years <- seq(max(all_years) + 1L, as.integer(forecast_to))
+    if (!is.null(forecast_to) && forecast_to > orig_max_year) {
+      extra_years <- seq(orig_max_year + 1L, as.integer(forecast_to))
       # Expand the cascaded dataframe to include forecast years
       extra_skeleton <- tidyr::expand_grid(
         tibble::tibble(geo = unique(cascaded$geo)),
@@ -388,7 +391,6 @@ cascade_to_nuts2 <- function(data,
           dplyr::left_join(geo_ref, by = "geo")
       }
       cascaded <- dplyr::bind_rows(cascaded, extra_skeleton)
-      all_years <- sort(unique(cascaded$year))
     }
 
     # Apply imputation per variable per region
@@ -404,24 +406,35 @@ cascade_to_nuts2 <- function(data,
 
         sub <- cascaded[idx, ]
         sub <- sub[order(sub$year), ]
-        y_vals <- sub[[var]]
 
-        # Skip if all NA or no NAs to fill
-        if (all(is.na(y_vals)) || !any(is.na(y_vals))) {
-          cascaded[[flag_col]][idx] <- ifelse(is.na(y_vals), NA_integer_, 0L)
+        # Only pass the original (non-forecast) portion to impute_series
+        # so it can properly apply ETS forecasting for the extra years
+        orig_mask <- sub$year <= orig_max_year
+        y_orig <- sub[[var]][orig_mask]
+        years_orig <- sub$year[orig_mask]
+
+        # Skip if all NA or (no NAs to fill AND no forecasting needed)
+        needs_forecast <- !is.null(forecast_to) && forecast_to > orig_max_year
+        if (all(is.na(y_orig))) {
+          cascaded[[flag_col]][idx] <- NA_integer_
+          next
+        }
+        if (!any(is.na(y_orig)) && !needs_forecast) {
+          cascaded[[flag_col]][idx] <- ifelse(is.na(sub[[var]]), NA_integer_, 0L)
           next
         }
 
         result <- impute_series(
-          y = y_vals,
-          years = sub$year,
+          y = y_orig,
+          years = years_orig,
           forecast_to = forecast_to
         )
 
-        # Write back (result length matches sub if no forecast extension,
-        # or the extension was already done above)
-        cascaded[[var]][idx[order(sub$year)]] <- result$value[seq_along(idx)]
-        cascaded[[flag_col]][idx[order(sub$year)]] <- result$flag[seq_along(idx)]
+        # Write back: result covers original years + any forecast extension
+        ordered_idx <- idx[order(sub$year)]
+        n_write <- min(length(result$value), length(ordered_idx))
+        cascaded[[var]][ordered_idx[seq_len(n_write)]] <- result$value[seq_len(n_write)]
+        cascaded[[flag_col]][ordered_idx[seq_len(n_write)]] <- result$flag[seq_len(n_write)]
       }
     }
   }
