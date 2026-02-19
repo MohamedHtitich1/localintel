@@ -111,6 +111,9 @@ export(lc_build_display_sf)
 export(plot_best_by_country_level)
 export(build_multi_var_sf)
 
+# Exports - Cache
+export(clear_localintel_cache)
+
 # Exports - Imputation
 export(interp_pchip_flag)
 export(forecast_autoregressive)
