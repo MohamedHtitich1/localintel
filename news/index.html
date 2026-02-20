@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">localintel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,47 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.2" id="localintel-022">localintel 0.2.2<a class="anchor" aria-label="anchor" href="#localintel-022"></a></h2>
+<div class="section level3">
+<h3 id="eurostat-column-robustness-cascade-metadata-fixes-insight-formatting-0-2-2">Eurostat Column Robustness, Cascade Metadata Fixes, Insight Formatting<a class="anchor" aria-label="anchor" href="#eurostat-column-robustness-cascade-metadata-fixes-insight-formatting-0-2-2"></a></h3>
+<div class="section level4">
+<h4 id="new-features-0-2-2">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-2-2"></a></h4>
+<ul><li>
+<strong><code><a href="../reference/normalize_eurostat_cols.html">normalize_eurostat_cols()</a></code></strong> (<code>R/utils.R</code>)
+<ul><li>New exported utility that detects and renames non-standard column names returned by the Eurostat bulk download API (e.g. <code>geo\TIME_PERIOD</code> → <code>geo</code>, <code>TIME_PERIOD</code> → <code>time</code>). Called automatically at every data entry point (<code><a href="../reference/get_nuts2.html">get_nuts2()</a></code>, <code><a href="../reference/get_nuts2.html">get_nuts_level()</a></code>, <code><a href="../reference/get_nuts2.html">get_nuts_level_robust()</a></code>, <code><a href="../reference/process_eurostat.html">process_eurostat()</a></code>, <code><a href="../reference/interp_const_ends_flag.html">standardize_time()</a></code>) so downstream code can rely on standard column names regardless of Eurostat API version.</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="bug-fixes-0-2-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-2"></a></h4>
+<ul><li>
+<strong><code>src_{var}_level</code> no longer <code>NA</code> after imputation</strong> (<code>R/cascade.R</code>)
+<ul><li>After PCHIP interpolation or ETS forecasting, source-level metadata (<code>src_{var}_level</code>) is now forward/backward filled per region using <code>tidyr::fill(.direction = "downup")</code>. Previously, interpolated and forecasted cells retained <code>NA</code> because the cascade only assigned source levels to observed values.</li>
+</ul></li>
+<li>
+<strong>Insight panel: fixed <code>+-</code> percentage formatting</strong> (<code>subnational.html</code>)
+<ul><li>The “What the data reveals” panel now correctly formats percentage changes using proper sign symbols (<code>+</code> / <code>−</code>) and absolute values, preventing malformed strings like <code>+-101.0%</code> or negative numbers after “fell by”.</li>
+</ul></li>
+<li>
+<strong>Insight panel: polarity-aware direction language</strong> (<code>subnational.html</code>)
+<ul><li>The EU average evolution narrative now accounts for variable polarity (<code>higherIs: 'worse'</code> vs <code>'better'</code>). A decrease in mortality rate is correctly reported as “improved”, not “deteriorated”.</li>
+</ul></li>
+<li>
+<strong>Insight panel: variable-specific context</strong> (<code>subnational.html</code>)
+<ul><li>All insight narratives now use each variable’s <code>context</code> field (e.g. “mortality outcomes”, “educational attainment”, “economic output”) instead of hardcoded “health system capacity” or “health outcomes”.</li>
+</ul></li>
+<li>
+<strong>Insight panel: negative differential in Top 5 vs Bottom 5</strong> (<code>subnational.html</code>)
+<ul><li>For variables where lower is better (e.g. mortality rate), the Top 5 vs Bottom 5 differential is now displayed as an absolute value, preventing confusing negative numbers like “-1431.1 per 100,000”.</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="tests-0-2-2">Tests<a class="anchor" aria-label="anchor" href="#tests-0-2-2"></a></h4>
+<ul><li>Added 3 unit tests for <code><a href="../reference/normalize_eurostat_cols.html">normalize_eurostat_cols()</a></code> in <code>test-utils.R</code> (mangled geo column, <code>TIME_PERIOD</code> rename, no-op on standard columns).</li>
+<li>Added 2 unit tests for <code>src_level</code> propagation in <code>test-cascade.R</code> (interpolated cells, forecasted years).</li>
+</ul><hr></div>
+</div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.1" id="localintel-021">localintel 0.2.1<a class="anchor" aria-label="anchor" href="#localintel-021"></a></h2>
 <div class="section level3">
 <h3 id="imputation-integration-smart-caching-tests-0-2-1">Imputation Integration, Smart Caching, Tests<a class="anchor" aria-label="anchor" href="#imputation-integration-smart-caching-tests-0-2-1"></a></h3>
@@ -63,7 +104,7 @@
 <strong>Session-Level Smart Caching</strong> (<code>R/cache.R</code>)
 <ul><li>All geometry and reference functions (<code><a href="../reference/get_nuts2_ref.html">get_nuts_geo()</a></code>, <code><a href="../reference/get_nuts2_ref.html">get_nuts_geopolys()</a></code>, <code><a href="../reference/get_nuts2_ref.html">get_nuts2_ref()</a></code>, <code><a href="../reference/get_nuts2_ref.html">get_nuts2_names()</a></code>) now cache results in a package-level environment for instant repeated access within an R session.</li>
 <li>
-<code>clear_localintel_cache()</code>: Exported function to reset the cache and force fresh data fetches.</li>
+<code><a href="../reference/clear_localintel_cache.html">clear_localintel_cache()</a></code>: Exported function to reset the cache and force fresh data fetches.</li>
 <li>Cascade functions now use the cached <code><a href="../reference/get_nuts2_ref.html">get_nuts2_ref()</a></code> instead of duplicating the geospatial fetch logic.</li>
 </ul></li>
 <li>

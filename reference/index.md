@@ -57,6 +57,8 @@ any NUTS level with automatic retry and caching.
   [`fetch_eurostat_batch()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
   [`drop_empty()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md)
   : Eurostat Data Fetching Functions
+- [`clear_localintel_cache()`](https://mohamedhtitich1.github.io/localintel/reference/clear_localintel_cache.md)
+  : Clear Session Cache
 
 ## Reference Data
 
@@ -192,3 +194,5 @@ interpolation, EU27 filtering, and country-name enrichment.
 - [`interp_const_ends_flag()`](https://mohamedhtitich1.github.io/localintel/reference/interp_const_ends_flag.md)
   [`standardize_time()`](https://mohamedhtitich1.github.io/localintel/reference/interp_const_ends_flag.md)
   : Data Interpolation and Time Utilities
+- [`normalize_eurostat_cols()`](https://mohamedhtitich1.github.io/localintel/reference/normalize_eurostat_cols.md)
+  : Normalize Eurostat Column Names

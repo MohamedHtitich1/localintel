@@ -9,6 +9,10 @@ health, education, labour, demographics, tourism, transport,
 environment, and more — can be fetched, harmonized, cascaded to NUTS 2,
 scored, mapped, and exported through a single consistent workflow.
 
+[![localintel pipeline: from raw Eurostat data to complete regional maps
+across 235 NUTS-2
+regions](reference/figures/hero-map.svg)](https://mhtitich.com/subnational)
+
 |                                                                             |                                                                                                                                                                                                 |
 |:---------------------------------------------------------------------------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |  ![fetch](https://api.iconify.design/lucide/database.svg?color=%237c9885)   | **150+ Indicators** — Curated registries for 14 Eurostat domains with batch download and retry logic                                                                                            |
@@ -40,12 +44,25 @@ devtools::install_github("MohamedHtitich1/localintel")
 
 ## Quick Start
 
+Fetch one indicator, cascade it to every NUTS-2 region, and plot — in
+four lines:
+
 ``` r
 library(localintel)
 
-# See the full indicator registry
-n <- indicator_count()
-cat(n$indicators, "indicators across", n$domains, "domains\n")
+gdp_raw  <- get_nuts_level_robust("nama_10r_2gdp", level = 2, years = 2020:2024)
+gdp      <- process_gdp(gdp_raw)
+cascaded <- cascade_to_nuts2(gdp, vars = "gdp", years = 2020:2024)
+
+plot_best_by_country_level(cascaded, get_nuts_geopolys(), var = "gdp", years = 2024:2024)
+```
+
+### Full Multi-Domain Workflow
+
+Once you’re comfortable, scale up to multiple domains at once:
+
+``` r
+library(localintel)
 
 # 1. Fetch data from multiple domains
 econ  <- fetch_eurostat_batch(economy_codes(), level = 2, years = 2015:2024)
@@ -85,6 +102,26 @@ sf_all <- build_multi_var_sf(
 )
 export_to_geojson(sf_all, "output/multi_domain_nuts2.geojson")
 ```
+
+## Why localintel?
+
+If you work with Eurostat regional data, you’ve likely used the
+[`eurostat`](https://cran.r-project.org/package=eurostat) or
+[`restatapi`](https://cran.r-project.org/package=restatapi) packages.
+They’re excellent for downloading individual datasets — but getting from
+raw downloads to a complete, analysis-ready panel is where most of the
+work begins. localintel picks up where they leave off:
+
+|                 | `eurostat` / `restatapi`     | **localintel**                                                                                       |
+|-----------------|------------------------------|------------------------------------------------------------------------------------------------------|
+| **Scope**       | One dataset at a time        | 157 indicators across 15 domains in a single batch call                                              |
+| **Processing**  | Raw data as-is               | Domain-specific processors select units, filter dimensions, and standardize columns automatically    |
+| **Gaps**        | Missing regions stay missing | Cascade fills every NUTS-2 region from parent levels (100% geographic coverage) with source tracking |
+| **Time series** | Gaps remain                  | PCHIP interpolation + ETS forecasting, with provenance flags on every cell                           |
+| **Output**      | Data frame                   | Maps, GeoJSON (Tableau-ready), Excel, PDF map books — all from the same pipeline                     |
+
+In short: `eurostat` gives you the data, localintel gives you the
+complete analytical workflow on top of it.
 
 ## Domain Coverage
 

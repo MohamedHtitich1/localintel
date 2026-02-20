@@ -7,10 +7,24 @@ this function performs pure cascading without computing domain-specific
 derived indicators, making it suitable for economy, education, labour,
 environment, or any other Eurostat domain.
 
+When `impute = TRUE` (the default), adaptive econometric imputation is
+applied after cascading to fill temporal gaps within each region's time
+series. This uses PCHIP interpolation for internal gaps and optionally
+ETS autoregressive forecasting for future periods (when `forecast_to` is
+specified). The best model is selected automatically via AIC.
+
 ## Usage
 
 ``` r
-cascade_to_nuts2(data, vars, years = NULL, nuts2_ref = NULL, nuts_year = 2024)
+cascade_to_nuts2(
+  data,
+  vars,
+  years = NULL,
+  nuts2_ref = NULL,
+  nuts_year = 2024,
+  impute = TRUE,
+  forecast_to = NULL
+)
 ```
 
 ## Arguments
@@ -33,30 +47,65 @@ cascade_to_nuts2(data, vars, years = NULL, nuts2_ref = NULL, nuts_year = 2024)
 
   Reference table from
   [`get_nuts2_ref()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2_ref.md).
-  If NULL, fetched automatically.
+  If NULL, fetched automatically (session-cached for instant repeated
+  access).
 
 - nuts_year:
 
   Integer year for NUTS classification (default: 2024)
 
+- impute:
+
+  Logical. If TRUE (default), apply adaptive econometric imputation
+  (PCHIP + optional ETS) to fill temporal gaps after cascading.
+
+- forecast_to:
+
+  Integer year. If specified and greater than max(years), extend the
+  series with ETS autoregressive forecasts up to this year. Only used
+  when `impute = TRUE`.
+
 ## Value
 
-Dataframe with cascaded values at NUTS2 level. For each variable `v`, a
-corresponding `src_v_level` column tracks the source NUTS level (2 =
-original NUTS2, 1 = cascaded from NUTS1, 0 = cascaded from NUTS0).
+Dataframe with cascaded values at NUTS2 level. For each variable `v`:
+
+- `src_v_level`: source NUTS level (2 = original NUTS2, 1 = cascaded
+  from NUTS1, 0 = cascaded from NUTS0)
+
+- `imp_v_flag`: imputation flag (0 = observed/cascaded, 1 = PCHIP
+  interpolated, 2 = ETS forecasted). Only present when `impute = TRUE`.
 
 ## Examples
 
 ``` r
 if (FALSE) { # \dontrun{
-# Cascade GDP and unemployment data to NUTS2
+# Cascade with adaptive imputation (default)
 result <- cascade_to_nuts2(
   all_data,
-  vars = c("gdp", "unemployment_rate", "life_expectancy"),
-  years = 2010:2024
+  vars = c("gdp", "unemployment_rate"),
+  years = 2015:2024,
+  impute = TRUE
 )
 
-# Check source levels
-table(result$src_gdp_level)
+# Cascade with imputation + forecasting to 2025
+result <- cascade_to_nuts2(
+  all_data,
+  vars = c("gdp", "unemployment_rate"),
+  years = 2015:2024,
+  impute = TRUE,
+  forecast_to = 2025
+)
+
+# Check traceability
+table(result$src_gdp_level)   # cascade source
+table(result$imp_gdp_flag)    # imputation method
+
+# Cascade without imputation (legacy behaviour)
+result <- cascade_to_nuts2(
+  all_data,
+  vars = c("gdp", "unemployment_rate"),
+  years = 2015:2024,
+  impute = FALSE
+)
 } # }
 ```

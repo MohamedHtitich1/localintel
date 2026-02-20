@@ -1,5 +1,67 @@
 # Changelog
 
+## localintel 0.2.2
+
+### Eurostat Column Robustness, Cascade Metadata Fixes, Insight Formatting
+
+#### New Features
+
+- **[`normalize_eurostat_cols()`](https://mohamedhtitich1.github.io/localintel/reference/normalize_eurostat_cols.md)**
+  (`R/utils.R`)
+  - New exported utility that detects and renames non-standard column
+    names returned by the Eurostat bulk download API
+    (e.g. `geo\TIME_PERIOD` → `geo`, `TIME_PERIOD` → `time`). Called
+    automatically at every data entry point
+    ([`get_nuts2()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md),
+    [`get_nuts_level()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md),
+    [`get_nuts_level_robust()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2.md),
+    [`process_eurostat()`](https://mohamedhtitich1.github.io/localintel/reference/process_eurostat.md),
+    [`standardize_time()`](https://mohamedhtitich1.github.io/localintel/reference/interp_const_ends_flag.md))
+    so downstream code can rely on standard column names regardless of
+    Eurostat API version.
+
+#### Bug Fixes
+
+- **`src_{var}_level` no longer `NA` after imputation** (`R/cascade.R`)
+  - After PCHIP interpolation or ETS forecasting, source-level metadata
+    (`src_{var}_level`) is now forward/backward filled per region using
+    `tidyr::fill(.direction = "downup")`. Previously, interpolated and
+    forecasted cells retained `NA` because the cascade only assigned
+    source levels to observed values.
+- **Insight panel: fixed `+-` percentage formatting**
+  (`subnational.html`)
+  - The “What the data reveals” panel now correctly formats percentage
+    changes using proper sign symbols (`+` / `−`) and absolute values,
+    preventing malformed strings like `+-101.0%` or negative numbers
+    after “fell by”.
+- **Insight panel: polarity-aware direction language**
+  (`subnational.html`)
+  - The EU average evolution narrative now accounts for variable
+    polarity (`higherIs: 'worse'` vs `'better'`). A decrease in
+    mortality rate is correctly reported as “improved”, not
+    “deteriorated”.
+- **Insight panel: variable-specific context** (`subnational.html`)
+  - All insight narratives now use each variable’s `context` field
+    (e.g. “mortality outcomes”, “educational attainment”, “economic
+    output”) instead of hardcoded “health system capacity” or “health
+    outcomes”.
+- **Insight panel: negative differential in Top 5 vs Bottom 5**
+  (`subnational.html`)
+  - For variables where lower is better (e.g. mortality rate), the Top 5
+    vs Bottom 5 differential is now displayed as an absolute value,
+    preventing confusing negative numbers like “-1431.1 per 100,000”.
+
+#### Tests
+
+- Added 3 unit tests for
+  [`normalize_eurostat_cols()`](https://mohamedhtitich1.github.io/localintel/reference/normalize_eurostat_cols.md)
+  in `test-utils.R` (mangled geo column, `TIME_PERIOD` rename, no-op on
+  standard columns).
+- Added 2 unit tests for `src_level` propagation in `test-cascade.R`
+  (interpolated cells, forecasted years).
+
+------------------------------------------------------------------------
+
 ## localintel 0.2.1
 
 ### Imputation Integration, Smart Caching, Tests
@@ -25,8 +87,8 @@
     [`get_nuts2_names()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2_ref.md))
     now cache results in a package-level environment for instant
     repeated access within an R session.
-  - `clear_localintel_cache()`: Exported function to reset the cache and
-    force fresh data fetches.
+  - [`clear_localintel_cache()`](https://mohamedhtitich1.github.io/localintel/reference/clear_localintel_cache.md):
+    Exported function to reset the cache and force fresh data fetches.
   - Cascade functions now use the cached
     [`get_nuts2_ref()`](https://mohamedhtitich1.github.io/localintel/reference/get_nuts2_ref.md)
     instead of duplicating the geospatial fetch logic.

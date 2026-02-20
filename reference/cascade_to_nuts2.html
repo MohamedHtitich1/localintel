@@ -3,11 +3,21 @@
 from any thematic domain. Unlike cascade_to_nuts2_and_compute(),
 this function performs pure cascading without computing domain-specific
 derived indicators, making it suitable for economy, education, labour,
-environment, or any other Eurostat domain."><meta property="og:description" content="Cascades data from NUTS0/NUTS1 to NUTS2 level for any set of variables
+environment, or any other Eurostat domain.
+When impute = TRUE (the default), adaptive econometric imputation
+is applied after cascading to fill temporal gaps within each region's
+time series. This uses PCHIP interpolation for internal gaps and optionally
+ETS autoregressive forecasting for future periods (when forecast_to
+is specified). The best model is selected automatically via AIC."><meta property="og:description" content="Cascades data from NUTS0/NUTS1 to NUTS2 level for any set of variables
 from any thematic domain. Unlike cascade_to_nuts2_and_compute(),
 this function performs pure cascading without computing domain-specific
 derived indicators, making it suitable for economy, education, labour,
-environment, or any other Eurostat domain."><meta property="og:image" content="https://mohamedhtitich1.github.io/localintel/reference/figures/og-image.png"><meta property="og:image:alt" content="localintel – Subnational Data Pipeline for 235 European NUTS-2 Regions"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:creator" content="@MohamedHtitich"><meta name="twitter:site" content="@MohamedHtitich"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=IBM+Plex+Sans:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"></head><body>
+environment, or any other Eurostat domain.
+When impute = TRUE (the default), adaptive econometric imputation
+is applied after cascading to fill temporal gaps within each region's
+time series. This uses PCHIP interpolation for internal gaps and optionally
+ETS autoregressive forecasting for future periods (when forecast_to
+is specified). The best model is selected automatically via AIC."><meta property="og:image" content="https://mohamedhtitich1.github.io/localintel/reference/figures/og-image.png"><meta property="og:image:alt" content="localintel – Subnational Data Pipeline for 235 European NUTS-2 Regions"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:creator" content="@MohamedHtitich"><meta name="twitter:site" content="@MohamedHtitich"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=IBM+Plex+Sans:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +25,7 @@ environment, or any other Eurostat domain."><meta property="og:image" content="h
 
     <a class="navbar-brand me-2" href="../index.html">localintel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +60,7 @@ environment, or any other Eurostat domain."><meta property="og:image" content="h
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Cascade Data to NUTS2 (Generic / Domain-Agnostic)</h1>
-
+      <small class="dont-index">Source: <a href="https://github.com/MohamedHtitich1/localintel/blob/main/R/cascade.R" class="external-link"><code>R/cascade.R</code></a></small>
       <div class="d-none name"><code>cascade_to_nuts2.Rd</code></div>
     </div>
 
@@ -60,11 +70,24 @@ from any thematic domain. Unlike <code><a href="cascade_to_nuts2_and_compute.htm
 this function performs pure cascading without computing domain-specific
 derived indicators, making it suitable for economy, education, labour,
 environment, or any other Eurostat domain.</p>
+<p>When <code>impute = TRUE</code> (the default), adaptive econometric imputation
+is applied after cascading to fill temporal gaps within each region's
+time series. This uses PCHIP interpolation for internal gaps and optionally
+ETS autoregressive forecasting for future periods (when <code>forecast_to</code>
+is specified). The best model is selected automatically via AIC.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cascade_to_nuts2</span><span class="op">(</span><span class="va">data</span>, <span class="va">vars</span>, years <span class="op">=</span> <span class="cn">NULL</span>, nuts2_ref <span class="op">=</span> <span class="cn">NULL</span>, nuts_year <span class="op">=</span> <span class="fl">2024</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cascade_to_nuts2</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">vars</span>,</span>
+<span>  years <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nuts2_ref <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nuts_year <span class="op">=</span> <span class="fl">2024</span>,</span>
+<span>  impute <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  forecast_to <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -85,32 +108,65 @@ data at mixed NUTS levels (identified by geo code length: 2=NUTS0, 3=NUTS1, 4=NU
 
 
 <dt id="arg-nuts-ref">nuts2_ref<a class="anchor" aria-label="anchor" href="#arg-nuts-ref"></a></dt>
-<dd><p>Reference table from <code><a href="get_nuts2_ref.html">get_nuts2_ref()</a></code>. If NULL, fetched automatically.</p></dd>
+<dd><p>Reference table from <code><a href="get_nuts2_ref.html">get_nuts2_ref()</a></code>. If NULL, fetched
+automatically (session-cached for instant repeated access).</p></dd>
 
 
 <dt id="arg-nuts-year">nuts_year<a class="anchor" aria-label="anchor" href="#arg-nuts-year"></a></dt>
 <dd><p>Integer year for NUTS classification (default: 2024)</p></dd>
 
+
+<dt id="arg-impute">impute<a class="anchor" aria-label="anchor" href="#arg-impute"></a></dt>
+<dd><p>Logical. If TRUE (default), apply adaptive econometric imputation
+(PCHIP + optional ETS) to fill temporal gaps after cascading.</p></dd>
+
+
+<dt id="arg-forecast-to">forecast_to<a class="anchor" aria-label="anchor" href="#arg-forecast-to"></a></dt>
+<dd><p>Integer year. If specified and greater than max(years),
+extend the series with ETS autoregressive forecasts up to this year.
+Only used when <code>impute = TRUE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Dataframe with cascaded values at NUTS2 level. For each variable <code>v</code>,
-a corresponding <code>src_v_level</code> column tracks the source NUTS level
-(2 = original NUTS2, 1 = cascaded from NUTS1, 0 = cascaded from NUTS0).</p>
-    </div>
+    <p>Dataframe with cascaded values at NUTS2 level. For each variable <code>v</code>:</p><ul><li><p><code>src_v_level</code>: source NUTS level (2 = original NUTS2,
+    1 = cascaded from NUTS1, 0 = cascaded from NUTS0)</p></li>
+<li><p><code>imp_v_flag</code>: imputation flag (0 = observed/cascaded,
+    1 = PCHIP interpolated, 2 = ETS forecasted). Only present when
+    <code>impute = TRUE</code>.</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Cascade GDP and unemployment data to NUTS2</span></span></span>
+<span class="r-in"><span><span class="co"># Cascade with adaptive imputation (default)</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">cascade_to_nuts2</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">all_data</span>,</span></span>
-<span class="r-in"><span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"unemployment_rate"</span>, <span class="st">"life_expectancy"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  years <span class="op">=</span> <span class="fl">2010</span><span class="op">:</span><span class="fl">2024</span></span></span>
+<span class="r-in"><span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"unemployment_rate"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span>,</span></span>
+<span class="r-in"><span>  impute <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Check source levels</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">src_gdp_level</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Cascade with imputation + forecasting to 2025</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">cascade_to_nuts2</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">all_data</span>,</span></span>
+<span class="r-in"><span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"unemployment_rate"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span>,</span></span>
+<span class="r-in"><span>  impute <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  forecast_to <span class="op">=</span> <span class="fl">2025</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check traceability</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">src_gdp_level</span><span class="op">)</span>   <span class="co"># cascade source</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">imp_gdp_flag</span><span class="op">)</span>    <span class="co"># imputation method</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Cascade without imputation (legacy behaviour)</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">cascade_to_nuts2</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">all_data</span>,</span></span>
+<span class="r-in"><span>  vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gdp"</span>, <span class="st">"unemployment_rate"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span>,</span></span>
+<span class="r-in"><span>  impute <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

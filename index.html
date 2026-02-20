@@ -38,7 +38,7 @@
 
     <a class="navbar-brand me-2" href="index.html">localintel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +90,7 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p><strong>localintel</strong> (Local Intelligence) is an R package that provides a unified pipeline for <strong>150+ subnational indicators across 14 thematic domains</strong> from Eurostat. Any Eurostat regional dataset — economy, health, education, labour, demographics, tourism, transport, environment, and more — can be fetched, harmonized, cascaded to NUTS 2, scored, mapped, and exported through a single consistent workflow.</p>
+<p><a href="https://mhtitich.com/subnational" class="external-link"> <picture><source media="(prefers-color-scheme: dark)" srcset="reference/figures/hero-map.svg"><img src="reference/figures/hero-map.svg" alt="localintel pipeline: from raw Eurostat data to complete regional maps across 235 NUTS-2 regions" width="100%"></source></picture></a></p>
 <table class="table">
 <tr>
 <td width="60" align="center">
@@ -152,12 +153,21 @@
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
+<p>Fetch one indicator, cascade it to every NUTS-2 region, and plot — in four lines:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mohamedhtitich1.github.io/localintel/">localintel</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># See the full indicator registry</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/indicator_count.html">indicator_count</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">n</span><span class="op">$</span><span class="va">indicators</span>, <span class="st">"indicators across"</span>, <span class="va">n</span><span class="op">$</span><span class="va">domains</span>, <span class="st">"domains\n"</span><span class="op">)</span></span>
+<span><span class="va">gdp_raw</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2.html">get_nuts_level_robust</a></span><span class="op">(</span><span class="st">"nama_10r_2gdp"</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2020</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span><span class="va">gdp</span>      <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_gdp.html">process_gdp</a></span><span class="op">(</span><span class="va">gdp_raw</span><span class="op">)</span></span>
+<span><span class="va">cascaded</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cascade_to_nuts2.html">cascade_to_nuts2</a></span><span class="op">(</span><span class="va">gdp</span>, vars <span class="op">=</span> <span class="st">"gdp"</span>, years <span class="op">=</span> <span class="fl">2020</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="fu"><a href="reference/get_nuts2_ref.html">get_nuts_geopolys</a></span><span class="op">(</span><span class="op">)</span>, var <span class="op">=</span> <span class="st">"gdp"</span>, years <span class="op">=</span> <span class="fl">2024</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="full-multi-domain-workflow">Full Multi-Domain Workflow<a class="anchor" aria-label="anchor" href="#full-multi-domain-workflow"></a>
+</h3>
+<p>Once you’re comfortable, scale up to multiple domains at once:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mohamedhtitich1.github.io/localintel/">localintel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 1. Fetch data from multiple domains</span></span>
 <span><span class="va">econ</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_nuts2.html">fetch_eurostat_batch</a></span><span class="op">(</span><span class="fu"><a href="reference/economy_codes.html">economy_codes</a></span><span class="op">(</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">2</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
@@ -196,6 +206,54 @@
 <span>  pillar_mapping <span class="op">=</span> <span class="fu"><a href="reference/regional_domain_mapping.html">regional_domain_mapping</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="st">"output/multi_domain_nuts2.geojson"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="why-localintel">Why localintel?<a class="anchor" aria-label="anchor" href="#why-localintel"></a>
+</h2>
+<p>If you work with Eurostat regional data, you’ve likely used the <a href="https://cran.r-project.org/package=eurostat" class="external-link"><code>eurostat</code></a> or <a href="https://cran.r-project.org/package=restatapi" class="external-link"><code>restatapi</code></a> packages. They’re excellent for downloading individual datasets — but getting from raw downloads to a complete, analysis-ready panel is where most of the work begins. localintel picks up where they leave off:</p>
+<table class="table">
+<colgroup>
+<col width="33%">
+<col width="33%">
+<col width="33%">
+</colgroup>
+<thead><tr class="header">
+<th></th>
+<th>
+<code>eurostat</code> / <code>restatapi</code>
+</th>
+<th><strong>localintel</strong></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Scope</strong></td>
+<td>One dataset at a time</td>
+<td>157 indicators across 15 domains in a single batch call</td>
+</tr>
+<tr class="even">
+<td><strong>Processing</strong></td>
+<td>Raw data as-is</td>
+<td>Domain-specific processors select units, filter dimensions, and standardize columns automatically</td>
+</tr>
+<tr class="odd">
+<td><strong>Gaps</strong></td>
+<td>Missing regions stay missing</td>
+<td>Cascade fills every NUTS-2 region from parent levels (100% geographic coverage) with source tracking</td>
+</tr>
+<tr class="even">
+<td><strong>Time series</strong></td>
+<td>Gaps remain</td>
+<td>PCHIP interpolation + ETS forecasting, with provenance flags on every cell</td>
+</tr>
+<tr class="odd">
+<td><strong>Output</strong></td>
+<td>Data frame</td>
+<td>Maps, GeoJSON (Tableau-ready), Excel, PDF map books — all from the same pipeline</td>
+</tr>
+</tbody>
+</table>
+<p>In short: <code>eurostat</code> gives you the data, localintel gives you the complete analytical workflow on top of it.</p>
 </div>
 <div class="section level2">
 <h2 id="domain-coverage">Domain Coverage<a class="anchor" aria-label="anchor" href="#domain-coverage"></a>
@@ -305,7 +363,7 @@
 <h3 id="generic-processing">Generic Processing<a class="anchor" aria-label="anchor" href="#generic-processing"></a>
 </h3>
 <p>The <code><a href="reference/process_eurostat.html">process_eurostat()</a></code> function handles <strong>any</strong> Eurostat dataset with flexible dimension filtering:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Custom indicator with arbitrary filters</span></span>
 <span><span class="va">custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_eurostat.html">process_eurostat</a></span><span class="op">(</span><span class="va">raw_data</span>,</span>
 <span>  filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>unit <span class="op">=</span> <span class="st">"PC"</span>, sex <span class="op">=</span> <span class="st">"T"</span>, age <span class="op">=</span> <span class="st">"Y25-64"</span><span class="op">)</span>,</span>
@@ -316,7 +374,7 @@
 <h3 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h3>
 <p>Automatic “best level” selection for maps — displays NUTS 2 where available, falls back to NUTS 1 / NUTS 0:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"unemployment_rate"</span>,</span>
 <span>  years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2024</span>, title <span class="op">=</span> <span class="st">"Unemployment Rate (%)"</span>, scale <span class="op">=</span> <span class="st">"global"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -324,7 +382,7 @@
 <h3 id="tableau-integration">Tableau Integration<a class="anchor" aria-label="anchor" href="#tableau-integration"></a>
 </h3>
 <p>Full support for Tableau exports with country names, region labels, population-weighted aggregations, and performance tags (Best/Worst by country):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_enriched</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/export_to_geojson.html">enrich_for_tableau</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="va">pop_data</span>, <span class="va">nuts2_names</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_enriched</span>, <span class="st">"dashboard_export.geojson"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -353,12 +411,12 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">@software{localintel,</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">  author = {Htitich, Mohamed},</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">  title = {localintel: Local Intelligence for Subnational Data Analysis},</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">  year = {2025},</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">  url = {https://github.com/MohamedHtitich1/localintel}</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">@software{localintel,</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">  author = {Htitich, Mohamed},</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">  title = {localintel: Local Intelligence for Subnational Data Analysis},</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">  year = {2025},</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">  url = {https://github.com/MohamedHtitich1/localintel}</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">}</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
