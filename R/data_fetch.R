@@ -22,16 +22,15 @@ get_nuts2 <- function(code, years = NULL) {
     stringsAsFactors = FALSE,
     cache = TRUE
   )
-  
+
+  # Normalize non-standard column names (e.g. "geo\TIME_PERIOD" → "geo")
+  df <- normalize_eurostat_cols(df)
+
   # Normalize time column name
   if (!"time" %in% names(df)) {
-    if ("TIME_PERIOD" %in% names(df)) {
-      df <- dplyr::rename(df, time = .data$TIME_PERIOD)
-    } else {
-      stop("No time column detected in dataset: ", code)
-    }
+    stop("No time column detected in dataset: ", code)
   }
-  
+
   # Parse year and filter to NUTS2 (4-char codes)
   df <- df %>%
     dplyr::mutate(time = as.integer(substr(as.character(.data$time), 1, 4))) %>%
@@ -69,25 +68,24 @@ get_nuts_level <- function(code, level = 2, years = NULL) {
     stringsAsFactors = FALSE,
     cache = TRUE
   )
-  
+
+  # Normalize non-standard column names (e.g. "geo\TIME_PERIOD" → "geo")
+  df <- normalize_eurostat_cols(df)
+
   # Normalize time column
   if (!"time" %in% names(df)) {
-    if ("TIME_PERIOD" %in% names(df)) {
-      df <- dplyr::rename(df, time = .data$TIME_PERIOD)
-    } else {
-      stop("No time column detected in dataset: ", code)
-    }
+    stop("No time column detected in dataset: ", code)
   }
-  
+
   # Parse year & filter by NUTS level
   df <- df %>%
     dplyr::mutate(time = as.integer(substr(as.character(.data$time), 1, 4))) %>%
     dplyr::filter(stringr::str_length(.data$geo) == target_len)
-  
+
   if (!is.null(years)) {
     df <- df %>% dplyr::filter(!is.na(.data$time) & .data$time %in% years)
   }
-  
+
   df
 }
 
@@ -125,16 +123,15 @@ get_nuts_level_robust <- function(code, level = 2, years = NULL) {
       fetch(cache = FALSE, update = FALSE)
     }
   )
-  
+
+  # Normalize non-standard column names (e.g. "geo\TIME_PERIOD" → "geo")
+  df <- normalize_eurostat_cols(df)
+
   # Normalize time column
   if (!"time" %in% names(df)) {
-    if ("TIME_PERIOD" %in% names(df)) {
-      df <- dplyr::rename(df, time = .data$TIME_PERIOD)
-    } else {
-      stop("No time column detected in dataset: ", code)
-    }
+    stop("No time column detected in dataset: ", code)
   }
-  
+
   df %>%
     dplyr::mutate(time = as.integer(substr(as.character(.data$time), 1, 4))) %>%
     dplyr::filter(stringr::str_length(.data$geo) == target_len) %>%

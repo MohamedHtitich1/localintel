@@ -39,6 +39,7 @@ export(keep_eu27)
 export(standardize_time)
 export(nuts_country_names)
 export(add_country_name)
+export(normalize_eurostat_cols)
 
 # Exports - Data Fetch
 export(get_nuts2)

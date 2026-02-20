@@ -436,6 +436,16 @@ cascade_to_nuts2 <- function(data,
         cascaded[[var]][ordered_idx[seq_len(n_write)]] <- result$value[seq_len(n_write)]
         cascaded[[flag_col]][ordered_idx[seq_len(n_write)]] <- result$flag[seq_len(n_write)]
       }
+
+      # Forward/backward fill src_<var>_level per geo so that interpolated
+      # and forecasted cells inherit the nearest observed source level
+      # (otherwise they remain NA, which is uninformative)
+      src_col <- paste0("src_", var, "_level")
+      cascaded <- cascaded %>%
+        dplyr::group_by(.data$geo) %>%
+        dplyr::arrange(.data$year, .by_group = TRUE) %>%
+        tidyr::fill(dplyr::all_of(src_col), .direction = "downup") %>%
+        dplyr::ungroup()
     }
   }
 

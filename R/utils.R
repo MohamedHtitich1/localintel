@@ -112,22 +112,65 @@ keep_eu27 <- function(df, extra = c("NO", "IS")) {
     dplyr::select(-"ctry")
 }
 
+#' Normalize Eurostat Column Names
+#'
+#' Detects and renames non-standard column names that Eurostat's bulk
+#' download sometimes returns, such as \code{"geo\\TIME_PERIOD"} instead
+#' of a proper \code{"geo"} column, or \code{"TIME_PERIOD"} instead of
+#' \code{"time"}.  Call this immediately after \code{eurostat::get_eurostat()}
+#' to ensure downstream code can rely on standard column names.
+#'
+#' @param df Dataframe freshly returned from Eurostat
+#' @return Dataframe with normalized column names (\code{geo}, \code{time})
+#' @export
+#' @examples
+#' \dontrun{
+#' df <- eurostat::get_eurostat("hlth_rs_bdsrg2") %>% normalize_eurostat_cols()
+#' }
+normalize_eurostat_cols <- function(df) {
+  nms <- names(df)
+
+
+  # --- geo column ---
+  # The eurostat package can return "geo\TIME_PERIOD" or similar composites
+  if (!"geo" %in% nms) {
+    geo_candidates <- grep("^geo", nms, ignore.case = TRUE, value = TRUE)
+    if (length(geo_candidates) == 1) {
+      names(df)[names(df) == geo_candidates] <- "geo"
+    } else if (length(geo_candidates) > 1) {
+      # Pick the shortest candidate (most likely just "geo" with noise)
+      pick <- geo_candidates[which.min(nchar(geo_candidates))]
+      names(df)[names(df) == pick] <- "geo"
+    }
+  }
+
+  # --- time column ---
+  if (!"time" %in% names(df)) {
+    if ("TIME_PERIOD" %in% names(df)) {
+      names(df)[names(df) == "TIME_PERIOD"] <- "time"
+    }
+  }
+
+  df
+}
+
 #' Standardize Time Column
 #'
-#' Standardizes time column naming and parses year as integer
+#' Standardizes time column naming and parses year as integer.
+#' Also normalizes Eurostat column names via \code{\link{normalize_eurostat_cols}}.
 #'
 #' @param df Dataframe with 'time' or 'TIME_PERIOD' column
 #' @return Dataframe with standardized 'time' and 'year' columns
 #' @export
 standardize_time <- function(df) {
+  # Normalize any non-standard column names first
+
+  df <- normalize_eurostat_cols(df)
+
   if (!"time" %in% names(df)) {
-    if ("TIME_PERIOD" %in% names(df)) {
-      df <- dplyr::rename(df, time = .data$TIME_PERIOD)
-    } else {
-      stop("No 'time' or 'TIME_PERIOD' column found.")
-    }
+    stop("No 'time' or 'TIME_PERIOD' column found.")
   }
-  
+
   df %>%
     dplyr::mutate(year = {
       t <- .data$time

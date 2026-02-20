@@ -313,8 +313,10 @@ transform_and_score <- function(df, transforms) {
 process_eurostat <- function(df, filters = list(), value_col = "values", out_col = NULL) {
   if (is.null(out_col)) out_col <- "value"
 
-  # Apply filters
+  # Normalize non-standard Eurostat column names (e.g. "geo\TIME_PERIOD" → "geo")
+  df <- normalize_eurostat_cols(df)
 
+  # Apply filters
   for (col_name in names(filters)) {
     if (col_name %in% names(df)) {
       df <- df %>%
@@ -326,9 +328,6 @@ process_eurostat <- function(df, filters = list(), value_col = "values", out_col
   if ("time" %in% names(df)) {
     df <- df %>%
       dplyr::mutate(year = as.integer(substr(as.character(.data$time), 1, 4)))
-  } else if ("TIME_PERIOD" %in% names(df)) {
-    df <- df %>%
-      dplyr::mutate(year = as.integer(substr(as.character(.data$TIME_PERIOD), 1, 4)))
   } else if (!"year" %in% names(df)) {
     stop("No time/TIME_PERIOD/year column found in data")
   }
