@@ -217,6 +217,7 @@ reference:
       - scale_0_100
       - rescale_minmax
       - interp_const_ends_flag
+      - normalize_eurostat_cols
       - standardize_time
       - nuts_country_names
       - add_country_name
