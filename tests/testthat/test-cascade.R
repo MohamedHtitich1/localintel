@@ -105,6 +105,38 @@ test_that("cascade_to_nuts2 with forecast_to extends series", {
   expect_false(is.na(de11$x[de11$year == 2024]))
 })
 
+test_that("cascade_to_nuts2 fills src_level for interpolated cells", {
+  ref <- mock_nuts2_ref()
+  # DE11 has a gap at 2021 — after imputation, src_level should still be filled
+  data <- tibble::tibble(
+    geo  = c("DE11", "DE11", "DE11"),
+    year = c(2020L,  2021L,  2022L),
+    x    = c(10,     NA,     30)
+  )
+  result <- cascade_to_nuts2(data, vars = "x", years = 2020:2022,
+                             nuts2_ref = ref, impute = TRUE)
+  de11 <- result[result$geo == "DE11", ]
+  de11 <- de11[order(de11$year), ]
+  # src_x_level should not be NA for the interpolated year
+  expect_false(is.na(de11$src_x_level[de11$year == 2021]))
+})
+
+test_that("cascade_to_nuts2 fills src_level for forecasted years", {
+  ref <- mock_nuts2_ref()
+  data <- tibble::tibble(
+    geo  = rep("DE11", 5),
+    year = 2018:2022,
+    x    = c(10, 20, 30, 40, 50)
+  )
+  result <- cascade_to_nuts2(data, vars = "x", years = 2018:2022,
+                             nuts2_ref = ref, impute = TRUE, forecast_to = 2024)
+  de11 <- result[result$geo == "DE11", ]
+  de11 <- de11[order(de11$year), ]
+  # Forecasted years should inherit src_level from the last observed year
+  expect_false(is.na(de11$src_x_level[de11$year == 2023]))
+  expect_false(is.na(de11$src_x_level[de11$year == 2024]))
+})
+
 test_that("cascade_to_nuts2 handles multiple variables", {
   ref <- mock_nuts2_ref()
   data <- tibble::tibble(

@@ -78,6 +78,29 @@ test_that("eu27_codes returns 27 codes", {
   expect_false("UK" %in% codes)
 })
 
+test_that("normalize_eurostat_cols renames geo\\TIME_PERIOD to geo", {
+  df <- data.frame(`geo\\TIME_PERIOD` = c("DE11", "FR10"), values = c(1, 2),
+                   check.names = FALSE, stringsAsFactors = FALSE)
+  result <- normalize_eurostat_cols(df)
+  expect_true("geo" %in% names(result))
+  expect_equal(result$geo, c("DE11", "FR10"))
+})
+
+test_that("normalize_eurostat_cols renames TIME_PERIOD to time", {
+  df <- data.frame(geo = "DE11", TIME_PERIOD = "2020", values = 1,
+                   stringsAsFactors = FALSE)
+  result <- normalize_eurostat_cols(df)
+  expect_true("time" %in% names(result))
+  expect_false("TIME_PERIOD" %in% names(result))
+})
+
+test_that("normalize_eurostat_cols is a no-op when columns are standard", {
+  df <- data.frame(geo = "DE11", time = "2020", values = 1,
+                   stringsAsFactors = FALSE)
+  result <- normalize_eurostat_cols(df)
+  expect_identical(names(result), names(df))
+})
+
 test_that("nuts_country_names returns named vector", {
   nms <- nuts_country_names()
   expect_true(is.character(nms))
