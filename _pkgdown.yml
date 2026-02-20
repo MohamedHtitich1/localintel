@@ -115,6 +115,7 @@ reference:
       - get_nuts_level_safe
       - fetch_eurostat_batch
       - drop_empty
+      - clear_localintel_cache
 
   - title: "Reference Data"
     desc: >
