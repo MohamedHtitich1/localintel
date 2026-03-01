@@ -10,12 +10,12 @@
 Source:
 [`DESCRIPTION`](https://github.com/MohamedHtitich1/localintel/blob/main/DESCRIPTION)
 
-Htitich M (2026). *localintel: Local Intelligence - Subnational Data
-Pipeline for 150+ Eurostat Regional Indicators*. R package version
-0.2.2, <https://mohamedhtitich1.github.io/localintel/>.
+Htitich M (2026). *localintel: Local Intelligence - Inequality Mapping
+Engine for 150+ Eurostat Regional Indicators*. R package version 0.2.2,
+<https://mohamedhtitich1.github.io/localintel/>.
 
     @Manual{,
-      title = {localintel: Local Intelligence - Subnational Data Pipeline for 150+ Eurostat Regional Indicators},
+      title = {localintel: Local Intelligence - Inequality Mapping Engine for 150+ Eurostat Regional Indicators},
       author = {Mohamed Htitich},
       year = {2026},
       note = {R package version 0.2.2},

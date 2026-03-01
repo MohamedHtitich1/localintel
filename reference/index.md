@@ -143,10 +143,11 @@ with flag-based provenance tracking.
 - [`impute_series()`](https://mohamedhtitich1.github.io/localintel/reference/impute_series.md)
   : Full Imputation Pipeline
 
-## Visualization
+## Visualization & Inequality Mapping
 
 Build spatial objects and render publication-ready tmap facets —
-automatic best-level selection per country-year.
+automatic best-level selection per country-year. Powers the inequality
+mapping engine and AI-generated regional insights.
 
 - [`build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
   [`lc_build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)

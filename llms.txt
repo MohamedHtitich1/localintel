@@ -2,12 +2,13 @@
 
 ## Overview
 
-**localintel** (Local Intelligence) is an R package that provides a
-unified pipeline for **150+ subnational indicators across 14 thematic
-domains** from Eurostat. Any Eurostat regional dataset — economy,
-health, education, labour, demographics, tourism, transport,
-environment, and more — can be fetched, harmonized, cascaded to NUTS 2,
-scored, mapped, and exported through a single consistent workflow.
+**localintel** (Local Intelligence) is an R package and **inequality
+mapping engine** that provides a unified pipeline for **150+ subnational
+indicators across 14 thematic domains** from Eurostat. Any Eurostat
+regional dataset — economy, health, education, labour, demographics,
+tourism, transport, environment, and more — can be fetched, harmonized,
+cascaded to NUTS 2, scored, mapped, and exported through a single
+consistent workflow — with AI-generated regional insights.
 
 [![localintel pipeline: from raw Eurostat data to complete regional maps
 across 235 NUTS-2
@@ -18,21 +19,22 @@ regions](reference/figures/hero-map.svg)](https://mhtitich.com/subnational)
 |  ![fetch](https://api.iconify.design/lucide/database.svg?color=%237c9885)   | **150+ Indicators** — Curated registries for 14 Eurostat domains with batch download and retry logic                                                                                            |
 |  ![process](https://api.iconify.design/lucide/layers.svg?color=%237c9885)   | **Universal Processing** — Generic [`process_eurostat()`](https://mohamedhtitich1.github.io/localintel/reference/process_eurostat.md) plus domain-specific processors for instant harmonization |
 | ![cascade](https://api.iconify.design/lucide/git-merge.svg?color=%237c9885) | **Data Cascading** — Intelligent propagation from country (NUTS 0) to regional (NUTS 2) with source-level tracking                                                                              |
-|     ![viz](https://api.iconify.design/lucide/globe.svg?color=%237c9885)     | **Visualization** — Publication-ready maps with automatic best-level selection per country                                                                                                      |
+|     ![viz](https://api.iconify.design/lucide/globe.svg?color=%237c9885)     | **Inequality Mapping** — Publication-ready maps with automatic best-level selection per country and AI-generated regional insights                                                              |
 |   ![export](https://api.iconify.design/lucide/upload.svg?color=%237c9885)   | **Export** — Tableau-ready GeoJSON, Excel, PDF maps, and RDS with enrichment and performance tags                                                                                               |
 
 ## Live Demo
 
-> **See localintel in action** —
-> [mhtitich.com/subnational](https://mhtitich.com/subnational) is an
-> interactive dashboard built entirely with data processed through this
-> package. It maps regional disparities across **235 European NUTS-2
-> regions** from 2010–2024, with live indicator switching, animated
-> timeline playback, and AI-generated regional insights.
+> **See the inequality mapping engine in action** — [*Where Inequality
+> Lives*](https://mhtitich.com/subnational) is an interactive dashboard
+> built entirely with data processed through this package. It maps
+> regional disparities across **235 European NUTS-2 regions** from
+> 2010–2024, with live indicator switching, animated timeline playback,
+> and AI-generated regional insights powered by an indicator-aware
+> narrative engine.
 >
 > The pipeline is fully parametrizable and can be adapted to any
-> indicator domain. **Interested in a custom deployment? [Get in
-> touch.](mailto:m.ahtitich@outlook.com)**
+> indicator domain or geography. **Interested in a custom deployment?
+> [Get in touch.](mailto:m.ahtitich@outlook.com)**
 
 ## Installation
 
@@ -112,16 +114,16 @@ They’re excellent for downloading individual datasets — but getting from
 raw downloads to a complete, analysis-ready panel is where most of the
 work begins. localintel picks up where they leave off:
 
-|                 | `eurostat` / `restatapi`     | **localintel**                                                                                       |
-|-----------------|------------------------------|------------------------------------------------------------------------------------------------------|
-| **Scope**       | One dataset at a time        | 157 indicators across 15 domains in a single batch call                                              |
-| **Processing**  | Raw data as-is               | Domain-specific processors select units, filter dimensions, and standardize columns automatically    |
-| **Gaps**        | Missing regions stay missing | Cascade fills every NUTS-2 region from parent levels (100% geographic coverage) with source tracking |
-| **Time series** | Gaps remain                  | PCHIP interpolation + ETS forecasting, with provenance flags on every cell                           |
-| **Output**      | Data frame                   | Maps, GeoJSON (Tableau-ready), Excel, PDF map books — all from the same pipeline                     |
+|                 | `eurostat` / `restatapi`     | **localintel**                                                                                                       |
+|-----------------|------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| **Scope**       | One dataset at a time        | 157 indicators across 15 domains in a single batch call                                                              |
+| **Processing**  | Raw data as-is               | Domain-specific processors select units, filter dimensions, and standardize columns automatically                    |
+| **Gaps**        | Missing regions stay missing | Cascade fills every NUTS-2 region from parent levels (100% geographic coverage) with source tracking                 |
+| **Time series** | Gaps remain                  | PCHIP interpolation + ETS forecasting, with provenance flags on every cell                                           |
+| **Output**      | Data frame                   | Maps, GeoJSON (Tableau-ready), Excel, PDF map books, and AI-generated regional insights — all from the same pipeline |
 
 In short: `eurostat` gives you the data, localintel gives you the
-complete analytical workflow on top of it.
+complete inequality mapping engine on top of it.
 
 ## Domain Coverage
 
@@ -201,8 +203,9 @@ export_to_geojson(sf_enriched, "dashboard_export.geojson")
 This package was developed as part of research on subnational regional
 analysis in Europe. Related projects:
 
-- [Subnational Health Disparities Map](https://mhtitich.com/subnational)
-  — Interactive dashboard powered by localintel
+- [Where Inequality Lives](https://mhtitich.com/subnational) —
+  Interactive inequality mapping engine powered by localintel, with
+  AI-generated regional insights
 - [w2m](https://github.com/MohamedHtitich1/w2m) — Composite indicator
   construction
 
@@ -220,7 +223,7 @@ MIT © Mohamed Htitich
 ``` bibtex
 @software{localintel,
   author = {Htitich, Mohamed},
-  title = {localintel: Local Intelligence for Subnational Data Analysis},
+  title = {localintel: Inequality Mapping Engine for Subnational Data Analysis},
   year = {2025},
   url = {https://github.com/MohamedHtitich1/localintel}
 }
@@ -371,10 +374,11 @@ with flag-based provenance tracking.
 - [`impute_series()`](https://mohamedhtitich1.github.io/localintel/reference/impute_series.md)
   : Full Imputation Pipeline
 
-## Visualization
+## Visualization & Inequality Mapping
 
 Build spatial objects and render publication-ready tmap facets —
-automatic best-level selection per country-year.
+automatic best-level selection per country-year. Powers the inequality
+mapping engine and AI-generated regional insights.
 
 - [`build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
   [`lc_build_display_sf()`](https://mohamedhtitich1.github.io/localintel/reference/build_display_sf.md)
