@@ -1,15 +1,15 @@
 #' @keywords internal
 "_PACKAGE"
 
-#' localintel: Local Intelligence for Subnational Data Analysis
+#' localintel: Inequality Mapping Engine for Subnational Data Analysis
 #'
 #' @description
-#' A comprehensive pipeline for fetching, harmonizing, cascading, and
+#' An inequality mapping engine for fetching, harmonizing, cascading, and
 #' visualizing 150+ subnational indicators from Eurostat across 14
-#' thematic domains. The package covers economy, health, education,
-#' labour market, demographics, tourism, transport, environment,
-#' science & technology, agriculture, poverty, business statistics,
-#' information society, and crime.
+#' thematic domains — with AI-generated regional insights. The package
+#' covers economy, health, education, labour market, demographics,
+#' tourism, transport, environment, science & technology, agriculture,
+#' poverty, business statistics, information society, and crime.
 #'
 #' \itemize{
 #'   \item Fetching data from the Eurostat API at any NUTS level (0/1/2/3)
@@ -18,7 +18,8 @@
 #'   \item Adaptive econometric imputation (PCHIP + ETS with AIC model selection)
 #'   \item Session-level smart caching for instant repeated access
 #'   \item Composite scoring and min-max normalization
-#'   \item Creating publication-ready maps with automatic best-level selection
+#'   \item Creating publication-ready inequality maps with automatic best-level selection
+#'   \item AI-generated regional insights via indicator-aware narrative engine
 #'   \item Exporting for Tableau, Excel, GeoJSON, and RDS
 #' }
 #'

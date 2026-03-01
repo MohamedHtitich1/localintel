@@ -26,7 +26,7 @@ template:
   opengraph:
     image:
       src: man/figures/og-image.png
-      alt: "localintel – Subnational Data Pipeline for 235 European NUTS-2 Regions"
+      alt: "localintel – Inequality Mapping Engine for 235 European NUTS-2 Regions"
     twitter:
       creator: "@MohamedHtitich"
       card: summary_large_image
@@ -39,14 +39,15 @@ template:
       <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 home:
-  title: "localintel – 150+ Subnational Indicators from Eurostat"
+  title: "localintel – Inequality Mapping Engine for 235+ European Regions"
   description: >
-    An R package for fetching, harmonizing, cascading, and visualizing
-    150+ subnational indicators from Eurostat across 14 thematic domains.
+    An R package and inequality mapping engine for fetching, harmonizing,
+    cascading, and visualizing 150+ subnational indicators from Eurostat
+    across 14 thematic domains — with AI-generated regional insights.
     Covers economy, health, education, labour, demographics, tourism,
     transport, environment, and more for 235+ European NUTS-2 regions.
   links:
-    - text: Live Demo — Subnational Regional Analysis Map
+    - text: "Live Demo — Where Inequality Lives"
       href: https://mhtitich.com/subnational
     - text: Request a custom deployment
       href: mailto:m.ahtitich@outlook.com
@@ -65,7 +66,7 @@ navbar:
     demo:
       icon: fa-play-circle
       href: https://mhtitich.com/subnational
-      aria-label: "Live Demo"
+      aria-label: "Where Inequality Lives — Live Demo"
       text: " Demo"
     github:
       icon: fa-github
@@ -178,10 +179,11 @@ reference:
       - forecast_autoregressive
       - impute_series
 
-  - title: "Visualization"
+  - title: "Visualization & Inequality Mapping"
     desc: >
       Build spatial objects and render publication-ready tmap
       facets — automatic best-level selection per country-year.
+      Powers the inequality mapping engine and AI-generated regional insights.
     contents:
       - build_display_sf
       - lc_build_display_sf
@@ -246,7 +248,7 @@ footer:
       Developed by [Mohamed Htitich](https://mhtitich.com)
       · [GitHub](https://github.com/MohamedHtitich1)
       · [ORCID](https://orcid.org/0000-0002-8732-6286)
-      · [Live Demo](https://mhtitich.com/subnational)
+      · [Where Inequality Lives](https://mhtitich.com/subnational)
 
 news:
   one_page: true

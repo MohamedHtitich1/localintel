@@ -8,7 +8,7 @@
 
 ## Overview
 
-**localintel** (Local Intelligence) is an R package that provides a unified pipeline for **150+ subnational indicators across 14 thematic domains** from Eurostat. Any Eurostat regional dataset — economy, health, education, labour, demographics, tourism, transport, environment, and more — can be fetched, harmonized, cascaded to NUTS 2, scored, mapped, and exported through a single consistent workflow.
+**localintel** (Local Intelligence) is an R package and **inequality mapping engine** that provides a unified pipeline for **150+ subnational indicators across 14 thematic domains** from Eurostat. Any Eurostat regional dataset — economy, health, education, labour, demographics, tourism, transport, environment, and more — can be fetched, harmonized, cascaded to NUTS 2, scored, mapped, and exported through a single consistent workflow — with AI-generated regional insights.
 
 <a href="https://mhtitich.com/subnational">
 <picture>
@@ -40,7 +40,7 @@
 <td align="center">
 <img src="https://api.iconify.design/lucide/globe.svg?color=%237c9885" width="28" alt="viz">
 </td>
-<td><strong>Visualization</strong> — Publication-ready maps with automatic best-level selection per country</td>
+<td><strong>Inequality Mapping</strong> — Publication-ready maps with automatic best-level selection per country and AI-generated regional insights</td>
 </tr>
 <tr>
 <td align="center">
@@ -52,9 +52,9 @@
 
 ## Live Demo
 
-> **See localintel in action** — [mhtitich.com/subnational](https://mhtitich.com/subnational) is an interactive dashboard built entirely with data processed through this package. It maps regional disparities across **235 European NUTS-2 regions** from 2010–2024, with live indicator switching, animated timeline playback, and AI-generated regional insights.
+> **See the inequality mapping engine in action** — [*Where Inequality Lives*](https://mhtitich.com/subnational) is an interactive dashboard built entirely with data processed through this package. It maps regional disparities across **235 European NUTS-2 regions** from 2010–2024, with live indicator switching, animated timeline playback, and AI-generated regional insights powered by an indicator-aware narrative engine.
 >
-> The pipeline is fully parametrizable and can be adapted to any indicator domain. **Interested in a custom deployment? [Get in touch.](mailto:m.ahtitich@outlook.com)**
+> The pipeline is fully parametrizable and can be adapted to any indicator domain or geography. **Interested in a custom deployment? [Get in touch.](mailto:m.ahtitich@outlook.com)**
 
 ## Installation
 
@@ -134,9 +134,9 @@ If you work with Eurostat regional data, you've likely used the [`eurostat`](htt
 | **Processing** | Raw data as-is | Domain-specific processors select units, filter dimensions, and standardize columns automatically |
 | **Gaps** | Missing regions stay missing | Cascade fills every NUTS-2 region from parent levels (100% geographic coverage) with source tracking |
 | **Time series** | Gaps remain | PCHIP interpolation + ETS forecasting, with provenance flags on every cell |
-| **Output** | Data frame | Maps, GeoJSON (Tableau-ready), Excel, PDF map books — all from the same pipeline |
+| **Output** | Data frame | Maps, GeoJSON (Tableau-ready), Excel, PDF map books, and AI-generated regional insights — all from the same pipeline |
 
-In short: `eurostat` gives you the data, localintel gives you the complete analytical workflow on top of it.
+In short: `eurostat` gives you the data, localintel gives you the complete inequality mapping engine on top of it.
 
 ## Domain Coverage
 
@@ -206,7 +206,7 @@ export_to_geojson(sf_enriched, "dashboard_export.geojson")
 
 This package was developed as part of research on subnational regional analysis in Europe. Related projects:
 
-- [Subnational Health Disparities Map](https://mhtitich.com/subnational) — Interactive dashboard powered by localintel
+- [Where Inequality Lives](https://mhtitich.com/subnational) — Interactive inequality mapping engine powered by localintel, with AI-generated regional insights
 - [w2m](https://github.com/MohamedHtitich1/w2m) — Composite indicator construction
 
 ## Contributing
@@ -222,7 +222,7 @@ MIT © Mohamed Htitich
 ```bibtex
 @software{localintel,
   author = {Htitich, Mohamed},
-  title = {localintel: Local Intelligence for Subnational Data Analysis},
+  title = {localintel: Inequality Mapping Engine for Subnational Data Analysis},
   year = {2025},
   url = {https://github.com/MohamedHtitich1/localintel}
 }

@@ -1,18 +1,19 @@
 Package: localintel
 Type: Package
-Title: Local Intelligence - Subnational Data Pipeline for 150+ Eurostat Regional Indicators
+Title: Local Intelligence - Inequality Mapping Engine for 150+ Eurostat Regional Indicators
 Version: 0.2.2
 Authors@R: person("Mohamed", "Htitich", 
                   email = "m.ahtitich@outlook.com", 
                   role = c("aut", "cre"),
                   comment = c(ORCID = "0000-0002-8732-6286"))
-Description: A comprehensive pipeline for fetching, harmonizing, cascading, and
+Description: An inequality mapping engine for fetching, harmonizing, cascading, and
     visualizing 150+ subnational indicators from Eurostat across 14 thematic domains
     including economy, health, education, labour market, demographics, tourism,
     transport, environment, science and technology, agriculture, poverty, business
     statistics, information society, and crime. Provides NUTS 0/1/2 data cascading
-    with source-level tracking, composite scoring, publication-ready maps, and
-    Tableau-ready exports for 235+ European NUTS-2 regions.
+    with source-level tracking, composite scoring, publication-ready maps,
+    AI-generated regional insights, and Tableau-ready exports for 235+ European
+    NUTS-2 regions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
