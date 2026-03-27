@@ -26,7 +26,7 @@ template:
   opengraph:
     image:
       src: man/figures/og-image.png
-      alt: "localintel – Inequality Mapping Engine for 235 European NUTS-2 Regions"
+      alt: "localintel – Inequality Mapping Engine for Subnational Data Analysis"
     twitter:
       creator: "@MohamedHtitich"
       card: summary_large_image
@@ -39,13 +39,12 @@ template:
       <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 home:
-  title: "localintel – Inequality Mapping Engine for 235+ European Regions"
+  title: "localintel – Inequality Mapping Engine for Subnational Data"
   description: >
     An R package and inequality mapping engine for fetching, harmonizing,
-    cascading, and visualizing 150+ subnational indicators from Eurostat
-    across 14 thematic domains — with AI-generated regional insights.
-    Covers economy, health, education, labour, demographics, tourism,
-    transport, environment, and more for 235+ European NUTS-2 regions.
+    cascading, and visualizing subnational indicators from Eurostat (Europe)
+    and DHS (Sub-Saharan Africa). Covers 200+ indicators across 22 thematic
+    domains for 700+ subnational regions.
   links:
     - text: "Live Demo — Where Inequality Lives"
       href: https://mhtitich.com/subnational
@@ -82,7 +81,9 @@ reference:
     contents:
       - localintel-package
 
-  - title: "Indicator Registry"
+  # ===== EUROSTAT =====
+
+  - title: "Eurostat — Indicator Registry"
     desc: >
       Curated registries of Eurostat dataset codes across 14 thematic
       domains — 150+ indicators ready for seamless fetching and processing.
@@ -105,7 +106,7 @@ reference:
       - information_society_codes
       - crime_codes
 
-  - title: "Data Fetching"
+  - title: "Eurostat — Data Fetching"
     desc: >
       Robust wrappers for the Eurostat API — fetch single or batch
       datasets at any NUTS level with automatic retry and caching.
@@ -118,7 +119,7 @@ reference:
       - drop_empty
       - clear_localintel_cache
 
-  - title: "Reference Data"
+  - title: "Eurostat — Reference Data"
     desc: >
       NUTS boundary geometries, hierarchical lookup tables, and
       population data for spatial joins and cascading.
@@ -130,7 +131,7 @@ reference:
       - get_population_nuts2
       - eu27_codes
 
-  - title: "Data Processing"
+  - title: "Eurostat — Data Processing"
     desc: >
       Transform raw Eurostat downloads into analysis-ready tables.
       Use the generic processor for any dataset, or domain-specific
@@ -159,7 +160,7 @@ reference:
       - transform_and_score
       - compute_composite
 
-  - title: "Data Cascading"
+  - title: "Eurostat — Data Cascading"
     desc: >
       Fill missing regional data by propagating from parent NUTS
       levels (NUTS 0 → NUTS 1 → NUTS 2) with source-level tracking.
@@ -169,7 +170,7 @@ reference:
       - cascade_to_nuts2_light
       - balance_panel
 
-  - title: "Econometric Imputation"
+  - title: "Eurostat — Econometric Imputation"
     desc: >
       Advanced time series imputation combining PCHIP interpolation
       for internal gaps with autoregressive ETS forecasting for
@@ -179,11 +180,10 @@ reference:
       - forecast_autoregressive
       - impute_series
 
-  - title: "Visualization & Inequality Mapping"
+  - title: "Eurostat — Visualization & Mapping"
     desc: >
       Build spatial objects and render publication-ready tmap
       facets — automatic best-level selection per country-year.
-      Powers the inequality mapping engine and AI-generated regional insights.
     contents:
       - build_display_sf
       - lc_build_display_sf
@@ -192,7 +192,7 @@ reference:
       - level_col_for
       - level_cols_for
 
-  - title: "Export & Labels"
+  - title: "Eurostat — Export & Labels"
     desc: >
       Export enriched GeoJSON for Tableau, multi-sheet Excel workbooks,
       RDS snapshots, and multi-page PDF map books. Includes label
@@ -209,10 +209,93 @@ reference:
       - health_pillar_mapping
       - cod_labels
 
+  # ===== DHS =====
+
+  - title: "DHS — Indicator Registry"
+    desc: >
+      Curated registries of DHS indicator codes across 8 thematic
+      domains covering mortality, nutrition, health, WASH, education,
+      HIV, gender, and wealth for Sub-Saharan Africa.
+    contents:
+      - all_dhs_codes
+      - dhs_indicator_count
+      - dhs_mortality_codes
+      - dhs_nutrition_codes
+      - dhs_health_codes
+      - dhs_wash_codes
+      - dhs_education_codes
+      - dhs_hiv_codes
+      - dhs_gender_codes
+      - dhs_wealth_codes
+      - dhs_var_labels
+      - dhs_domain_mapping
+
+  - title: "DHS — Data Fetching"
+    desc: >
+      Fetch DHS indicator data from the DHS Program API with
+      country filtering, survey discovery, and batch downloads.
+    contents:
+      - get_dhs_data
+      - get_dhs_countries
+      - get_dhs_surveys
+      - fetch_dhs_batch
+
+  - title: "DHS — Reference Data & Geography"
+    desc: >
+      SSA country codes, Admin-1 reference skeletons, and GADM
+      boundary geometries for spatial analysis and mapping.
+    contents:
+      - ssa_codes
+      - tier1_codes
+      - keep_ssa
+      - get_admin1_ref
+      - get_admin0_geo
+      - get_admin1_geo
+      - add_dhs_country_name
+
+  - title: "DHS — Data Processing"
+    desc: >
+      Process raw DHS API responses into standardized long-format
+      tables with region codes, harmonized names, and indicator columns.
+    contents:
+      - process_dhs
+      - process_dhs_batch
+
+  - title: "DHS — Gap-Filling"
+    desc: >
+      GAM-based temporal interpolation and forecasting for irregularly
+      spaced DHS survey data. Produces smooth continuous time series
+      with uncertainty bounds and provenance flags.
+    contents:
+      - gapfill_series
+      - gapfill_indicator
+      - gapfill_all_dhs
+
+  - title: "DHS — Panel Assembly & Cascading"
+    desc: >
+      Assemble gap-filled indicators into a balanced Admin-1 panel
+      with national-level fallback, imputation flags, and source tracking.
+    contents:
+      - cascade_to_admin1
+      - balance_dhs_panel
+      - dhs_pipeline
+
+  - title: "DHS — Visualization & Export"
+    desc: >
+      Build spatial objects for DHS Admin-1 data and render choropleth
+      maps. Export Tableau-ready GeoJSON with country names and labels.
+    contents:
+      - build_dhs_display_sf
+      - build_dhs_multi_var_sf
+      - plot_dhs_map
+      - enrich_dhs_for_tableau
+
+  # ===== SHARED =====
+
   - title: "Utilities"
     desc: >
       Helper functions for safe transformations, min-max scaling,
-      interpolation, EU27 filtering, and country-name enrichment.
+      interpolation, filtering, and country-name enrichment.
     contents:
       - keep_eu27
       - safe_log10
