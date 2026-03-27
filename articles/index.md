@@ -9,6 +9,8 @@
 
 - [Multi-Domain Regional
   Analysis](https://mohamedhtitich1.github.io/localintel/articles/workflow.md):
+- [DHS Pipeline: Sub-Saharan Africa Subnational
+  Data](https://mohamedhtitich1.github.io/localintel/articles/dhs_pipeline.md):
 
 ### Help
 

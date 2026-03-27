@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/MohamedHtitich1/localintel/blob/main/DESCRIPTION)
 
 Htitich M (2026). *localintel: Local Intelligence - Inequality Mapping
-Engine for 150+ Eurostat Regional Indicators*. R package version 0.2.2,
-<https://mohamedhtitich1.github.io/localintel/>.
+Engine for Eurostat and DHS Subnational Indicators*. R package version
+0.3.0, <https://mohamedhtitich1.github.io/localintel/>.
 
     @Manual{,
-      title = {localintel: Local Intelligence - Inequality Mapping Engine for 150+ Eurostat Regional Indicators},
+      title = {localintel: Local Intelligence - Inequality Mapping Engine for Eurostat and DHS Subnational Indicators},
       author = {Mohamed Htitich},
       year = {2026},
-      note = {R package version 0.2.2},
+      note = {R package version 0.3.0},
       url = {https://mohamedhtitich1.github.io/localintel/},
     }
