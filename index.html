@@ -90,22 +90,15 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><strong>localintel</strong> (Local Intelligence) is an R package and <strong>inequality mapping engine</strong> that provides a unified pipeline for subnational indicator analysis across two major data ecosystems:</p>
-<ul>
-<li>
-<strong>Eurostat</strong> — 150+ indicators across 14 thematic domains for 235 European NUTS-2 regions</li>
-<li>
-<strong>DHS (Demographic and Health Surveys)</strong> — 50+ indicators across 8 domains for 500+ Admin-1 regions in Sub-Saharan Africa</li>
-</ul>
-<p>Any subnational dataset can be fetched, harmonized, gap-filled, cascaded, mapped, and exported through a single consistent workflow.</p>
-<p><a href="https://mhtitich.com/subnational" class="external-link"> <picture><source media="(prefers-color-scheme: dark)" srcset="reference/figures/hero-map.svg"><img src="reference/figures/hero-map.svg" alt="localintel pipeline: from raw data to complete regional maps" width="100%"></source></picture></a></p>
+<p><strong>localintel</strong> (Local Intelligence) is an R package and <strong>inequality mapping engine</strong> that provides a unified pipeline for <strong>150+ subnational indicators across 14 thematic domains</strong> from Eurostat. Any Eurostat regional dataset — economy, health, education, labour, demographics, tourism, transport, environment, and more — can be fetched, harmonized, cascaded to NUTS 2, scored, mapped, and exported through a single consistent workflow — with AI-generated regional insights.</p>
+<p><a href="https://mhtitich.com/subnational" class="external-link"> <picture><source media="(prefers-color-scheme: dark)" srcset="reference/figures/hero-map.svg"><img src="reference/figures/hero-map.svg" alt="localintel pipeline: from subnational surveys to inequality mapping across 880+ regions" width="100%"></source></picture></a></p>
 <table class="table">
 <tr>
 <td width="60" align="center">
 <img src="https://api.iconify.design/lucide/database.svg?color=%237c9885" width="28" alt="fetch">
 </td>
 <td>
-<strong>200+ Indicators</strong> — Curated registries for Eurostat (14 domains) and DHS (8 domains) with batch download and retry logic
+<strong>150+ Indicators</strong> — Curated registries for 14 Eurostat domains with batch download and retry logic
 </td>
 </tr>
 <tr>
@@ -113,7 +106,7 @@
 <img src="https://api.iconify.design/lucide/layers.svg?color=%237c9885" width="28" alt="process">
 </td>
 <td>
-<strong>Universal Processing</strong> — Generic processors plus domain-specific functions for instant harmonization across both data sources
+<strong>Universal Processing</strong> — Generic <code><a href="reference/process_eurostat.html">process_eurostat()</a></code> plus domain-specific processors for instant harmonization
 </td>
 </tr>
 <tr>
@@ -121,15 +114,7 @@
 <img src="https://api.iconify.design/lucide/git-merge.svg?color=%237c9885" width="28" alt="cascade">
 </td>
 <td>
-<strong>Data Cascading</strong> — Intelligent propagation from country to regional level with source-level tracking (NUTS for Europe, Admin-1 for SSA)
-</td>
-</tr>
-<tr>
-<td align="center">
-<img src="https://api.iconify.design/lucide/trending-up.svg?color=%237c9885" width="28" alt="gapfill">
-</td>
-<td>
-<strong>Gap-Filling</strong> — GAM-based temporal interpolation and forecasting for DHS time series, with provenance flags on every cell
+<strong>Data Cascading</strong> — Intelligent propagation from country (NUTS 0) to regional (NUTS 2) with source-level tracking
 </td>
 </tr>
 <tr>
@@ -137,7 +122,7 @@
 <img src="https://api.iconify.design/lucide/globe.svg?color=%237c9885" width="28" alt="viz">
 </td>
 <td>
-<strong>Inequality Mapping</strong> — Publication-ready maps with automatic best-level selection and DHS Admin-1 choropleth support
+<strong>Inequality Mapping</strong> — Publication-ready maps with automatic best-level selection per country and AI-generated regional insights
 </td>
 </tr>
 <tr>
@@ -167,7 +152,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install-deprecated.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"MohamedHtitich1/localintel"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="quick-start--eurostat">Quick Start — Eurostat<a class="anchor" aria-label="anchor" href="#quick-start--eurostat"></a>
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <p>Fetch one indicator, cascade it to every NUTS-2 region, and plot — in four lines:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -178,41 +163,11 @@
 <span><span class="va">cascaded</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cascade_to_nuts2.html">cascade_to_nuts2</a></span><span class="op">(</span><span class="va">gdp</span>, vars <span class="op">=</span> <span class="st">"gdp"</span>, years <span class="op">=</span> <span class="fl">2020</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="fu"><a href="reference/get_nuts2_ref.html">get_nuts_geopolys</a></span><span class="op">(</span><span class="op">)</span>, var <span class="op">=</span> <span class="st">"gdp"</span>, years <span class="op">=</span> <span class="fl">2024</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="quick-start--dhs-sub-saharan-africa">Quick Start — DHS (Sub-Saharan Africa)<a class="anchor" aria-label="anchor" href="#quick-start--dhs-sub-saharan-africa"></a>
-</h2>
-<p>Fetch DHS indicators, gap-fill the time series, and assemble an Admin-1 panel:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mohamedhtitich1.github.io/localintel/">localintel</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 1. Fetch &amp; process DHS indicators for SSA</span></span>
-<span><span class="va">raw</span>  <span class="op">&lt;-</span> <span class="fu"><a href="reference/fetch_dhs_batch.html">fetch_dhs_batch</a></span><span class="op">(</span><span class="fu"><a href="reference/dhs_mortality_codes.html">dhs_mortality_codes</a></span><span class="op">(</span><span class="op">)</span>, country_ids <span class="op">=</span> <span class="fu"><a href="reference/ssa_codes.html">ssa_codes</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">proc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_dhs_batch.html">process_dhs_batch</a></span><span class="op">(</span><span class="va">raw</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 2. Gap-fill with GAM-based interpolation</span></span>
-<span><span class="va">gapfilled</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gapfill_all_dhs.html">gapfill_all_dhs</a></span><span class="op">(</span><span class="va">proc</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 3. Cascade to Admin 1 panel with national fallback</span></span>
-<span><span class="va">panel</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cascade_to_admin1.html">cascade_to_admin1</a></span><span class="op">(</span><span class="va">gapfilled</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 4. Balance the panel (drop thin indicators/regions)</span></span>
-<span><span class="va">balanced</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/balance_dhs_panel.html">balance_dhs_panel</a></span><span class="op">(</span><span class="va">panel</span>, min_countries <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 5. Map a single indicator</span></span>
-<span><span class="fu"><a href="reference/plot_dhs_map.html">plot_dhs_map</a></span><span class="op">(</span><span class="va">balanced</span><span class="op">$</span><span class="va">panel</span>, var <span class="op">=</span> <span class="st">"u5_mortality"</span>, year <span class="op">=</span> <span class="fl">2020</span><span class="op">)</span></span></code></pre></div>
-<p>Or run the entire pipeline in one call:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dhs_pipeline.html">dhs_pipeline</a></span><span class="op">(</span></span>
-<span>  country_ids <span class="op">=</span> <span class="fu"><a href="reference/ssa_codes.html">ssa_codes</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  indicator_codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="reference/dhs_mortality_codes.html">dhs_mortality_codes</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="reference/dhs_nutrition_codes.html">dhs_nutrition_codes</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  forecast_to <span class="op">=</span> <span class="fl">2025</span></span>
-<span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="full-multi-domain-workflow-eurostat">Full Multi-Domain Workflow (Eurostat)<a class="anchor" aria-label="anchor" href="#full-multi-domain-workflow-eurostat"></a>
+<h3 id="full-multi-domain-workflow">Full Multi-Domain Workflow<a class="anchor" aria-label="anchor" href="#full-multi-domain-workflow"></a>
 </h3>
 <p>Once you’re comfortable, scale up to multiple domains at once:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mohamedhtitich1.github.io/localintel/">localintel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 1. Fetch data from multiple domains</span></span>
@@ -257,7 +212,7 @@
 <div class="section level2">
 <h2 id="why-localintel">Why localintel?<a class="anchor" aria-label="anchor" href="#why-localintel"></a>
 </h2>
-<p>If you work with subnational data from Eurostat or DHS, you’ve likely used packages like <a href="https://cran.r-project.org/package=eurostat" class="external-link"><code>eurostat</code></a> or <a href="https://cran.r-project.org/package=rdhs" class="external-link"><code>rdhs</code></a>. They’re excellent for downloading individual datasets — but getting from raw downloads to a complete, analysis-ready panel is where most of the work begins. localintel picks up where they leave off:</p>
+<p>If you work with Eurostat regional data, you’ve likely used the <a href="https://cran.r-project.org/package=eurostat" class="external-link"><code>eurostat</code></a> or <a href="https://cran.r-project.org/package=restatapi" class="external-link"><code>restatapi</code></a> packages. They’re excellent for downloading individual datasets — but getting from raw downloads to a complete, analysis-ready panel is where most of the work begins. localintel picks up where they leave off:</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -266,14 +221,16 @@
 </colgroup>
 <thead><tr class="header">
 <th></th>
-<th>Raw data packages</th>
+<th>
+<code>eurostat</code> / <code>restatapi</code>
+</th>
 <th><strong>localintel</strong></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><strong>Scope</strong></td>
 <td>One dataset at a time</td>
-<td>200+ indicators across Eurostat and DHS in a single batch call</td>
+<td>157 indicators across 15 domains in a single batch call</td>
 </tr>
 <tr class="even">
 <td><strong>Processing</strong></td>
@@ -283,32 +240,25 @@
 <tr class="odd">
 <td><strong>Gaps</strong></td>
 <td>Missing regions stay missing</td>
-<td>Cascade fills every region from parent levels (100% geographic coverage) with source tracking</td>
+<td>Cascade fills every NUTS-2 region from parent levels (100% geographic coverage) with source tracking</td>
 </tr>
 <tr class="even">
 <td><strong>Time series</strong></td>
 <td>Gaps remain</td>
-<td>GAM interpolation (DHS) and PCHIP + ETS forecasting (Eurostat), with provenance flags on every cell</td>
+<td>PCHIP interpolation + ETS forecasting, with provenance flags on every cell</td>
 </tr>
 <tr class="odd">
-<td><strong>Name harmonization</strong></td>
-<td>Manual</td>
-<td>Automatic DHS-to-GADM name matching with 40+ country crosswalks, composite region dissolution, and fuzzy matching</td>
-</tr>
-<tr class="even">
 <td><strong>Output</strong></td>
 <td>Data frame</td>
-<td>Maps, GeoJSON, Excel, PDF map books — all from the same pipeline</td>
+<td>Maps, GeoJSON (Tableau-ready), Excel, PDF map books, and AI-generated regional insights — all from the same pipeline</td>
 </tr>
 </tbody>
 </table>
+<p>In short: <code>eurostat</code> gives you the data, localintel gives you the complete inequality mapping engine on top of it.</p>
 </div>
 <div class="section level2">
 <h2 id="domain-coverage">Domain Coverage<a class="anchor" aria-label="anchor" href="#domain-coverage"></a>
 </h2>
-<div class="section level3">
-<h3 id="eurostat-europe--nuts-2-regions">Eurostat (Europe — NUTS-2 Regions)<a class="anchor" aria-label="anchor" href="#eurostat-europe--nuts-2-regions"></a>
-</h3>
 <table class="table">
 <colgroup>
 <col width="24%">
@@ -398,66 +348,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section level3">
-<h3 id="dhs-sub-saharan-africa--admin-1-regions">DHS (Sub-Saharan Africa — Admin-1 Regions)<a class="anchor" aria-label="anchor" href="#dhs-sub-saharan-africa--admin-1-regions"></a>
-</h3>
-<table class="table">
-<colgroup>
-<col width="24%">
-<col width="33%">
-<col width="42%">
-</colgroup>
-<thead><tr class="header">
-<th>Domain</th>
-<th>Indicators</th>
-<th>Key Measures</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><strong>Mortality</strong></td>
-<td>8</td>
-<td>Under-5 mortality, infant mortality, neonatal mortality, child mortality</td>
-</tr>
-<tr class="even">
-<td><strong>Nutrition</strong></td>
-<td>6</td>
-<td>Stunting, wasting, underweight, overweight, anemia, exclusive breastfeeding</td>
-</tr>
-<tr class="odd">
-<td><strong>Health</strong></td>
-<td>8</td>
-<td>Vaccination coverage, ANC visits, skilled birth attendance, modern contraception</td>
-</tr>
-<tr class="even">
-<td><strong>WASH</strong></td>
-<td>6</td>
-<td>Improved water, improved sanitation, handwashing, open defecation</td>
-</tr>
-<tr class="odd">
-<td><strong>Education</strong></td>
-<td>5</td>
-<td>Literacy, school attendance, educational attainment</td>
-</tr>
-<tr class="even">
-<td><strong>HIV</strong></td>
-<td>5</td>
-<td>HIV prevalence, knowledge, testing, condom use</td>
-</tr>
-<tr class="odd">
-<td><strong>Gender</strong></td>
-<td>4</td>
-<td>Women’s decision-making, attitudes toward violence, early marriage</td>
-</tr>
-<tr class="even">
-<td><strong>Wealth</strong></td>
-<td>4</td>
-<td>Wealth index, asset ownership, poverty headcount</td>
-</tr>
-</tbody>
-</table>
-<p>Use <code><a href="reference/indicator_count.html">indicator_count()</a></code> for Eurostat totals and <code><a href="reference/dhs_indicator_count.html">dhs_indicator_count()</a></code> for DHS totals.</p>
-</div>
+<p>Use <code><a href="reference/indicator_count.html">indicator_count()</a></code> to get the exact total and per-domain breakdown.</p>
 </div>
 <div class="section level2">
 <h2 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
@@ -465,26 +356,15 @@
 <div class="section level3">
 <h3 id="data-cascading">Data Cascading<a class="anchor" aria-label="anchor" href="#data-cascading"></a>
 </h3>
-<p>The package automatically fills missing regional data by cascading from parent levels:</p>
-<pre><code>Eurostat:  NUTS 0 (Country) → NUTS 1 (Major Regions) → NUTS 2 (Regions)
-DHS:       National → Admin 1 (with gap-filling and name harmonization)</code></pre>
-<p>Every cascaded value is tracked via <code>src_&lt;variable&gt;_level</code> columns, enabling full transparency and sensitivity analysis.</p>
-</div>
-<div class="section level3">
-<h3 id="dhs-name-harmonization">DHS Name Harmonization<a class="anchor" aria-label="anchor" href="#dhs-name-harmonization"></a>
-</h3>
-<p>Matching DHS region names to GADM administrative boundaries is notoriously difficult. localintel handles this automatically through four lookup tables covering 40+ SSA countries: manual crosswalks, composite region splitting, sub-national dissolves, and fuzzy string matching — with 100% coverage for all Tier 1 DHS countries.</p>
-</div>
-<div class="section level3">
-<h3 id="gam-based-gap-filling-dhs">GAM-Based Gap-Filling (DHS)<a class="anchor" aria-label="anchor" href="#gam-based-gap-filling-dhs"></a>
-</h3>
-<p>DHS surveys are conducted irregularly (every 3–7 years). The gap-filling engine uses penalized GAM splines to interpolate between surveys and optionally forecast beyond the last observation, producing smooth continuous time series with uncertainty bounds and provenance flags on every value.</p>
+<p>The package automatically fills missing regional data by cascading from parent NUTS levels:</p>
+<pre><code>NUTS 0 (Country) → NUTS 1 (Major Regions) → NUTS 2 (Regions)</code></pre>
+<p>Every cascaded value is tracked via <code>src_&lt;variable&gt;_level</code> columns (2 = original NUTS 2, 1 = from NUTS 1, 0 = from NUTS 0), enabling full transparency and sensitivity analysis.</p>
 </div>
 <div class="section level3">
 <h3 id="generic-processing">Generic Processing<a class="anchor" aria-label="anchor" href="#generic-processing"></a>
 </h3>
 <p>The <code><a href="reference/process_eurostat.html">process_eurostat()</a></code> function handles <strong>any</strong> Eurostat dataset with flexible dimension filtering:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Custom indicator with arbitrary filters</span></span>
 <span><span class="va">custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/process_eurostat.html">process_eurostat</a></span><span class="op">(</span><span class="va">raw_data</span>,</span>
 <span>  filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>unit <span class="op">=</span> <span class="st">"PC"</span>, sex <span class="op">=</span> <span class="st">"T"</span>, age <span class="op">=</span> <span class="st">"Y25-64"</span><span class="op">)</span>,</span>
@@ -494,37 +374,27 @@ DHS:       National → Admin 1 (with gap-filling and name harmonization)</code>
 <div class="section level3">
 <h3 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h3>
-<p>Automatic “best level” selection for maps — displays the finest available resolution per country:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Eurostat</span></span>
-<span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"unemployment_rate"</span>,</span>
-<span>  years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2024</span>, title <span class="op">=</span> <span class="st">"Unemployment Rate (%)"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># DHS</span></span>
-<span><span class="fu"><a href="reference/plot_dhs_map.html">plot_dhs_map</a></span><span class="op">(</span><span class="va">panel</span>, var <span class="op">=</span> <span class="st">"u5_mortality"</span>, year <span class="op">=</span> <span class="fl">2020</span>,</span>
-<span>  title <span class="op">=</span> <span class="st">"Under-5 Mortality Rate"</span><span class="op">)</span></span></code></pre></div>
+<p>Automatic “best level” selection for maps — displays NUTS 2 where available, falls back to NUTS 1 / NUTS 0:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/build_display_sf.html">plot_best_by_country_level</a></span><span class="op">(</span><span class="va">cascaded</span>, <span class="va">geopolys</span>, var <span class="op">=</span> <span class="st">"unemployment_rate"</span>,</span>
+<span>  years <span class="op">=</span> <span class="fl">2022</span><span class="op">:</span><span class="fl">2024</span>, title <span class="op">=</span> <span class="st">"Unemployment Rate (%)"</span>, scale <span class="op">=</span> <span class="st">"global"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="tableau-integration">Tableau Integration<a class="anchor" aria-label="anchor" href="#tableau-integration"></a>
 </h3>
-<p>Full support for Tableau exports with country names, region labels, population-weighted aggregations, and performance tags:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Eurostat</span></span>
-<span><span class="va">sf_enriched</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/export_to_geojson.html">enrich_for_tableau</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="va">pop_data</span>, <span class="va">nuts2_names</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_enriched</span>, <span class="st">"eurostat_dashboard.geojson"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># DHS</span></span>
-<span><span class="va">dhs_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/enrich_dhs_for_tableau.html">enrich_dhs_for_tableau</a></span><span class="op">(</span><span class="va">panel</span>, <span class="va">geo_sf</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">dhs_sf</span>, <span class="st">"dhs_dashboard.geojson"</span><span class="op">)</span></span></code></pre></div>
+<p>Full support for Tableau exports with country names, region labels, population-weighted aggregations, and performance tags (Best/Worst by country):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sf_enriched</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/export_to_geojson.html">enrich_for_tableau</a></span><span class="op">(</span><span class="va">sf_all</span>, <span class="va">pop_data</span>, <span class="va">nuts2_names</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/export_to_geojson.html">export_to_geojson</a></span><span class="op">(</span><span class="va">sf_enriched</span>, <span class="st">"dashboard_export.geojson"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="related-work">Related Work<a class="anchor" aria-label="anchor" href="#related-work"></a>
 </h2>
-<p>This package was developed as part of research on subnational regional analysis. Related projects:</p>
+<p>This package was developed as part of research on subnational regional analysis in Europe. Related projects:</p>
 <ul>
 <li>
-<a href="https://mhtitich.com/subnational" class="external-link">Where Inequality Lives</a> — Interactive inequality mapping engine powered by localintel</li>
+<a href="https://mhtitich.com/subnational" class="external-link">Where Inequality Lives</a> — Interactive inequality mapping engine powered by localintel, with AI-generated regional insights</li>
 <li>
 <a href="https://github.com/MohamedHtitich1/w2m" class="external-link">w2m</a> — Composite indicator construction</li>
 </ul>
@@ -542,12 +412,12 @@ DHS:       National → Admin 1 (with gap-filling and name harmonization)</code>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">@software{localintel,</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">  author = {Htitich, Mohamed},</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">  title = {localintel: Inequality Mapping Engine for Subnational Data Analysis},</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">  year = {2025},</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">  url = {https://github.com/MohamedHtitich1/localintel}</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">@software{localintel,</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">  author = {Htitich, Mohamed},</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">  title = {localintel: Inequality Mapping Engine for Subnational Data Analysis},</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">  year = {2025},</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">  url = {https://github.com/MohamedHtitich1/localintel}</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">}</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
