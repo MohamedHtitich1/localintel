@@ -125,26 +125,26 @@
 
   <!-- ===== RIGHT PANEL: pipeline summary ===== -->
   <g transform="translate(560, 45)">
-    <text fill="#d4d8d5" font-size="18" font-weight="600" letter-spacing="0.5">From raw Eurostat data to</text>
-    <text fill="#7c9885" font-size="18" font-weight="600" letter-spacing="0.5" y="24">complete regional maps</text>
+    <text fill="#d4d8d5" font-size="18" font-weight="600" letter-spacing="0.5">From subnational surveys to</text>
+    <text fill="#7c9885" font-size="18" font-weight="600" letter-spacing="0.5" y="24">inequality mapping</text>
 
     <!-- Pipeline steps -->
     <g transform="translate(0, 60)">
       <circle cx="10" cy="10" r="6" fill="#7c9885"/>
       <text x="26" y="14" fill="#d4d8d5" font-size="13" font-weight="500">Fetch</text>
-      <text x="26" y="30" fill="#8b949e" font-size="11">157 indicators from 15 domains</text>
+      <text x="26" y="30" fill="#8b949e" font-size="11">Eurostat + DHS across 23 domains</text>
 
       <line x1="10" y1="20" x2="10" y2="48" stroke="#7c9885" stroke-width="1" stroke-dasharray="3 3"/>
 
       <circle cx="10" cy="58" r="6" fill="#7c9885"/>
-      <text x="26" y="62" fill="#d4d8d5" font-size="13" font-weight="500">Process</text>
-      <text x="26" y="78" fill="#8b949e" font-size="11">Harmonize units &amp; classifications</text>
+      <text x="26" y="62" fill="#d4d8d5" font-size="13" font-weight="500">Process &amp; Gap-fill</text>
+      <text x="26" y="78" fill="#8b949e" font-size="11">Harmonize, cascade, impute with CI</text>
 
       <line x1="10" y1="68" x2="10" y2="96" stroke="#7c9885" stroke-width="1" stroke-dasharray="3 3"/>
 
       <circle cx="10" cy="106" r="6" fill="#7c9885"/>
-      <text x="26" y="110" fill="#d4d8d5" font-size="13" font-weight="500">Cascade</text>
-      <text x="26" y="126" fill="#8b949e" font-size="11">100% coverage, 235 NUTS-2 regions</text>
+      <text x="26" y="110" fill="#d4d8d5" font-size="13" font-weight="500">Map inequality</text>
+      <text x="26" y="126" fill="#8b949e" font-size="11">Gini, Theil, CV across 880+ regions</text>
 
       <line x1="10" y1="116" x2="10" y2="144" stroke="#7c9885" stroke-width="1" stroke-dasharray="3 3"/>
 
