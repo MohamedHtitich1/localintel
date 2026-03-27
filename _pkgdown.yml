@@ -317,6 +317,7 @@ articles:
     navbar: "Tutorials"
     contents:
       - workflow
+      - dhs_pipeline
   - title: "Help"
     navbar: "FAQ"
     contents:
