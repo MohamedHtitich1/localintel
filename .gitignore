@@ -56,3 +56,20 @@ __pycache__/
 # Local development
 .DS_Store
 Thumbs.db
+
+# Large data files (cached results, not source code)
+tests/dhs-profile-results/*.rds
+tests/gapfill-results/*.rds
+tests/gapfill-results/*.pdf
+tests/gapfill-results/*.geojson
+tests/gapfill-results/*.json
+tests/gapfill-results/gadm_cache/
+webapp/data/*.rds
+webapp/data/*.geojson
+webapp/data/*.csv.gz
+
+# Generated dashboard (4+ MB, regenerate with generate_dashboard.py)
+webapp/frontend/index.html
+
+# Webapp environment
+webapp/.env

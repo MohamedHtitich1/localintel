@@ -130,5 +130,6 @@ utils::globalVariables(c(
   "performance_tag", "score_change", "pop",
   "gdp", "unemployment_rate", "employment", "life_expectancy",
   "education_attainment", "poverty_rate", "nights_spent",
-  "rd_expenditure", "municipal_waste", "population"
+  "rd_expenditure", "municipal_waste", "population",
+  ".dhs_region", "head"
 ))

@@ -1,0 +1,62 @@
+DHS Indicator Code Corrections
+Generated: 2026-03-06 15:55 
+
+Corrections table:
+# A tibble: 30 × 5
+   friendly_name          old_code      new_code      source                                           in_catalogue
+   <chr>                  <chr>         <chr>         <chr>                                            <lgl>       
+ 1 full_vaccination       CH_VACC_C_FUL CH_VACS_C_BAS Fully vaccinated (8 basic antigens) - phase 7    TRUE        
+ 2 skilled_birth          RH_DELP_C_SKP RH_DELA_C_SKP Skilled birth attendance - try DELA              TRUE        
+ 3 postnatal_mother       RH_PNCM_W_2DY RH_PCMT_W_TOT Mother postnatal checkup: Total                  TRUE        
+ 4 postnatal_newborn      RH_PNCC_C_2DY RH_PCCT_C_TOT Newborn postnatal checkup: Total                 TRUE        
+ 5 anemia_women           CN_ANMC_W_ANY AN_ANEM_W_ANY Women with any anemia (AN_ prefix)               TRUE        
+ 6 exclusive_bf           CN_BRFL_C_EXB CN_BFSS_C_EBF Children exclusively breastfeeding               TRUE        
+ 7 early_bf               CN_BRFL_C_1HR CN_BRFI_C_1HR Breastfeeding within 1 hour (BRFI not BRFL)      TRUE        
+ 8 low_bmi_women          CN_NUTS_W_THN AN_NUTS_W_THN Women thin by BMI (AN_ prefix)                   TRUE        
+ 9 obesity_women          CN_NUTS_W_OVW AN_NUTS_W_OWT Women overweight/obese by BMI (AN_ + OWT)        TRUE        
+10 hiv_test_women         HA_HVTK_W_TST HA_HVST_W_EVR Women ever tested for HIV                        FALSE       
+11 hiv_test_men           HA_HVTK_M_TST HA_HVST_M_EVR Men ever tested for HIV                          FALSE       
+12 hiv_knowledge_women    HA_HKCP_W_CPC HA_HKCN_W_CRK Comprehensive knowledge of HIV: Women            FALSE       
+13 hiv_knowledge_men      HA_HKCP_M_CPC HA_HKCN_M_CRK Comprehensive knowledge of HIV: Men              FALSE       
+14 hiv_condom_women       HA_HKSW_W_HCN HA_KHVP_W_CND HIV prevention: condom use (Women)               TRUE        
+15 hiv_condom_men         HA_HKSW_M_HCN HA_KHVP_M_CND HIV prevention: condom use (Men)                 TRUE        
+16 net_attendance_primary ED_ENRR_B_GNR ED_NARP_B_BTH Net primary attendance rate: Total               TRUE        
+17 median_years_women     ED_EDYR_W_MYR ED_MDIA_W_MYR Median years of education: Women                 FALSE       
+18 median_years_men       ED_EDYR_M_MYR ED_MDIA_M_MYR Median years of education: Men                   FALSE       
+19 improved_sanitation    WS_TOLT_H_IMP WS_TLET_H_IMP Improved sanitation (TLET not TOLT)              TRUE        
+20 surface_water          WS_SRCE_H_SFC WS_SRCE_H_SRF Surface water (SRF not SFC)                      TRUE        
+21 open_defecation        WS_TOLT_H_NFC WS_TLET_H_NFC Open defecation (TLET not TOLT)                  TRUE        
+22 bank_account           HC_HEFF_H_BNK CO_MOBB_W_BNK Women with bank account (CO_ prefix)             TRUE        
+23 women_decision_all     WE_DCSN_W_ALL WE_PPFA_W_A3P Women participating in 3 decisions               FALSE       
+24 women_decision_health  WE_DCSN_W_HLT WE_PPFA_W_OHC Women participating in own health care decisions FALSE       
+25 women_earning          WE_EARN_W_CSH EM_EMPT_W_CSH Women who worked for cash (EM_ prefix)           TRUE        
+26 dv_physical            DV_VIOL_W_PHY DV_EXPV_W_EVR Ever experienced physical violence               TRUE        
+27 dv_sexual              DV_VIOL_W_SEX DV_EXSV_W_EVR Ever experienced sexual violence                 TRUE        
+28 dv_emotional           DV_VIOL_W_EMO DV_EXEV_W_EVR Ever experienced emotional violence              FALSE       
+29 dv_attitude_women      DV_ATBV_W_YES DV_AATB_W_AYS Women who agree wife beating is justified        FALSE       
+30 dv_attitude_men        DV_ATBV_M_YES DV_AATB_M_AYS Men who agree wife beating is justified          FALSE       
+
+
+API test results:
+# A tibble: 19 × 4
+   friendly_name          new_code      n_records n_countries
+   <chr>                  <chr>             <int>       <dbl>
+ 1 full_vaccination       CH_VACS_C_BAS         0           0
+ 2 skilled_birth          RH_DELA_C_SKP      1368          15
+ 3 postnatal_mother       RH_PCMT_W_TOT       930          15
+ 4 postnatal_newborn      RH_PCCT_C_TOT       800          15
+ 5 anemia_women           AN_ANEM_W_ANY       808          14
+ 6 exclusive_bf           CN_BFSS_C_EBF       253          11
+ 7 early_bf               CN_BRFI_C_1HR      1173          15
+ 8 low_bmi_women          AN_NUTS_W_THN      1162          15
+ 9 obesity_women          AN_NUTS_W_OWT      1162          15
+10 hiv_condom_women       HA_KHVP_W_CND       900          15
+11 hiv_condom_men         HA_KHVP_M_CND       900          15
+12 net_attendance_primary ED_NARP_B_BTH      1009          15
+13 improved_sanitation    WS_TLET_H_IMP      1734          15
+14 surface_water          WS_SRCE_H_SRF      1730          15
+15 open_defecation        WS_TLET_H_NFC      1734          15
+16 bank_account           CO_MOBB_W_BNK       522          15
+17 women_earning          EM_EMPT_W_CSH         0           0
+18 dv_physical            DV_EXPV_W_EVR       827          15
+19 dv_sexual              DV_EXSV_W_EVR       827          15

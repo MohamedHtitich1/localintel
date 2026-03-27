@@ -1,0 +1,334 @@
+DHS Data Profiling — Tier 1 Countries
+Generated: 2026-03-06 16:56 
+========================================
+
+Total records: 75909 
+Columns: CharacteristicCategory, IndicatorId, SurveyId, Indicator, IsPreferred, Value, RegionId, CharacteristicLabel, ByVariableLabel, DenominatorWeighted, CIHigh, SurveyYear, DHS_CountryCode, CILow, CountryName 
+
+--- COLUMN STRUCTURE ---
+  CharacteristicCategory    character     NAs:      0 (  0.0%)
+  IndicatorId               character     NAs:      0 (  0.0%)
+  SurveyId                  character     NAs:      0 (  0.0%)
+  Indicator                 character     NAs:      0 (  0.0%)
+  IsPreferred               integer       NAs:      0 (  0.0%)
+  Value                     numeric       NAs:      0 (  0.0%)
+  RegionId                  character     NAs:      0 (  0.0%)
+  CharacteristicLabel       character     NAs:      0 (  0.0%)
+  ByVariableLabel           character     NAs:      0 (  0.0%)
+  DenominatorWeighted       numeric       NAs:   7687 ( 10.1%)
+  CIHigh                    numeric       NAs:  68762 ( 90.6%)
+  SurveyYear                integer       NAs:      0 (  0.0%)
+  DHS_CountryCode           character     NAs:      0 (  0.0%)
+  CILow                     numeric       NAs:  68762 ( 90.6%)
+  CountryName               character     NAs:      0 (  0.0%)
+
+--- VALUE FIELD ---
+Range: 0 380 
+Value NAs: 0 
+Zeros: 1468 
+Negatives: 0 
+CILow NAs: 68762 / 75909 
+CIHigh NAs: 68762 / 75909 
+DenominatorWeighted NAs: 7687 / 75909 
+
+--- INDICATOR COVERAGE ---
+Indicators with data: 62 / 62 
+
+Records per indicator:
+# A tibble: 62 × 2
+   IndicatorId   n_records
+   <chr>             <int>
+ 1 HC_ELEC_H_ELC      1734
+ 2 WS_SRCE_H_IMP      1734
+ 3 WS_TLET_H_IMP      1734
+ 4 WS_TLET_H_NFC      1734
+ 5 WS_SRCE_H_SRF      1730
+ 6 WS_SRCE_H_PIP      1715
+ 7 HC_WIXQ_P_2ND      1662
+ 8 HC_WIXQ_P_4TH      1662
+ 9 HC_WIXQ_P_HGH      1662
+10 HC_WIXQ_P_LOW      1662
+11 HC_WIXQ_P_MID      1662
+12 RH_ANCN_W_N4P      1499
+13 ED_EDAT_M_MYR      1456
+14 ED_EDAT_M_NED      1456
+15 ED_EDAT_W_NED      1456
+16 ED_EDAT_W_MYR      1442
+17 ED_EDAT_M_CSC      1433
+18 ED_EDAT_W_CSC      1424
+19 ED_LITR_W_LIT      1421
+20 CH_FEVT_C_AML      1419
+21 FP_CUSA_W_ANY      1373
+22 FP_CUSA_W_MOD      1373
+23 RH_DELA_C_SKP      1368
+24 CH_VACC_C_BAS      1356
+25 CM_ECMR_C_IMR      1338
+26 CM_ECMR_C_NNR      1338
+27 CM_ECMR_C_PNR      1338
+28 HC_HEFF_H_MPH      1338
+29 CM_ECMR_C_CMR      1332
+30 CM_ECMR_C_U5M      1332
+31 CH_VACC_C_APP      1319
+32 CN_NUTS_C_HA2      1294
+33 CN_NUTS_C_WA2      1294
+34 CN_NUTS_C_WH2      1294
+35 CN_NUTS_C_WH3      1294
+36 FP_NADA_W_UNT      1268
+37 CN_BRFI_C_1HR      1173
+38 AN_NUTS_W_OWT      1162
+39 AN_NUTS_W_THN      1162
+40 CH_DIAT_C_ORT      1138
+41 CN_ANMC_C_ANY      1126
+42 ED_LITR_M_LIT      1094
+43 HA_CPHT_W_ETR      1075
+44 WE_AWBT_W_AGR      1073
+45 EM_WERN_W_WIF      1062
+46 WE_AWBT_M_AGR      1020
+47 ED_NARP_B_BTH      1009
+48 HA_CPHT_M_ETR       961
+49 RH_PCMT_W_TOT       930
+50 HA_KHVP_M_CND       900
+51 HA_KHVP_W_CND       900
+52 HA_CKNA_W_CKA       867
+53 HA_CKNA_M_CKA       861
+54 DV_EXPV_W_EVR       827
+55 DV_EXSV_W_EVR       827
+56 AN_ANEM_W_ANY       808
+57 RH_PCCT_C_TOT       800
+58 WS_HNDW_H_BAS       669
+59 CO_MOBB_W_BNK       522
+60 HA_HIVP_B_HIV       469
+61 DV_SPVL_W_EMT       275
+62 CN_BFSS_C_EBF       253
+
+--- COUNTRY COVERAGE ---
+# A tibble: 15 × 7
+   DHS_CountryCode CountryName               n_records n_indicators n_surveys year_range  n_regions
+   <chr>           <chr>                         <int>        <int>     <int> <chr>           <int>
+ 1 TZ              Tanzania                      13028           62        11 1992 - 2022        54
+ 2 NG              Nigeria                        9711           61         9 1990 - 2024        47
+ 3 MW              Malawi                         6425           62         9 1992 - 2024        39
+ 4 SN              Senegal                        6279           61        16 1986 - 2023        24
+ 5 KE              Kenya                          6214           61         9 1989 - 2022        59
+ 6 UG              Uganda                         4406           60        10 1988 - 2018        34
+ 7 GH              Ghana                          4180           62         9 1988 - 2022        21
+ 8 CD              Congo Democratic Republic      4161           62         3 2007 - 2023        35
+ 9 ML              Mali                           3890           62         9 1987 - 2023        14
+10 ZM              Zambia                         3251           62         7 1992 - 2024        12
+11 BF              Burkina Faso                   3137           62         7 1993 - 2021        19
+12 MZ              Mozambique                     3112           62         7 1997 - 2022        11
+13 ET              Ethiopia                       2760           60         5 2000 - 2019        11
+14 RW              Rwanda                         2731           60         9 1992 - 2019        22
+15 ZW              Zimbabwe                       2624           60         6 1988 - 2015        10
+
+--- TEMPORAL STRUCTURE ---
+  BF: 7 rounds (1993-2021): 1993, 1999, 2003, 2010, 2014, 2017, 2021
+  CD: 3 rounds (2007-2023): 2007, 2013, 2023
+  ET: 5 rounds (2000-2019): 2000, 2005, 2011, 2016, 2019
+  GH: 9 rounds (1988-2022): 1988, 1993, 1998, 2003, 2008, 2014, 2016, 2019, 2022
+  KE: 9 rounds (1989-2022): 1989, 1993, 1998, 2003, 2008, 2014, 2015, 2020, 2022
+  ML: 9 rounds (1987-2023): 1987, 1996, 2001, 2006, 2012, 2015, 2018, 2021, 2023
+  MW: 9 rounds (1992-2024): 1992, 2000, 2004, 2010, 2012, 2014, 2015, 2017, 2024
+  MZ: 7 rounds (1997-2022): 1997, 2003, 2009, 2011, 2015, 2018, 2022
+  NG: 9 rounds (1990-2024): 1990, 2003, 2008, 2010, 2013, 2015, 2018, 2021, 2024
+  RW: 9 rounds (1992-2019): 1992, 2000, 2005, 2008, 2010, 2013, 2015, 2017, 2019
+  SN: 16 rounds (1986-2023): 1986, 1993, 1997, 2005, 2006, 2008, 2010, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023
+  TZ: 11 rounds (1992-2022): 1992, 1996, 1999, 2003, 2004, 2007, 2010, 2012, 2015, 2017, 2022
+  UG: 10 rounds (1988-2018): 1988, 1995, 2000, 2004, 2006, 2009, 2011, 2014, 2016, 2018
+  ZM: 7 rounds (1992-2024): 1992, 1996, 2002, 2007, 2013, 2018, 2024
+  ZW: 6 rounds (1988-2015): 1988, 1994, 1999, 2005, 2010, 2015
+
+Inter-survey gaps:
+  Min: 1  Max: 13  Median: 4  Mean: 4 
+Gap distribution:
+
+ 1  2  3  4  5  6  7  8  9 10 13 
+10 23 21 12 21 14  4  3  1  1  1 
+
+--- GEOGRAPHIC GRANULARITY ---
+Regions per country-survey — Min: 3  Max: 54  Median: 11 
+
+Region count changes across surveys:
+# A tibble: 15 × 4
+   DHS_CountryCode min_regions max_regions changed
+   <chr>                 <int>       <int> <lgl>  
+ 1 BF                        5          14 TRUE   
+ 2 CD                       14          32 TRUE   
+ 3 ET                       11          11 FALSE  
+ 4 GH                        8          21 TRUE   
+ 5 KE                        5          54 TRUE   
+ 6 ML                        4          13 TRUE   
+ 7 MW                        3          38 TRUE   
+ 8 MZ                       11          11 FALSE  
+ 9 NG                        4          43 TRUE   
+10 RW                        5          17 TRUE   
+11 SN                        4          21 TRUE   
+12 TZ                        6          40 TRUE   
+13 UG                        4          23 TRUE   
+14 ZM                        9          10 TRUE   
+15 ZW                       10          10 FALSE  
+
+CharacteristicCategory:
+
+Region 
+ 75909 
+
+ByVariableLabel:
+
+                                          Ever-married or ever had intimate partner 
+                                    63532                                       275 
+          Five years preceding the survey            Ten years preceding the survey 
+                                     2557                                      6678 
+           Two years preceding the survey 
+                                     2867 
+
+--- INDICATOR x COUNTRY MATRIX ---
+Indicators with <100% Tier 1 coverage:
+  dv_emotional                   (DV_SPVL_W_EMT): 67%
+  exclusive_bf                   (CN_BFSS_C_EBF): 73%
+  anemia_women                   (AN_ANEM_W_ANY): 93%
+  hiv_prevalence                 (HA_HIVP_B_HIV): 93%
+
+Indicator coverage per country:
+# A tibble: 15 × 3
+   DHS_CountryCode n_indicators   pct
+   <chr>                  <int> <dbl>
+ 1 ET                        60  96.8
+ 2 RW                        60  96.8
+ 3 UG                        60  96.8
+ 4 ZW                        60  96.8
+ 5 KE                        61  98.4
+ 6 NG                        61  98.4
+ 7 SN                        61  98.4
+ 8 BF                        62 100  
+ 9 CD                        62 100  
+10 GH                        62 100  
+11 ML                        62 100  
+12 MW                        62 100  
+13 MZ                        62 100  
+14 TZ                        62 100  
+15 ZM                        62 100  
+
+--- SUBNATIONAL MISSINGNESS (Kenya latest) ---
+Latest survey: 2022 
+Regions: 54 
+Indicators: 55 
+# A tibble: 55 × 3
+   IndicatorId   n_regions   pct
+   <chr>             <int> <dbl>
+ 1 CN_BFSS_C_EBF        22  40.7
+ 2 CH_DIAT_C_ORT        49  90.7
+ 3 CH_FEVT_C_AML        50  92.6
+ 4 EM_WERN_W_WIF        52  96.3
+ 5 AN_NUTS_W_OWT        54 100  
+ 6 AN_NUTS_W_THN        54 100  
+ 7 CH_VACC_C_APP        54 100  
+ 8 CH_VACC_C_BAS        54 100  
+ 9 CM_ECMR_C_CMR        54 100  
+10 CM_ECMR_C_IMR        54 100  
+11 CM_ECMR_C_NNR        54 100  
+12 CM_ECMR_C_PNR        54 100  
+13 CM_ECMR_C_U5M        54 100  
+14 CN_BRFI_C_1HR        54 100  
+15 CN_NUTS_C_HA2        54 100  
+16 CN_NUTS_C_WA2        54 100  
+17 CN_NUTS_C_WH2        54 100  
+18 CN_NUTS_C_WH3        54 100  
+19 CO_MOBB_W_BNK        54 100  
+20 DV_EXPV_W_EVR        54 100  
+21 DV_EXSV_W_EVR        54 100  
+22 DV_SPVL_W_EMT        54 100  
+23 ED_EDAT_M_CSC        54 100  
+24 ED_EDAT_M_MYR        54 100  
+25 ED_EDAT_M_NED        54 100  
+26 ED_EDAT_W_CSC        54 100  
+27 ED_EDAT_W_MYR        54 100  
+28 ED_EDAT_W_NED        54 100  
+29 ED_LITR_M_LIT        54 100  
+30 ED_LITR_W_LIT        54 100  
+31 ED_NARP_B_BTH        54 100  
+32 FP_CUSA_W_ANY        54 100  
+33 FP_CUSA_W_MOD        54 100  
+34 FP_NADA_W_UNT        54 100  
+35 HA_CPHT_M_ETR        54 100  
+36 HA_CPHT_W_ETR        54 100  
+37 HC_ELEC_H_ELC        54 100  
+38 HC_HEFF_H_MPH        54 100  
+39 HC_WIXQ_P_2ND        54 100  
+40 HC_WIXQ_P_4TH        54 100  
+41 HC_WIXQ_P_HGH        54 100  
+42 HC_WIXQ_P_LOW        54 100  
+43 HC_WIXQ_P_MID        54 100  
+44 RH_ANCN_W_N4P        54 100  
+45 RH_DELA_C_SKP        54 100  
+46 RH_PCCT_C_TOT        54 100  
+47 RH_PCMT_W_TOT        54 100  
+48 WE_AWBT_M_AGR        54 100  
+49 WE_AWBT_W_AGR        54 100  
+50 WS_HNDW_H_BAS        54 100  
+51 WS_SRCE_H_IMP        54 100  
+52 WS_SRCE_H_PIP        54 100  
+53 WS_SRCE_H_SRF        54 100  
+54 WS_TLET_H_IMP        54 100  
+55 WS_TLET_H_NFC        54 100  
+
+--- REGIONID PATTERNS ---
+# A tibble: 15 × 3
+   DHS_CountryCode CharacteristicLabel            RegionId       
+   <chr>           <chr>                          <chr>          
+ 1 BF              Ouagadougou                    BFDHS1993374001
+ 2 BF              North                          BFDHS1993374002
+ 3 BF              East                           BFDHS1993374003
+ 4 BF              West                           BFDHS1993374004
+ 5 BF              Central/South                  BFDHS1993374005
+ 6 BF              Ouagadougou                    BFDHS1999374001
+ 7 BF              North                          BFDHS1999374002
+ 8 BF              East                           BFDHS1999374003
+ 9 BF              West                           BFDHS1999374004
+10 BF              Central/South                  BFDHS1999374005
+11 BF              Ouagadougou                    BFDHS2003374011
+12 BF              Boucle de Mouhoun              BFDHS2003374012
+13 BF              Centre (excluding Ouagadougou) BFDHS2003374013
+14 BF              Centre-Sud                     BFDHS2003374014
+15 BF              Plateau Central                BFDHS2003374015
+
+Unstable RegionIds: 380 combos
+# A tibble: 20 × 3
+   DHS_CountryCode CharacteristicLabel            n_unique_ids
+   <chr>           <chr>                                 <int>
+ 1 BF              Boucle de Mouhoun                         5
+ 2 BF              Cascades                                  5
+ 3 BF              Central/South                             2
+ 4 BF              Centre (including Ouagadougou)            4
+ 5 BF              Centre-Est                                5
+ 6 BF              Centre-Nord                               5
+ 7 BF              Centre-Ouest                              5
+ 8 BF              Centre-Sud                                5
+ 9 BF              East                                      2
+10 BF              Est                                       5
+11 BF              Hauts Bassins                             5
+12 BF              Nord                                      5
+13 BF              North                                     2
+14 BF              Ouagadougou                               7
+15 BF              Plateau Central                           5
+16 BF              Sahel                                     5
+17 BF              Sud-Ouest                                 5
+18 BF              West                                      2
+19 CD              ..Bas-Uele                                2
+20 CD              ..Equateur (>= 2015)                      2
+
+--- DUPLICATES ---
+Duplicate rows: 1092 
+# A tibble: 10 × 6
+   DHS_CountryCode IndicatorId   SurveyYear CharacteristicLabel Value SurveyId 
+   <chr>           <chr>              <int> <chr>               <dbl> <chr>    
+ 1 KE              FP_CUSA_W_ANY       2014 Nairobi              45.2 KE2014DHS
+ 2 KE              FP_CUSA_W_ANY       2014 Nairobi              45.2 KE2014DHS
+ 3 KE              FP_CUSA_W_MOD       2014 Nairobi              41.9 KE2014DHS
+ 4 KE              FP_CUSA_W_MOD       2014 Nairobi              41.9 KE2014DHS
+ 5 KE              FP_NADA_W_UNT       2014 Nairobi               9.5 KE2014DHS
+ 6 KE              FP_NADA_W_UNT       2014 Nairobi               9.5 KE2014DHS
+ 7 KE              RH_ANCN_W_N4P       2014 Nairobi              70.6 KE2014DHS
+ 8 KE              RH_ANCN_W_N4P       2014 Nairobi              70.6 KE2014DHS
+ 9 KE              RH_DELA_C_SKP       2014 Nairobi              92.1 KE2014DHS
+10 KE              RH_DELA_C_SKP       2014 Nairobi              92.1 KE2014DHS

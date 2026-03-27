@@ -28,6 +28,9 @@ importFrom(stats,lm)
 importFrom(stats,coef)
 importFrom(grDevices,pdf)
 importFrom(grDevices,dev.off)
+importFrom(utils,head)
+importFrom(stats,qnorm)
+importFrom(stats,predict)
 
 # Exports - Utils
 export(safe_log10)
@@ -65,6 +68,45 @@ export(information_society_codes)
 export(crime_codes)
 export(all_regional_codes)
 export(indicator_count)
+
+# Exports - DHS Data Process
+export(process_dhs)
+export(process_dhs_batch)
+
+# Exports - DHS Reference
+export(ssa_codes)
+export(tier1_codes)
+export(keep_ssa)
+export(get_admin1_ref)
+export(add_dhs_country_name)
+export(dhs_var_labels)
+export(dhs_domain_mapping)
+
+# Exports - DHS Gap-Fill
+export(gapfill_series)
+export(gapfill_indicator)
+export(gapfill_all_dhs)
+
+# Exports - DHS Cascade & Panel
+export(cascade_to_admin1)
+export(balance_dhs_panel)
+export(dhs_pipeline)
+
+# Exports - DHS Data Fetch
+export(get_dhs_data)
+export(fetch_dhs_batch)
+export(get_dhs_countries)
+export(get_dhs_surveys)
+export(dhs_health_codes)
+export(dhs_mortality_codes)
+export(dhs_nutrition_codes)
+export(dhs_hiv_codes)
+export(dhs_education_codes)
+export(dhs_wash_codes)
+export(dhs_wealth_codes)
+export(dhs_gender_codes)
+export(all_dhs_codes)
+export(dhs_indicator_count)
 
 # Exports - Reference Data
 export(get_nuts_geo)
@@ -119,6 +161,14 @@ export(clear_localintel_cache)
 export(interp_pchip_flag)
 export(forecast_autoregressive)
 export(impute_series)
+
+# Exports - DHS Visualization
+export(get_admin1_geo)
+export(get_admin0_geo)
+export(build_dhs_display_sf)
+export(plot_dhs_map)
+export(build_dhs_multi_var_sf)
+export(enrich_dhs_for_tableau)
 
 # Exports - Export
 export(export_to_geojson)

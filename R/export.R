@@ -241,6 +241,7 @@ save_maps_to_pdf <- function(plot_fn, filepath, width = 12, height = 8, ...) {
 #' labels["gdp"]
 regional_var_labels <- function() {
   c(
+    # ---- Eurostat (EU) ----
     # Health
     beds                 = "Hospital beds per 100,000 inhabitants",
     physicians           = "Physicians per 100,000 inhabitants",
@@ -294,7 +295,78 @@ regional_var_labels <- function() {
     # Information Society
     internet_access      = "Households with internet access (%)",
     broadband            = "Households with broadband access (%)",
-    ecommerce            = "Individuals using e-commerce (%)"
+    ecommerce            = "Individuals using e-commerce (%)",
+
+    # ---- DHS (Sub-Saharan Africa) ----
+    # Maternal & Child Health
+    basic_vaccination    = "Basic vaccination coverage (%)",
+    full_vaccination     = "Full vaccination - national schedule (%)",
+    anc_4plus            = "4+ antenatal care visits (%)",
+    skilled_birth        = "Skilled birth attendance (%)",
+    postnatal_mother     = "Postnatal checkup for mother (%)",
+    postnatal_newborn    = "Postnatal checkup for newborn (%)",
+    contraceptive_modern = "Modern contraceptive use (%)",
+    contraceptive_any    = "Any contraceptive use (%)",
+    unmet_need_fp        = "Unmet need for family planning (%)",
+    fever_treatment      = "Fever treatment with antimalarials (%)",
+    diarrhea_ort         = "Diarrhea treated with ORT (%)",
+    # Mortality
+    u5_mortality         = "Under-5 mortality rate (per 1,000)",
+    neonatal_mortality   = "Neonatal mortality rate (per 1,000)",
+    perinatal_mortality  = "Perinatal mortality rate (per 1,000)",
+    child_mortality      = "Child mortality rate (per 1,000)",
+    # Nutrition
+    stunting             = "Stunting prevalence (%)",
+    wasting              = "Wasting prevalence (%)",
+    underweight          = "Underweight prevalence (%)",
+    overweight_child     = "Child overweight prevalence (%)",
+    anemia_children      = "Child anemia prevalence (%)",
+    anemia_women         = "Women with anemia (%)",
+    exclusive_bf         = "Exclusive breastfeeding (%)",
+    early_bf             = "Early breastfeeding initiation (%)",
+    low_bmi_women        = "Women with low BMI (%)",
+    obesity_women        = "Women overweight/obese (%)",
+    # HIV/AIDS
+    hiv_prevalence       = "HIV prevalence (%)",
+    hiv_test_women       = "Women ever tested for HIV (%)",
+    hiv_test_men         = "Men ever tested for HIV (%)",
+    hiv_knowledge_women  = "Comprehensive HIV knowledge - women (%)",
+    hiv_knowledge_men    = "Comprehensive HIV knowledge - men (%)",
+    hiv_condom_women     = "HIV prevention: condom knowledge - women (%)",
+    hiv_condom_men       = "HIV prevention: condom knowledge - men (%)",
+    # Education (DHS)
+    literacy_women       = "Female literacy rate (%)",
+    literacy_men         = "Male literacy rate (%)",
+    net_attendance_primary = "Net primary attendance rate (%)",
+    secondary_completion_women = "Female secondary completion (%)",
+    secondary_completion_men   = "Male secondary completion (%)",
+    median_years_women   = "Median years of education - women",
+    median_years_men     = "Median years of education - men",
+    no_education_women   = "Women with no education (%)",
+    no_education_men     = "Men with no education (%)",
+    # WASH
+    improved_water       = "Improved water source (%)",
+    improved_sanitation  = "Improved sanitation (%)",
+    piped_water          = "Piped water (%)",
+    surface_water        = "Surface water use (%)",
+    open_defecation      = "Open defecation (%)",
+    handwashing_facility = "Basic handwashing facility (%)",
+    # Wealth & Assets
+    wealth_lowest        = "Wealth quintile: lowest (%)",
+    wealth_second        = "Wealth quintile: second (%)",
+    wealth_middle        = "Wealth quintile: middle (%)",
+    wealth_fourth        = "Wealth quintile: fourth (%)",
+    wealth_highest       = "Wealth quintile: highest (%)",
+    electricity          = "Electricity access (%)",
+    mobile_phone         = "Mobile phone ownership (%)",
+    bank_account         = "Women with bank account (%)",
+    # Gender
+    women_earning        = "Women deciding own earnings (%)",
+    dv_physical          = "Physical violence prevalence (%)",
+    dv_sexual            = "Sexual violence prevalence (%)",
+    dv_emotional         = "Emotional violence by partner (%)",
+    dv_attitude_women    = "Women justifying wife-beating (%)",
+    dv_attitude_men      = "Men justifying wife-beating (%)"
   )
 }
 
@@ -311,6 +383,7 @@ regional_var_labels <- function() {
 #' mapping["unemployment_rate"]  # "Labour Market"
 regional_domain_mapping <- function() {
   c(
+    # ---- Eurostat (EU) ----
     # Health
     beds = "Health", physicians = "Health", disch_inp = "Health",
     disch_day = "Health", los = "Health", hos_days = "Health",
@@ -345,6 +418,59 @@ regional_domain_mapping <- function() {
     # Information Society
     internet_access = "Information Society",
     broadband = "Information Society",
-    ecommerce = "Information Society"
+    ecommerce = "Information Society",
+
+    # ---- DHS (Sub-Saharan Africa) ----
+    # Maternal & Child Health
+    basic_vaccination = "Maternal & Child Health",
+    full_vaccination = "Maternal & Child Health",
+    anc_4plus = "Maternal & Child Health",
+    skilled_birth = "Maternal & Child Health",
+    postnatal_mother = "Maternal & Child Health",
+    postnatal_newborn = "Maternal & Child Health",
+    contraceptive_modern = "Maternal & Child Health",
+    contraceptive_any = "Maternal & Child Health",
+    unmet_need_fp = "Maternal & Child Health",
+    fever_treatment = "Maternal & Child Health",
+    diarrhea_ort = "Maternal & Child Health",
+    # Mortality
+    u5_mortality = "Mortality",
+    neonatal_mortality = "Mortality",
+    perinatal_mortality = "Mortality",
+    child_mortality = "Mortality",
+    # Nutrition
+    stunting = "Nutrition", wasting = "Nutrition",
+    underweight = "Nutrition", overweight_child = "Nutrition",
+    anemia_children = "Nutrition", anemia_women = "Nutrition",
+    exclusive_bf = "Nutrition", early_bf = "Nutrition",
+    low_bmi_women = "Nutrition", obesity_women = "Nutrition",
+    # HIV/AIDS
+    hiv_prevalence = "HIV/AIDS", hiv_test_women = "HIV/AIDS",
+    hiv_test_men = "HIV/AIDS", hiv_knowledge_women = "HIV/AIDS",
+    hiv_knowledge_men = "HIV/AIDS", hiv_condom_women = "HIV/AIDS",
+    hiv_condom_men = "HIV/AIDS",
+    # Education (DHS)
+    literacy_women = "Education", literacy_men = "Education",
+    net_attendance_primary = "Education",
+    secondary_completion_women = "Education",
+    secondary_completion_men = "Education",
+    median_years_women = "Education", median_years_men = "Education",
+    no_education_women = "Education", no_education_men = "Education",
+    # WASH
+    improved_water = "Water & Sanitation",
+    improved_sanitation = "Water & Sanitation",
+    piped_water = "Water & Sanitation",
+    surface_water = "Water & Sanitation",
+    open_defecation = "Water & Sanitation",
+    handwashing_facility = "Water & Sanitation",
+    # Wealth & Assets
+    wealth_lowest = "Wealth & Assets", wealth_second = "Wealth & Assets",
+    wealth_middle = "Wealth & Assets", wealth_fourth = "Wealth & Assets",
+    wealth_highest = "Wealth & Assets", electricity = "Wealth & Assets",
+    mobile_phone = "Wealth & Assets", bank_account = "Wealth & Assets",
+    # Gender
+    women_earning = "Gender", dv_physical = "Gender",
+    dv_sexual = "Gender", dv_emotional = "Gender",
+    dv_attitude_women = "Gender", dv_attitude_men = "Gender"
   )
 }

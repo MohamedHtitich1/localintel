@@ -1,0 +1,42 @@
+DHS Missing Indicator Diagnosis
+Generated: 2026-03-06 15:46 
+
+# A tibble: 30 × 7
+   friendly_name          indicator_id  national_tier1 subnational_all status           nat_countries sub_countries
+   <chr>                  <chr>                  <int>           <int> <chr>            <chr>         <chr>        
+ 1 full_vaccination       CH_VACC_C_FUL              0               0 NO_DATA_ANYWHERE none          none         
+ 2 skilled_birth          RH_DELP_C_SKP              0               0 NO_DATA_ANYWHERE none          none         
+ 3 postnatal_mother       RH_PNCM_W_2DY              0               0 NO_DATA_ANYWHERE none          none         
+ 4 postnatal_newborn      RH_PNCC_C_2DY              0               0 NO_DATA_ANYWHERE none          none         
+ 5 anemia_women           CN_ANMC_W_ANY              0               0 NO_DATA_ANYWHERE none          none         
+ 6 exclusive_bf           CN_BRFL_C_EXB              0               0 NO_DATA_ANYWHERE none          none         
+ 7 early_bf               CN_BRFL_C_1HR              0               0 NO_DATA_ANYWHERE none          none         
+ 8 low_bmi_women          CN_NUTS_W_THN              0               0 NO_DATA_ANYWHERE none          none         
+ 9 obesity_women          CN_NUTS_W_OVW              0               0 NO_DATA_ANYWHERE none          none         
+10 hiv_test_women         HA_HVTK_W_TST              0               0 NO_DATA_ANYWHERE none          none         
+11 hiv_test_men           HA_HVTK_M_TST              0               0 NO_DATA_ANYWHERE none          none         
+12 hiv_knowledge_women    HA_HKCP_W_CPC              0               0 NO_DATA_ANYWHERE none          none         
+13 hiv_knowledge_men      HA_HKCP_M_CPC              0               0 NO_DATA_ANYWHERE none          none         
+14 hiv_condom_women       HA_HKSW_W_HCN              0               0 NO_DATA_ANYWHERE none          none         
+15 hiv_condom_men         HA_HKSW_M_HCN              0               0 NO_DATA_ANYWHERE none          none         
+16 net_attendance_primary ED_ENRR_B_GNR              0               0 NO_DATA_ANYWHERE none          none         
+17 median_years_women     ED_EDYR_W_MYR              0               0 NO_DATA_ANYWHERE none          none         
+18 median_years_men       ED_EDYR_M_MYR              0               0 NO_DATA_ANYWHERE none          none         
+19 improved_sanitation    WS_TOLT_H_IMP              0               0 NO_DATA_ANYWHERE none          none         
+20 surface_water          WS_SRCE_H_SFC              0               0 NO_DATA_ANYWHERE none          none         
+21 open_defecation        WS_TOLT_H_NFC              0               0 NO_DATA_ANYWHERE none          none         
+22 bank_account           HC_HEFF_H_BNK              0               0 NO_DATA_ANYWHERE none          none         
+23 women_decision_all     WE_DCSN_W_ALL              0               0 NO_DATA_ANYWHERE none          none         
+24 women_decision_health  WE_DCSN_W_HLT              0               0 NO_DATA_ANYWHERE none          none         
+25 women_earning          WE_EARN_W_CSH              0               0 NO_DATA_ANYWHERE none          none         
+26 dv_physical            DV_VIOL_W_PHY              0               0 NO_DATA_ANYWHERE none          none         
+27 dv_sexual              DV_VIOL_W_SEX              0               0 NO_DATA_ANYWHERE none          none         
+28 dv_emotional           DV_VIOL_W_EMO              0               0 NO_DATA_ANYWHERE none          none         
+29 dv_attitude_women      DV_ATBV_W_YES              0               0 NO_DATA_ANYWHERE none          none         
+30 dv_attitude_men        DV_ATBV_M_YES              0               0 NO_DATA_ANYWHERE none          none         
+
+
+By status:
+
+NO_DATA_ANYWHERE 
+              30 

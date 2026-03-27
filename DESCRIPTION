@@ -1,19 +1,18 @@
 Package: localintel
 Type: Package
-Title: Local Intelligence - Inequality Mapping Engine for 150+ Eurostat Regional Indicators
-Version: 0.2.2
+Title: Local Intelligence - Inequality Mapping Engine for Eurostat and DHS Subnational Indicators
+Version: 0.3.0
 Authors@R: person("Mohamed", "Htitich", 
                   email = "m.ahtitich@outlook.com", 
                   role = c("aut", "cre"),
                   comment = c(ORCID = "0000-0002-8732-6286"))
 Description: An inequality mapping engine for fetching, harmonizing, cascading, and
-    visualizing 150+ subnational indicators from Eurostat across 14 thematic domains
-    including economy, health, education, labour market, demographics, tourism,
-    transport, environment, science and technology, agriculture, poverty, business
-    statistics, information society, and crime. Provides NUTS 0/1/2 data cascading
-    with source-level tracking, composite scoring, publication-ready maps,
-    AI-generated regional insights, and Tableau-ready exports for 235+ European
-    NUTS-2 regions.
+    visualizing subnational indicators from Eurostat (150+ indicators across 14
+    thematic domains for 235+ European NUTS-2 regions) and the DHS Program API
+    (64+ indicators across 8 domains for 280+ Admin 1 regions in 45+ Sub-Saharan
+    African countries). Provides multi-level data cascading with source-level
+    tracking, composite scoring, publication-ready maps, AI-generated regional
+    insights, and Tableau-ready exports.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -31,9 +30,15 @@ Imports:
     eurostat (>= 3.8.0),
     tmap (>= 3.3.0),
     tibble (>= 3.2.0),
-    writexl (>= 1.4.0)
+    writexl (>= 1.4.0),
+    httr2 (>= 1.0.0),
+    jsonlite (>= 1.8.0),
+    mgcv (>= 1.8.0)
 Suggests:
     giscoR (>= 0.3.0),
+    geodata (>= 0.5.0),
+    rnaturalearth (>= 1.0.0),
+    terra (>= 1.7.0),
     forecast (>= 8.21),
     ggplot2 (>= 3.4.0),
     viridis (>= 0.6.0),
@@ -41,6 +46,7 @@ Suggests:
     readxl (>= 1.4.0),
     haven,
     testthat (>= 3.0.0),
+    devtools,
     knitr,
     rmarkdown,
     pkgdown
