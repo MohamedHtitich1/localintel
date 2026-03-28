@@ -284,9 +284,9 @@ This package was developed as part of research on subnational regional
 analysis. Related projects:
 
 - [Where Inequality Lives](https://mhtitich.com/subnational) —
-  Interactive inequality mapping engine powered by localintel
-- [w2m](https://github.com/MohamedHtitich1/w2m) — Composite indicator
-  construction
+  Interactive plateform for EU27
+- [Where Data Matters](https://mhtitich.com/SSA) — Interactive plateform
+  for Sub Saharan Africa
 
 ## Contributing
 
