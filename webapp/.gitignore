@@ -1,6 +1,0 @@
-data/*.rds
-data/*.geojson
-data/*.csv
-__pycache__/
-*.pyc
-.env
