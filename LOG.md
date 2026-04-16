@@ -709,8 +709,8 @@ now maps to geometry. All datapoints appear on the map.
 
 #### Technical Details
 
-- [`geodata::gadm()`](https://rdrr.io/pkg/geodata/man/gadm.html) returns
-  `SpatVector` (terra package), not `sf` — conversion via
+- [`geodata::gadm()`](https://rspatial.github.io/geodata/reference/gadm.html)
+  returns `SpatVector` (terra package), not `sf` — conversion via
   [`sf::st_as_sf()`](https://r-spatial.github.io/sf/reference/st_as_sf.html)
   added
 - GADM downloads cached persistently in

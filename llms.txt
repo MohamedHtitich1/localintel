@@ -30,9 +30,9 @@ maps](reference/figures/hero-map.svg)](https://mhtitich.com/subnational)
 
 > **See the inequality mapping engine in action** — [*Where Inequality
 > Lives*](https://mhtitich.com/subnational) and [*Where Data
-> Matters*](https://mhtitich.com/subnational) are interactive dashboards
-> built entirely with data processed through this package. They maps
-> regional disparities across **235 European NUTS-2 regions** and **652
+> Matters*](https://mhtitich.com/SSA) are interactive dashboards built
+> entirely with data processed through this package. They maps regional
+> disparities across **235 European NUTS-2 regions** and **652
 > Sub-Saharan Africa’s Admin-1 Regions** from over multiple decades,
 > with live indicator switching, animated timeline playback, and
 > API-driven regional insights powered by an indicator-aware narrative

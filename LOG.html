@@ -829,7 +829,7 @@
 <div class="section level4">
 <h4 id="technical-details">Technical Details<a class="anchor" aria-label="anchor" href="#technical-details"></a></h4>
 <ul><li>
-<code><a href="https://rdrr.io/pkg/geodata/man/gadm.html" class="external-link">geodata::gadm()</a></code> returns <code>SpatVector</code> (terra package), not <code>sf</code> — conversion via <code><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">sf::st_as_sf()</a></code> added</li>
+<code><a href="https://rspatial.github.io/geodata/reference/gadm.html" class="external-link">geodata::gadm()</a></code> returns <code>SpatVector</code> (terra package), not <code>sf</code> — conversion via <code><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">sf::st_as_sf()</a></code> added</li>
 <li>GADM downloads cached persistently in <code>tests/gapfill-results/gadm_cache/</code> to avoid re-downloading</li>
 <li>
 <code>.build_harmonization()</code> runs 6 passes: normalized → manual → composite → dissolve → nongeo → fuzzy</li>
